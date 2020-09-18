@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smarthome.R;
+import com.example.smarthome.user.models.User;
 import com.example.smarthome.user.viewModels.UserViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -60,14 +61,18 @@ public class RegistrationFragment extends Fragment {
             e.printStackTrace();
         }
 
-        eFabRegistration.setOnClickListener(v -> {
-            //TODO implement registration
+        model.getSignupMsg().observe(getViewLifecycleOwner(), str -> {
+            Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+        });
 
+        eFabRegistration.setOnClickListener(v -> {
             String username = etUsername.getText().toString();
             String email = etEmail.getText().toString();
             String password = etPassword.getText().toString();
 
-            Toast.makeText(getActivity(), "Registration button clicked", Toast.LENGTH_SHORT).show();
+            User user = new User(username, email, password);
+
+            model.signup(user);
         });
 
 

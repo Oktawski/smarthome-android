@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.smarthome.R;
+import com.example.smarthome.user.models.User;
 import com.example.smarthome.user.viewModels.UserViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -47,11 +48,19 @@ public class LoginFragment extends Fragment {
         final ExtendedFloatingActionButton eFabLogin = view.findViewById(R.id.login_fab_login);
         final ExtendedFloatingActionButton eFabRegister = view.findViewById(R.id.login_fab_register);
 
+        model.getLoginMsg().observe(getViewLifecycleOwner(), str -> {
+            if(str.length() > 0){
+                Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         eFabLogin.setOnClickListener(v -> {
-            Toast.makeText(getActivity(), "login clicked", Toast.LENGTH_SHORT).show();
+            String email = etEmail.getText().toString();
+            String password = etPassword.getText().toString();
 
-            //TODO implement signing in
+            User user = new User(email, password);
 
+            model.signin(user);
         });
 
         eFabRegister.setOnClickListener(v -> {

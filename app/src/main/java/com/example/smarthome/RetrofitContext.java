@@ -1,6 +1,7 @@
 package com.example.smarthome;
 
 import com.example.smarthome.relays.services.IRelayRetrofitService;
+import com.example.smarthome.user.services.IUserRetrofitService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +15,7 @@ public class RetrofitContext {
     private final static String BASE_URL = "http://192.168.1.101:8015";
     private static IRetrofitService service;
     private static IRelayRetrofitService relayService;
+    private static IUserRetrofitService userService;
 
 
     private static Retrofit getRetrofitContext(){
@@ -45,5 +47,12 @@ public class RetrofitContext {
             relayService = getRetrofitContext().create(IRelayRetrofitService.class);
         }
         return relayService;
+    }
+
+    public static IUserRetrofitService getUserService(){
+        if(userService == null){
+            userService = getRetrofitContext().create(IUserRetrofitService.class);
+        }
+        return userService;
     }
 }
