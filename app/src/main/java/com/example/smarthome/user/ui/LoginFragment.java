@@ -54,6 +54,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
+
         eFabLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString();
             String password = etPassword.getText().toString();

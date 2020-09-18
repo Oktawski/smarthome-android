@@ -62,7 +62,9 @@ public class RegistrationFragment extends Fragment {
         }
 
         model.getSignupMsg().observe(getViewLifecycleOwner(), str -> {
-            Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+            if(str.length() > 0){
+                Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+            }
         });
 
         eFabRegistration.setOnClickListener(v -> {

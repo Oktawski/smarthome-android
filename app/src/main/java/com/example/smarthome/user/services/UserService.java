@@ -1,5 +1,6 @@
 package com.example.smarthome.user.services;
 
+import android.text.method.MultiTapKeyListener;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -9,6 +10,8 @@ import com.example.smarthome.RetrofitContext;
 import com.example.smarthome.user.models.LoginResponse;
 import com.example.smarthome.user.models.SignupResponse;
 import com.example.smarthome.user.models.User;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,56 +30,46 @@ public class UserService {
         return instance;
     }
 
-    private MutableLiveData<String> loginMsg = new MutableLiveData<>();
-    private MutableLiveData<String> signupMsg = new MutableLiveData<>();
+    private MutableLiveData<String> loginResponse = new MutableLiveData<>();
+    MutableLiveData<String> signupResponse = new MutableLiveData<>();
 
-    public MutableLiveData<String> getLoginMsg(){return loginMsg;}
-    public MutableLiveData<String> getSignupMsg(){return signupMsg;}
+
+    public MutableLiveData<String> getLoginMsg(){return loginResponse;}
+    public MutableLiveData<String> getSignupMsg(){return signupResponse;}
 
 
     public void signup(User user){
-        Call<SignupResponse> call = service.signup(user);
+        Call<String> call = service.signup(user);
 
-        signupMsg.setValue("");
-        
-        call.enqueue(new Callback<SignupResponse>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<SignupResponse> call, Response<SignupResponse> response) {
-                if(response.isSuccessful()){
-                    signupMsg.setValue(response.body().getMsg());
-                }
-                else{
-                    signupMsg.setValue("Error");
-                    Log.i(TAG, "onResponse: " + response.message());
-                }
+            public void onResponse(Call<String> call, Response<String> response) {
+                signupResponse.setValue("Response");
+                signupResponse.setValue("");
             }
 
             @Override
-            public void onFailure(Call<SignupResponse> call, Throwable t) {
-                signupMsg.setValue("Problem connecting to server");
+            public void onFailure(Call<String> call, Throwable t) {
+                signupResponse.setValue("Error connecting to server");
+                signupResponse.setValue("");
             }
         });
     }
     
     public void signin(User user){
-        Call<LoginResponse> call = service.signin(user);
+        Call<String> call = service.signin(user);
 
-        loginMsg.setValue("");
-    
-        call.enqueue(new Callback<LoginResponse>() {
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if(response.isSuccessful()) {
-                    loginMsg.setValue("Hello");
-                }
-                else{
-                    loginMsg.setValue("Could not sign in...");
-                }
+            public void onResponse(Call<String> call, Response<String> response) {
+                loginResponse.setValue("Response");
+                loginResponse.setValue("");
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                loginMsg.setValue("Problem connecting to server");
+            public void onFailure(Call<String> call, Throwable t) {
+                loginResponse.setValue("Error connecting to server");
+                loginResponse.setValue("");
             }
         });
     }

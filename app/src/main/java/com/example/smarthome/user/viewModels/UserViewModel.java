@@ -1,5 +1,7 @@
 package com.example.smarthome.user.viewModels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -11,12 +13,12 @@ public class UserViewModel extends ViewModel {
 
     private UserService service = UserService.getInstance();
 
-    public MutableLiveData<String> getLoginMsg(){
-        return service.getLoginMsg();
-    }
-
     public MutableLiveData<String> getSignupMsg(){
         return service.getSignupMsg();
+    }
+
+    public MutableLiveData<String> getLoginMsg(){
+        return service.getLoginMsg();
     }
 
     public void signin(User user){
