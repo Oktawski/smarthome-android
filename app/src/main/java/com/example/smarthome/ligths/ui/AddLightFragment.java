@@ -35,7 +35,7 @@ public class AddLightFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        model = new ViewModelProvider(getActivity()).get(LightViewModel.class);
+        model = new ViewModelProvider(requireActivity()).get(LightViewModel.class);
     }
 
     @Nullable

@@ -37,7 +37,7 @@ public class RelaysFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        model = new ViewModelProvider(getActivity()).get(RelayViewModel.class);
+        model = new ViewModelProvider(requireActivity()).get(RelayViewModel.class);
     }
 
     @Nullable
@@ -50,7 +50,7 @@ public class RelaysFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final Button bGet1 = view.findViewById(R.id.relays_button_get);
+        final Button bRefresh = view.findViewById(R.id.relays_button_refresh);
         final ListView lvRelaysFound = view.findViewById(R.id.relays_found_lv);
 
         List<Relay> relays = new ArrayList<>();
@@ -68,7 +68,7 @@ public class RelaysFragment extends Fragment {
             //TODO list view is not updating after data manipulation
         });
 
-        bGet1.setOnClickListener(v -> {
+        bRefresh.setOnClickListener(v -> {
             model.getRelaysLD();
         });
     }

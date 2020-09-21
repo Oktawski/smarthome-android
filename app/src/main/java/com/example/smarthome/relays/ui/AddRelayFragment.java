@@ -3,6 +3,7 @@ package com.example.smarthome.relays.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,7 +30,7 @@ public class AddRelayFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        model = new ViewModelProvider(getActivity()).get(RelayViewModel.class);
+        model = new ViewModelProvider(requireActivity()).get(RelayViewModel.class);
     }
 
     @Nullable
@@ -44,24 +45,23 @@ public class AddRelayFragment extends Fragment {
         final EditText etName = view.findViewById(R.id.relay_add_et_name);
         final EditText etIp = view.findViewById(R.id.relay_add_et_ip);
         final SwitchMaterial switchOnOf = view.findViewById(R.id.relay_add_switch_onof);
-//        final Button bAdd = view.findViewById(R.id.relay_add_button_Add);
         final ProgressBar progressBar = view.findViewById(R.id.relay_add_pb);
         final FloatingActionButton fabAdd = view.findViewById(R.id.relay_add_fab);
 
-        model.getAddResult().observe(getActivity(), bool -> {
+
+        model.getAddResult().observe(requireActivity(), bool -> {
             int visibility = bool ? View.VISIBLE : View.GONE;
             progressBar.setVisibility(visibility);
 
-            if(bool){
+            if (bool) {
                 fabAdd.hide();
-            }
-            else{
+            } else {
                 fabAdd.show();
             }
 
             //TODO change fab and pb visibility
 
-            if(bool) Toast.makeText(getActivity(), "Relay added", Toast.LENGTH_SHORT).show();
+            if (bool) Toast.makeText(getActivity(), "Relay added", Toast.LENGTH_SHORT).show();
         });
 
         fabAdd.setOnClickListener(v -> {
@@ -73,18 +73,5 @@ public class AddRelayFragment extends Fragment {
 
             model.add(relay);
         });
-
-        /*bAdd.setOnClickListener(v -> {
-            String name = etName.getText().toString();
-            String ip = etIp.getText().toString();
-            boolean on = switchOnOf.isChecked();
-
-            Relay relay = new Relay(name, ip, on);
-
-            model.add(relay);
-
-            bAdd.setBackgroundColor(Color.GRAY);
-            bAdd.setClickable(false);
-        });*/
     }
 }
