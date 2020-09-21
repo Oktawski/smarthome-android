@@ -1,5 +1,6 @@
 package com.example.smarthome.user.services;
 
+import com.example.smarthome.user.models.LoginResponse;
 import com.example.smarthome.user.models.User;
 
 import retrofit2.Call;
@@ -12,6 +13,6 @@ public interface IUserRetrofitService {
     Call<String> signup(@Body User user);
 
     @POST("/user/signin")
-    Call<String> signin(@Body User user);
+    Call<LoginResponse> signin(@Body User user);
 
 }

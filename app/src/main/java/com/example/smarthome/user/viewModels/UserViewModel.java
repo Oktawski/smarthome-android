@@ -16,10 +16,11 @@ public class UserViewModel extends ViewModel {
     public MutableLiveData<String> getSignupMsg(){
         return service.getSignupMsg();
     }
-
     public MutableLiveData<String> getLoginMsg(){
         return service.getLoginMsg();
     }
+    public LiveData<Boolean> getIsSignedIn(){return service.getSignedIn();}
+
 
     public void signin(User user){
         service.signin(user);

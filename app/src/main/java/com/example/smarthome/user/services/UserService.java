@@ -31,11 +31,13 @@ public class UserService {
     }
 
     private MutableLiveData<String> loginResponse = new MutableLiveData<>();
-    MutableLiveData<String> signupResponse = new MutableLiveData<>();
+    private MutableLiveData<String> signupResponse = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSignedIn = new MutableLiveData<>();
 
 
     public MutableLiveData<String> getLoginMsg(){return loginResponse;}
     public MutableLiveData<String> getSignupMsg(){return signupResponse;}
+    public LiveData<Boolean> getSignedIn(){return isSignedIn;}
 
 
     public void signup(User user){
@@ -57,17 +59,28 @@ public class UserService {
     }
     
     public void signin(User user){
-        Call<String> call = service.signin(user);
+        Call<LoginResponse> call = service.signin(user);
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                loginResponse.setValue("Response");
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if(response.isSuccessful()){
+                    User.isSignedIn = true;
+                    isSignedIn.setValue(true);
+                    loginResponse.setValue(response.body().getMsg());
+                }
+                else{
+                    User.isSignedIn = false;
+                    isSignedIn.setValue(false);
+                    loginResponse.setValue(response.message());
+                }
                 loginResponse.setValue("");
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                User.isSignedIn = false;
+                isSignedIn.setValue(false);
                 loginResponse.setValue("Error connecting to server");
                 loginResponse.setValue("");
             }

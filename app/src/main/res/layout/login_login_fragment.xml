@@ -23,7 +23,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:hint="Email"
+                android:text="okisek@gmail.com"
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -35,7 +35,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="Password"
+                android:text="1@Qaaaaa"
 
                 android:layout_marginTop="16dp"
 

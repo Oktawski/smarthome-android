@@ -1,6 +1,8 @@
 package com.example.smarthome.user.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +15,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.smarthome.MainActivity;
 import com.example.smarthome.R;
 import com.example.smarthome.user.models.User;
 import com.example.smarthome.user.viewModels.UserViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
+import java.util.Objects;
 
 public class LoginFragment extends Fragment {
 
@@ -51,6 +56,12 @@ public class LoginFragment extends Fragment {
         model.getLoginMsg().observe(getViewLifecycleOwner(), str -> {
             if(str.length() > 0){
                 Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        model.getIsSignedIn().observe(getViewLifecycleOwner(), bool -> {
+            if(bool){
+                requireActivity().finish();
             }
         });
 

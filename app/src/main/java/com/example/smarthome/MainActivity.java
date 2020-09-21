@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.smarthome.user.models.User;
 import com.example.smarthome.user.ui.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        startActivity(new Intent(this, LoginActivity.class));
+        if(!User.isSignedIn) {
+            startActivity(new Intent(this, LoginActivity.class));
+        }
     }
 }

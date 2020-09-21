@@ -6,6 +6,8 @@ import java.util.List;
 
 public class User {
 
+    public static boolean isSignedIn = false;
+
     private Long id;
     private String username;
     private String email;
