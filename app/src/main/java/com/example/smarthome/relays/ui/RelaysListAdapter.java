@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -66,8 +67,9 @@ public class RelaysListAdapter extends ArrayAdapter<Relay> {
         });
 
         convertView.setOnClickListener(v -> {
-            Log.i("Adapter click", "onClick: " + relay.getName());
-            //TODO details
+            //TODO expand item
+            Log.i("ITEM CLICKED", relay.getIp() + " " + relay.getName());
+
         });
 
         return convertView;

@@ -11,6 +11,8 @@ public class Relay extends WifiDevice{
     @Expose
     private Long id;
 
+    private boolean expanded;
+
     public Relay(String name,  String ip, boolean on){
         super(name, ip, on);
     }
@@ -22,5 +24,13 @@ public class Relay extends WifiDevice{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 }
