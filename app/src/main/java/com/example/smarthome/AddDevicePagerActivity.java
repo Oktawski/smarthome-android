@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.smarthome.ligths.ui.AddLightFragment;
 import com.example.smarthome.ligths.ui.LightsFragment;
 import com.example.smarthome.relays.ui.AddRelayFragment;
 import com.example.smarthome.relays.ui.RelaysFragment;
@@ -61,7 +62,7 @@ public class AddDevicePagerActivity extends FragmentActivity {
                 case 0:
                     return new AddRelayFragment();
                 case 1:
-                    return new LightsFragment();
+                    return new AddLightFragment();
                 default:
                     return new RelaysFragment();
             }

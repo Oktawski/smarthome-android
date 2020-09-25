@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smarthome.R;
 import com.example.smarthome.ligths.viewModels.LightViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class AddLightFragment extends Fragment {
@@ -51,7 +52,7 @@ public class AddLightFragment extends Fragment {
         final EditText etName = view.findViewById(R.id.light_add_et_name);
         final EditText etIp = view.findViewById(R.id.light_add_et_ip);
         final SwitchMaterial switchOnOf = view.findViewById(R.id.light_add_switch_onof);
-        final Button bAdd = view.findViewById(R.id.light_add_button_Add);
+        final FloatingActionButton bAdd = view.findViewById(R.id.light_add_fab);
 
         bAdd.setOnClickListener(v -> {
             String name = etName.getText().toString();

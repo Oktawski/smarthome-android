@@ -1,5 +1,6 @@
 package com.example.smarthome;
 
+import com.example.smarthome.ligths.services.ILightRetrofitService;
 import com.example.smarthome.relays.services.IRelayRetrofitService;
 import com.example.smarthome.user.services.IUserRetrofitService;
 
@@ -14,6 +15,7 @@ public class RetrofitContext {
     //todo add base url
     private final static String BASE_URL = "http://192.168.1.101:8015";
     private static IRetrofitService service;
+    private static ILightRetrofitService lightService;
     private static IRelayRetrofitService relayService;
     private static IUserRetrofitService userService;
 
@@ -54,5 +56,12 @@ public class RetrofitContext {
             userService = getRetrofitContext().create(IUserRetrofitService.class);
         }
         return userService;
+    }
+
+    public static ILightRetrofitService getLightService(){
+        if(lightService == null){
+            lightService = getRetrofitContext().create(ILightRetrofitService.class);
+        }
+        return lightService;
     }
 }

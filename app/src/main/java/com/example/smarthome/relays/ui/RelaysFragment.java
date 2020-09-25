@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -72,6 +73,4 @@ public class RelaysFragment extends Fragment {
             model.getRelaysLD();
         });
     }
-
-
 }
