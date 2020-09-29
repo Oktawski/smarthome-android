@@ -26,6 +26,8 @@ public class RelayService {
 
     private MutableLiveData<Boolean> progressBarLD = new MutableLiveData<>();
     private MutableLiveData<Boolean> addProgressBarLD = new MutableLiveData<>();
+    private final MutableLiveData<List<Relay>> relaysLD = new MutableLiveData<>(new ArrayList<>());
+
 
     public LiveData<Boolean> getProgressBarLD(){
         return progressBarLD;
@@ -80,8 +82,6 @@ public class RelayService {
     }
 
     public MutableLiveData<List<Relay>> getRelaysLD(){
-        MutableLiveData<List<Relay>> relaysLD = new MutableLiveData<>(new ArrayList<>());
-
         Call<List<Relay>> call = service.getRelays();
 
         progressBarLD.setValue(true);
@@ -94,7 +94,9 @@ public class RelayService {
                 List<Relay> relays = response.body();
                 Log.i(TAG, "error body " + response.errorBody());
                 if(relays != null){
-                    relaysLD.setValue(relays);
+                    if(!relaysLD.getValue().equals(relays)) {
+                        relaysLD.setValue(relays);
+                    }
                 }
                 Log.i(TAG, "onResponse: " + relays);
 
