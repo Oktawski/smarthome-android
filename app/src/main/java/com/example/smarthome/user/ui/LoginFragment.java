@@ -17,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.smarthome.MainActivity;
 import com.example.smarthome.R;
+import com.example.smarthome.user.models.SigninBody;
 import com.example.smarthome.user.models.User;
 import com.example.smarthome.user.viewModels.UserViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -70,7 +71,7 @@ public class LoginFragment extends Fragment {
             String email = etEmail.getText().toString();
             String password = etPassword.getText().toString();
 
-            User user = new User(email, password);
+            SigninBody user = new SigninBody(email, password);
 
             model.signin(user);
         });

@@ -7,12 +7,15 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.smarthome.RetrofitContext;
+import com.example.smarthome.user.models.JwtToken;
 import com.example.smarthome.user.models.LoginResponse;
+import com.example.smarthome.user.models.SigninBody;
 import com.example.smarthome.user.models.SignupResponse;
 import com.example.smarthome.user.models.User;
 
 import java.io.IOException;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,16 +61,17 @@ public class UserService {
         });
     }
     
-    public void signin(User user){
-        Call<LoginResponse> call = service.signin(user);
+    public void signin(SigninBody user){
+        Call<ResponseBody> call = service.signin(user);
 
-        call.enqueue(new Callback<LoginResponse>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if(response.isSuccessful()){
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful() && response.code() == 200){
                     User.isSignedIn = true;
                     isSignedIn.setValue(true);
-                    loginResponse.setValue(response.body().getMsg());
+                    String token = response.headers().get("Authorization");
+                    JwtToken.setToken(token);
                 }
                 else{
                     User.isSignedIn = false;
@@ -78,7 +82,7 @@ public class UserService {
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 User.isSignedIn = false;
                 isSignedIn.setValue(false);
                 loginResponse.setValue("Error connecting to server");

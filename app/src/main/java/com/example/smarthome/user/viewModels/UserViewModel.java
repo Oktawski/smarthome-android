@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.smarthome.user.models.SigninBody;
 import com.example.smarthome.user.models.User;
 import com.example.smarthome.user.services.UserService;
 
@@ -22,7 +23,7 @@ public class UserViewModel extends ViewModel {
     public LiveData<Boolean> getIsSignedIn(){return service.getSignedIn();}
 
 
-    public void signin(User user){
+    public void signin(SigninBody user){
         service.signin(user);
     }
 
