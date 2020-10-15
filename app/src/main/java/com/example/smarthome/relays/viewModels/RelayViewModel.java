@@ -4,23 +4,23 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.smarthome.IViewModel;
 import com.example.smarthome.relays.models.Relay;
 import com.example.smarthome.relays.services.RelayService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RelayViewModel extends ViewModel{
 
     private RelayService service = RelayService.getInstance();
 
-    private MutableLiveData<List<Relay>> relaysLD = new MutableLiveData<>(new ArrayList<>());
     private MutableLiveData<Boolean> progressBarLD;
 
     public MutableLiveData<List<Relay>> getRelaysLD(){
-        relaysLD = service.getRelaysLD();
-        return relaysLD;
+        return service.getRelaysLD();
+    }
+
+    public void getRelays(){
+        service.getRelaysLD();
     }
 
     public LiveData<Boolean> getProgressBarLD(){

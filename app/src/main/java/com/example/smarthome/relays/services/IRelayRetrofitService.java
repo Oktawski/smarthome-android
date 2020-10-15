@@ -1,12 +1,11 @@
 package com.example.smarthome.relays.services;
 
-import com.example.smarthome.WifiDevice;
 import com.example.smarthome.relays.models.Relay;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -26,6 +25,10 @@ public interface IRelayRetrofitService {
 
     @GET("/relays")
     Call<List<Relay>> getRelays();
+
+    // TODO implement observable
+    @GET("/relays")
+    Observable<List<Relay>> getRelaysObservable();
 
     @GET("/relays/{id}")
     Call<Relay> getRelayById(@Path("id") Long id);
