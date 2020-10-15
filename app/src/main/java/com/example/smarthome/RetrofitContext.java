@@ -14,7 +14,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitContext {
-    //todo add base url
     private final static String BASE_URL = "http://192.168.1.105:8015";
     private static IRetrofitService service;
     private static ILightRetrofitService lightService;

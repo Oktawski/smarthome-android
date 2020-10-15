@@ -58,8 +58,6 @@ public class AddLightFragment extends Fragment {
             String name = etName.getText().toString();
             String ip = etIp.getText().toString();
             boolean on = switchOnOf.isChecked();
-
-            //todo send light to server
         });
     }
 }

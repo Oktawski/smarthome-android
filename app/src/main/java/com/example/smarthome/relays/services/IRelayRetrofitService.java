@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,8 +26,8 @@ public interface IRelayRetrofitService {
     Call<List<Relay>> getRelays();
 
     // TODO implement observable
-    @GET("/relays")
-    Observable<List<Relay>> getRelaysObservable();
+/*    @GET("/relays")
+    Observable<List<Relay>> getRelaysObservable();*/
 
     @GET("/relays/{id}")
     Call<Relay> getRelayById(@Path("id") Long id);

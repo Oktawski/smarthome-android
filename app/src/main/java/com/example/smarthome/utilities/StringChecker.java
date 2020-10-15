@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class StringChecker {
 
-    //todo implement this
+    //todo implement checking IPv4
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static boolean isValidIpv4(String ip){
         String[] groups = ip.split("\\.");
