@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthome.R;
 import com.example.smarthome.relays.models.Relay;
@@ -48,19 +50,18 @@ public class RelaysFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         final Button bRefresh = view.findViewById(R.id.relays_button_refresh);
-        final ListView lvRelaysFound = view.findViewById(R.id.relays_found_lv);
+        final RecyclerView rvRelaysFound = view.findViewById(R.id.relays_found_rv);
 
         List<Relay> relays = new ArrayList<>();
 
-        RelaysListAdapter adapter = new RelaysListAdapter(getActivity(), relays);
-        adapter.update(relays);
-
-        lvRelaysFound.setAdapter(adapter);
+        //Adding adapter to relays recycler view
+        RelayRecyclerViewAdapter adapter = new RelayRecyclerViewAdapter(relays, requireActivity());
+        rvRelaysFound.setAdapter(adapter);
+        rvRelaysFound.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         model.getRelays();
 
         model.getRelaysLD().observe(getViewLifecycleOwner(), relayList -> {
-            Log.i("Relays observer", "onViewCreated: " + relayList);
             adapter.update(relayList);
             //TODO list view is not updating after data manipulation
         });

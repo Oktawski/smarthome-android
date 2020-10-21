@@ -45,7 +45,6 @@ public class RelayService {
         return instance;
     }
 
-    //TODO getting user from JWT on backend
     public void addRelay(Relay relay){
         Call<JsonObject> call = service.addRelay(relay);
 
