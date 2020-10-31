@@ -1,5 +1,6 @@
 package com.example.smarthome.relays.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +16,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.AddDevicePagerActivity;
 import com.example.smarthome.R;
 import com.example.smarthome.relays.models.Relay;
 import com.example.smarthome.relays.viewModels.RelayViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,7 @@ public class RelaysFragment extends Fragment {
 
         final Button bRefresh = view.findViewById(R.id.relays_button_refresh);
         final RecyclerView rvRelaysFound = view.findViewById(R.id.relays_found_rv);
+        final FloatingActionButton fabAdd = view.findViewById(R.id.relays_fragment_add_fab);
 
         List<Relay> relays = new ArrayList<>();
 
@@ -69,5 +73,14 @@ public class RelaysFragment extends Fragment {
         bRefresh.setOnClickListener(v -> {
             model.getRelaysLD();
         });
+
+        fabAdd.setOnClickListener(v -> startActivity(
+                new Intent(requireActivity(), AddDevicePagerActivity.class)));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        model.getRelaysLD();
     }
 }

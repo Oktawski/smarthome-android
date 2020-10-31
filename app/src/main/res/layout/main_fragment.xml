@@ -20,6 +20,13 @@
         android:text="Relays"
         android:layout_centerHorizontal="true"/>
 
+    <Button
+        android:id="@+id/bDevices"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="Devices"
+        android:layout_centerHorizontal="true"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_device"
         android:layout_width="wrap_content"

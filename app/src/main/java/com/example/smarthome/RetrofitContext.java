@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitContext {
-    private final static String BASE_URL = "http://192.168.1.106:8015";
+    private final static String BASE_URL = "http://192.168.1.105:8015";
     private static IRetrofitService service;
     private static ILightRetrofitService lightService;
     private static IRelayRetrofitService relayService;

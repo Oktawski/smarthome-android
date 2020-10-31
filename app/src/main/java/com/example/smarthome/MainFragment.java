@@ -40,6 +40,7 @@ public class MainFragment extends Fragment {
 
         final Button bLights = view.findViewById(R.id.bLights);
         final Button bRelays = view.findViewById(R.id.bRelays);
+        final Button bDevices = view.findViewById(R.id.bDevices);
         final FloatingActionButton fabAddDevice = view.findViewById(R.id.fab_add_device);
 
         fabAddDevice.setOnClickListener(v -> {
@@ -61,6 +62,14 @@ public class MainFragment extends Fragment {
                 NavHostFragment.findNavController(MainFragment.this)
                         .navigate(R.id.action_viewRelaysFragment);
             }catch (IllegalArgumentException e){
+                e.printStackTrace();
+            }
+        });
+
+        bDevices.setOnClickListener(v -> {
+            try{
+                startActivity(new Intent(requireActivity(), DevicesPagerActivity.class));
+            }catch(IllegalArgumentException e){
                 e.printStackTrace();
             }
         });

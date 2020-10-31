@@ -27,6 +27,8 @@
 
         <activity android:name=".AddDevicePagerActivity"/>
 
+        <activity android:name=".DevicesPagerActivity"/>
+
     </application>
 
 </manifest>
