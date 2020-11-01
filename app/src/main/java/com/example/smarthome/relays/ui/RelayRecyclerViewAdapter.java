@@ -1,7 +1,9 @@
 package com.example.smarthome.relays.ui;
 
 import android.content.Context;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -53,11 +55,11 @@ public class RelayRecyclerViewAdapter
 
         holder.etName.setText(relay.getName());
         holder.switchMaterial.setChecked(relay.getOn());
+        holder.switchMaterial.setClickable(false);
 
         holder.switchMaterial.setOnClickListener(v -> {
             model.turn(relay.getId());
         });
-
     }
 
     @Override
