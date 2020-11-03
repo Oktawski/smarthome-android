@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -53,6 +55,7 @@ public class LoginFragment extends Fragment {
         final EditText etPassword = view.findViewById(R.id.login_et_password);
         final ExtendedFloatingActionButton eFabLogin = view.findViewById(R.id.login_fab_login);
         final ExtendedFloatingActionButton eFabRegister = view.findViewById(R.id.login_fab_register);
+        final ProgressBar pb = view.findViewById(R.id.login_pb);
 
         model.getLoginMsg().observe(getViewLifecycleOwner(), str -> {
             if(str.length() > 0){
@@ -66,6 +69,17 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        model.showProgressBar().observe(getViewLifecycleOwner(), bool -> {
+            if(bool){
+                eFabLogin.setVisibility(View.INVISIBLE);
+                pb.setVisibility(View.VISIBLE);
+            }
+            else{
+                eFabLogin.setVisibility(View.VISIBLE);
+                pb.setVisibility(View.GONE);
+            }
+        });
+
 
         eFabLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString();
@@ -76,6 +90,7 @@ public class LoginFragment extends Fragment {
             model.signin(user);
         });
 
+        //TODO end login on click
         eFabRegister.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             if(!etEmail.getText().equals("")){

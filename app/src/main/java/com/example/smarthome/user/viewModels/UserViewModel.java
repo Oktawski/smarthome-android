@@ -21,6 +21,7 @@ public class UserViewModel extends ViewModel {
         return service.getLoginMsg();
     }
     public LiveData<Boolean> getIsSignedIn(){return service.getSignedIn();}
+    public LiveData<Boolean> showProgressBar(){return service.getShowProgressBar();}
 
 
     public void signin(SigninBody user){

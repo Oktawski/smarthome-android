@@ -1,19 +1,15 @@
 package com.example.smarthome;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.smarthome.ligths.ui.AddLightFragment;
-import com.example.smarthome.ligths.ui.LightsFragment;
 import com.example.smarthome.relays.ui.AddRelayFragment;
 import com.example.smarthome.relays.ui.RelaysFragment;
 import com.google.android.material.tabs.TabLayout;

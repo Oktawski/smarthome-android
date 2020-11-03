@@ -36,33 +36,41 @@ public class UserService {
     private MutableLiveData<String> loginResponse = new MutableLiveData<>();
     private MutableLiveData<String> signupResponse = new MutableLiveData<>();
     private MutableLiveData<Boolean> isSignedIn = new MutableLiveData<>();
+    private MutableLiveData<Boolean> showProgressBar = new MutableLiveData<>();
 
 
     public MutableLiveData<String> getLoginMsg(){return loginResponse;}
     public MutableLiveData<String> getSignupMsg(){return signupResponse;}
     public LiveData<Boolean> getSignedIn(){return isSignedIn;}
+    public LiveData<Boolean> getShowProgressBar(){return showProgressBar;}
 
 
     public void signup(User user){
         Call<String> call = service.signup(user);
+
+        showProgressBar.setValue(true);
 
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 signupResponse.setValue("Response");
                 signupResponse.setValue("");
+                showProgressBar.setValue(false);
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 signupResponse.setValue("Error connecting to server");
                 signupResponse.setValue("");
+                showProgressBar.setValue(false);
             }
         });
     }
     
     public void signin(SigninBody user){
         Call<ResponseBody> call = service.signin(user);
+
+        showProgressBar.setValue(true);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -76,9 +84,11 @@ public class UserService {
                 else{
                     User.isSignedIn = false;
                     isSignedIn.setValue(false);
-                    loginResponse.setValue(response.message());
                 }
+                loginResponse.setValue(response.message());
                 loginResponse.setValue("");
+
+                showProgressBar.setValue(false);
             }
 
             @Override
@@ -87,6 +97,8 @@ public class UserService {
                 isSignedIn.setValue(false);
                 loginResponse.setValue("Error connecting to server");
                 loginResponse.setValue("");
+
+                showProgressBar.setValue(false);
             }
         });
     }
