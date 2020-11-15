@@ -1,12 +1,11 @@
 package com.example.smarthome.user.viewModels;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.smarthome.user.models.SigninBody;
+//import com.example.smarthome.user.models.User;
+import com.example.smarthome.user.models.LoginBody;
 import com.example.smarthome.user.models.User;
 import com.example.smarthome.user.services.UserService;
 
@@ -24,7 +23,7 @@ public class UserViewModel extends ViewModel {
     public LiveData<Boolean> showProgressBar(){return service.getShowProgressBar();}
 
 
-    public void signin(SigninBody user){
+    public void signin(LoginBody user){
         service.signin(user);
     }
 

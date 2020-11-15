@@ -1,19 +1,12 @@
 package com.example.smarthome.user.services;
 
-import android.text.method.MultiTapKeyListener;
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.smarthome.RetrofitContext;
 import com.example.smarthome.user.models.JwtToken;
-import com.example.smarthome.user.models.LoginResponse;
-import com.example.smarthome.user.models.SigninBody;
-import com.example.smarthome.user.models.SignupResponse;
+import com.example.smarthome.user.models.LoginBody;
 import com.example.smarthome.user.models.User;
-
-import java.io.IOException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -67,7 +60,7 @@ public class UserService {
         });
     }
     
-    public void signin(SigninBody user){
+    public void signin(LoginBody user){
         Call<ResponseBody> call = service.signin(user);
 
         showProgressBar.setValue(true);
@@ -76,13 +69,13 @@ public class UserService {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful() && response.code() == 200){
-                    User.isSignedIn = true;
+                    User.Companion.setSignedIn(true);
                     isSignedIn.setValue(true);
                     String token = response.headers().get("Authorization");
-                    JwtToken.setToken(token);
+                    JwtToken.Companion.setJwtToken(token);
                 }
                 else{
-                    User.isSignedIn = false;
+                    User.Companion.setSignedIn(false);
                     isSignedIn.setValue(false);
                 }
                 loginResponse.setValue(response.message());
@@ -93,7 +86,7 @@ public class UserService {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                User.isSignedIn = false;
+                User.Companion.setSignedIn(false);
                 isSignedIn.setValue(false);
                 loginResponse.setValue("Error connecting to server");
                 loginResponse.setValue("");

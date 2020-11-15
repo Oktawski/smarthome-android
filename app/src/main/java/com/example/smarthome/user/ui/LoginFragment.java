@@ -1,8 +1,6 @@
 package com.example.smarthome.user.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +10,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.smarthome.MainActivity;
 import com.example.smarthome.R;
-import com.example.smarthome.user.models.SigninBody;
-import com.example.smarthome.user.models.User;
+import com.example.smarthome.user.models.LoginBody;
 import com.example.smarthome.user.viewModels.UserViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-
-import java.util.Objects;
 
 public class LoginFragment extends Fragment {
 
@@ -85,7 +78,7 @@ public class LoginFragment extends Fragment {
             String email = etEmail.getText().toString();
             String password = etPassword.getText().toString();
 
-            SigninBody user = new SigninBody(email, password);
+            LoginBody user = new LoginBody(email, password);
 
             model.signin(user);
         });

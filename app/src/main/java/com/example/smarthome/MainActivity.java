@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        if(!User.isSignedIn) {
+        if(!User.Companion.isSignedIn()) {
             startActivity(new Intent(this, LoginActivity.class));
         }
     }

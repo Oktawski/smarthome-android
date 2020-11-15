@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitContext {
-    private final static String BASE_URL = "http://192.168.1.105:8015";
+    private final static String BASE_URL = "http://192.168.1.107:8015";
     private static IRetrofitService service;
     private static ILightRetrofitService lightService;
     private static IRelayRetrofitService relayService;
@@ -33,7 +33,7 @@ public class RetrofitContext {
         okhttp.addInterceptor(chain -> {
             Request request = chain.request()
                     .newBuilder()
-                    .addHeader("Authorization", JwtToken.getToken())
+                    .addHeader("Authorization", JwtToken.Companion.getJwtToken())
                     .build();
 
                     return chain.proceed(request);
