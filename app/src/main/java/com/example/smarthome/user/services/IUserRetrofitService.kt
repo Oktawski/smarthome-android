@@ -9,7 +9,7 @@ import retrofit2.http.POST
 
 interface IUserRetrofitService {
     @POST("/user/signup")
-    fun signup(@Body user: User) : Call<String>
+    fun signup(@Body user: User) : Call<ResponseBody>
 
     @POST("/user/signin")
     fun signin(@Body loginBody: LoginBody) : Call<ResponseBody>

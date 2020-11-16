@@ -1,5 +1,7 @@
 package com.example.smarthome.user.services;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -38,28 +40,36 @@ public class UserService {
     public LiveData<Boolean> getShowProgressBar(){return showProgressBar;}
 
 
+    // TODO make responses correspond to server responses
     public void signup(User user){
-        Call<String> call = service.signup(user);
+        Call<ResponseBody> call = service.signup(user);
 
         showProgressBar.setValue(true);
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                signupResponse.setValue("Response");
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.code() == 200){
+                   signupResponse.setValue("Account created");
+                }
+                else{
+                    signupResponse.setValue("Something went wrong");
+                }
                 signupResponse.setValue("");
                 showProgressBar.setValue(false);
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 signupResponse.setValue("Error connecting to server");
                 signupResponse.setValue("");
+                Log.i(TAG, "onFailure: ");
                 showProgressBar.setValue(false);
             }
         });
     }
-    
+
+    // TODO make responses correspond to server responses
     public void signin(LoginBody user){
         Call<ResponseBody> call = service.signin(user);
 
