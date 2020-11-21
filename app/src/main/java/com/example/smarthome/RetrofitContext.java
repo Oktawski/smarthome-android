@@ -15,7 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitContext {
     private final static String BASE_URL = "http://192.168.1.107:8015";
-    private static IRetrofitService service;
     private static ILightRetrofitService lightService;
     private static IRelayRetrofitService relayService;
     private static IUserRetrofitService userService;
@@ -44,14 +43,6 @@ public class RetrofitContext {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okhttp.build())
                 .build();
-    }
-
-    public static IRetrofitService getService(){
-        if(service == null){
-            Retrofit retrofit = getRetrofitContext();
-            service = retrofit.create(IRetrofitService.class);
-        }
-        return service;
     }
 
     public static IRelayRetrofitService getRelayService(){

@@ -1,6 +1,5 @@
 package com.example.smarthome.ligths.services;
 
-import com.example.smarthome.IRetrofitService;
 import com.example.smarthome.ligths.models.Light;
 import com.google.gson.JsonObject;
 
@@ -11,7 +10,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface ILightRetrofitService extends IRetrofitService {
+public interface ILightRetrofitService {
 
     @POST("/lights")
     Call<JsonObject> addLight();
