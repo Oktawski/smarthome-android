@@ -63,8 +63,6 @@ public class RelaysFragment extends Fragment {
         rvRelaysFound.setAdapter(adapter);
         rvRelaysFound.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
-        model.getRelays();
-
         model.getRelaysLD().observe(getViewLifecycleOwner(), relayList -> {
             adapter.update(relayList);
             //TODO list view is not updating after data manipulation
@@ -81,6 +79,6 @@ public class RelaysFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        model.getRelaysLD();
+        //model.getRelaysLD();
     }
 }
