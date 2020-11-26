@@ -19,10 +19,6 @@ public class RelayViewModel extends ViewModel{
         return service.getRelaysLD();
     }
 
-    public void getRelays(){
-        service.getRelaysLD();
-    }
-
     public LiveData<Boolean> getProgressBarLD(){
         return service.getProgressBarLD();
     }
@@ -34,6 +30,10 @@ public class RelayViewModel extends ViewModel{
     public void add(Relay relay){
         service.addRelay(relay);
     }
+
+    public void delete(Long id){service.deleteById(id);}
+
+    public LiveData<Relay> getRelayById(Long id){return service.getRelayById(id);}
 
     public void turn(Long id){
         service.turn(id);

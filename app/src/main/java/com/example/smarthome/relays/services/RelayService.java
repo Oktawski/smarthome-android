@@ -46,7 +46,7 @@ public class RelayService {
     }
 
     public void addRelay(Relay relay){
-        Call<JsonObject> call = service.addRelay(relay);
+        Call<JsonObject> call = service.add(relay);
 
         addProgressBarLD.setValue(true);
 
@@ -65,41 +65,43 @@ public class RelayService {
         });
     }
 
-    public void deleteRelayById(Long id){
-        Call<JsonObject> call = service.deleteRelayById(id);
+    public void deleteById(Long id){
+        Call<JsonObject> call = service.deleteById(id);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Log.i(TAG, "onResponse: delete by id");
+                if(response.isSuccessful()){
+                    getRelaysLD();
+                }
+                else{
+                    Log.i(TAG, "onResponse: Could not delete id: " + id);
+                }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.i(TAG, "onFailure: delete by id");
+                Log.i(TAG, "Failure");
             }
         });
     }
 
     public MutableLiveData<List<Relay>> getRelaysLD(){
-        Call<List<Relay>> call = service.getRelays();
+        Call<List<Relay>> call = service.getAll();
 
         progressBarLD.setValue(true);
 
         call.enqueue(new Callback<List<Relay>>() {
             @Override
             public void onResponse(Call<List<Relay>> call, Response<List<Relay>> response) {
-                Log.i(TAG, "onResponse: get all");
-                Log.i(TAG, "onResponse: body: " + response.body());
+                Log.i(TAG, "onResponse: get all");                  //temp
+                Log.i(TAG, "onResponse: body: " + response.body()); //temp
                 List<Relay> relays = response.body();
-                Log.i(TAG, "error body " + response.errorBody());
                 if(relays != null){
                     if(!relaysLD.getValue().equals(relays)) {
                         relaysLD.setValue(relays);
                     }
                 }
-                Log.i(TAG, "onResponse: " + relays);
-
                 progressBarLD.setValue(false);
             }
 
@@ -112,16 +114,19 @@ public class RelayService {
         return relaysLD;
     }
 
-    public MutableLiveData<Relay> getRelayById(Long id){
+    public LiveData<Relay> getRelayById(Long id){
         MutableLiveData<Relay> relayLD = new MutableLiveData<>();
 
-        Call<Relay> call = service.getRelayById(id);
+        Call<Relay> call = service.getById(id);
 
         call.enqueue(new Callback<Relay>() {
             @Override
             public void onResponse(Call<Relay> call, Response<Relay> response) {
-                relayLD.setValue(response.body());
-                Log.i(TAG, "onResponse: " + relayLD.getValue());
+                if(response.isSuccessful()){
+                    relayLD.setValue(response.body());
+                    Log.i(TAG, "onResponse: " + relayLD.getValue());
+                    Log.i(TAG, "onResponse: RelayId: " + relayLD.getValue().getId());
+                }
             }
 
             @Override
@@ -131,9 +136,9 @@ public class RelayService {
         });
         return relayLD;
     }
-    
+
     public void turn(Long id){
-        Call<ResponseBody> call = service.turnRelay(id);
+        Call<ResponseBody> call = service.turn(id);
         
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -146,7 +151,7 @@ public class RelayService {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.i(TAG, "onFailure: ");
+                Log.i(TAG, "onFailure: could not switch, check WiFi or something");
             }
         });
         

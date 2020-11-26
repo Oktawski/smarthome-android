@@ -1,11 +1,14 @@
 package com.example.smarthome.relays.ui;
 
 import android.content.Context;
+import android.graphics.drawable.Icon;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,6 +55,7 @@ public class RelayRecyclerViewAdapter
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Relay relay = relays.get(position);
+        holder.relayId = relay.getId();
 
         holder.etName.setText(relay.getName());
         holder.switchMaterial.setChecked(relay.getOn());
@@ -68,10 +72,12 @@ public class RelayRecyclerViewAdapter
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+        private Long relayId;
 
         private TextView etName;
         private SwitchMaterial switchMaterial;
         private ConstraintLayout expandableLayout;
+        private Button bDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,6 +85,13 @@ public class RelayRecyclerViewAdapter
             etName = itemView.findViewById(R.id.relay_item_name);
             switchMaterial = itemView.findViewById(R.id.relay_item_slider);
             //expandableLayout = itemView.findViewById(R.id.item_relay_expandable_view);
+
+            etName.setOnClickListener(v -> {
+                Log.i("RELAY CLICKED", String.format("Name: %s", etName.getText().toString()));
+                model.getRelayById(relayId);
+                Log.i("RELAY FROM ITEM VIEW", "Name:  " + relayId);
+            });
+
         }
     }
 }
