@@ -32,7 +32,7 @@ public interface IRelayRetrofitService {
     Call<ResponseBody> turn(@Path("id") Long id);
 
     @PUT("/relays/{id}")
-    Call<JsonObject> updateById(@Path("id") Long id, Relay relay);
+    Call<JsonObject> updateById(@Path("id") Long id, @Body Relay relay);
 
     @DELETE("/relays/{id}")
     Call<JsonObject> deleteById(@Path("id") Long id);
