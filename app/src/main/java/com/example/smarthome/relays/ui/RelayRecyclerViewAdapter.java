@@ -77,6 +77,7 @@ public class RelayRecyclerViewAdapter
         private TextView etName;
         private SwitchMaterial switchMaterial;
         private ConstraintLayout expandableLayout;
+        private Button bEdit;
         private Button bDelete;
 
         public ViewHolder(@NonNull View itemView) {
@@ -85,12 +86,20 @@ public class RelayRecyclerViewAdapter
             etName = itemView.findViewById(R.id.relay_item_name);
             switchMaterial = itemView.findViewById(R.id.relay_item_slider);
             //expandableLayout = itemView.findViewById(R.id.item_relay_expandable_view);
+            bEdit = itemView.findViewById(R.id.item_relay_button_edit);
+            bDelete = itemView.findViewById(R.id.item_relay_button_delete);
 
             etName.setOnClickListener(v -> {
                 Log.i("RELAY CLICKED", String.format("Name: %s", etName.getText().toString()));
                 model.getRelayById(relayId);
                 Log.i("RELAY FROM ITEM VIEW", "Name:  " + relayId);
             });
+
+            bEdit.setOnClickListener(v -> {
+                model.getRelayById(relayId);
+            });
+
+            bDelete.setOnClickListener(v -> model.delete(relayId));
 
         }
     }

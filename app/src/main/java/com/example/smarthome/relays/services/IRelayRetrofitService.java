@@ -35,7 +35,7 @@ public interface IRelayRetrofitService {
     Call<JsonObject> updateById(@Path("id") Long id, @Body Relay relay);
 
     @DELETE("/relays/{id}")
-    Call<JsonObject> deleteById(@Path("id") Long id);
+    Call<ResponseBody> deleteById(@Path("id") Long id);
 
 
     // TODO implement observable

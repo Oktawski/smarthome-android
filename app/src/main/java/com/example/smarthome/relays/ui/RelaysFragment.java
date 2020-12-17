@@ -79,6 +79,6 @@ public class RelaysFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //model.getRelaysLD();
+        model.getRelaysLD();
     }
 }

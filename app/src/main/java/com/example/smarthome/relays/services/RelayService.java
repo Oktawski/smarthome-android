@@ -66,11 +66,11 @@ public class RelayService {
     }
 
     public void deleteById(Long id){
-        Call<JsonObject> call = service.deleteById(id);
+        Call<ResponseBody> call = service.deleteById(id);
 
-        call.enqueue(new Callback<JsonObject>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
                     getRelaysLD();
                 }
@@ -80,8 +80,8 @@ public class RelayService {
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.i(TAG, "Failure");
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i(TAG, "Delete Failure");
             }
         });
     }
