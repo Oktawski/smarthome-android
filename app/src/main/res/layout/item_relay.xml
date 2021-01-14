@@ -32,34 +32,33 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/item_relay_expandable_view"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/relay_item_slider"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
-            <Button
-                android:id="@+id/item_relay_button_edit"
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/item_relay_delete_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="edit"
 
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_delete_24px" />
 
-            <Button
-                android:id="@+id/item_relay_button_delete"
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/item_relay_edit_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="delete"
 
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="@id/item_relay_delete_icon"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="@id/item_relay_button_edit"
-                app:layout_constraintRight_toRightOf="parent"/>
-
+                app:srcCompat="@drawable/ic_create_24px" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <View style="@style/Divider.Horizontal"/>
 </LinearLayout>

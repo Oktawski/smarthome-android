@@ -65,7 +65,6 @@ public class RelaysFragment extends Fragment {
 
         model.getRelaysLD().observe(getViewLifecycleOwner(), relayList -> {
             adapter.update(relayList);
-            //TODO list view is not updating after data manipulation
         });
 
         bRefresh.setOnClickListener(v -> {

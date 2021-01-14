@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -73,34 +75,34 @@ public class RelayRecyclerViewAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private Long relayId;
+        private boolean isExtended = false;
 
         private TextView etName;
         private SwitchMaterial switchMaterial;
         private ConstraintLayout expandableLayout;
-        private Button bEdit;
-        private Button bDelete;
+        private AppCompatImageButton deleteIcon, editIcon;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             etName = itemView.findViewById(R.id.relay_item_name);
             switchMaterial = itemView.findViewById(R.id.relay_item_slider);
-            //expandableLayout = itemView.findViewById(R.id.item_relay_expandable_view);
-            bEdit = itemView.findViewById(R.id.item_relay_button_edit);
-            bDelete = itemView.findViewById(R.id.item_relay_button_delete);
+            expandableLayout = itemView.findViewById(R.id.item_relay_expandable_view);
+            deleteIcon = itemView.findViewById(R.id.item_relay_delete_icon);
+            editIcon = itemView.findViewById(R.id.item_relay_edit_icon);
 
             etName.setOnClickListener(v -> {
                 Log.i("RELAY CLICKED", String.format("Name: %s", etName.getText().toString()));
                 model.getRelayById(relayId);
                 Log.i("RELAY FROM ITEM VIEW", "Name:  " + relayId);
+
+                isExtended = !isExtended;
+                expandableLayout.setVisibility(isExtended ? View.VISIBLE : View.GONE);
             });
 
-            bEdit.setOnClickListener(v -> {
-                model.getRelayById(relayId);
-            });
+            deleteIcon.setOnClickListener(v -> model.delete(relayId));
 
-            bDelete.setOnClickListener(v -> model.delete(relayId));
-
+            editIcon.setOnClickListener(v -> model.getRelayById(relayId));
         }
     }
 }
