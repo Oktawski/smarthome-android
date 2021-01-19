@@ -52,16 +52,19 @@ public class AddRelayFragment extends Fragment {
         model.getAddResult().observe(requireActivity(), bool -> {
             int visibility = bool ? View.VISIBLE : View.GONE;
             progressBar.setVisibility(visibility);
-
+            fabAdd.setVisibility(bool ? View.GONE : View.VISIBLE);
+            /*
             if (bool) {
                 fabAdd.hide();
             } else {
                 fabAdd.show();
+            }*/
+        });
+
+        model.getResponseMsg().observe(requireActivity(), str -> {
+            if(str != "") {
+                Toast.makeText(requireActivity(), str, Toast.LENGTH_SHORT).show();
             }
-
-            //TODO change fab and pb visibility
-
-            if (bool) Toast.makeText(getActivity(), "Relay added", Toast.LENGTH_SHORT).show();
         });
 
         fabAdd.setOnClickListener(v -> {

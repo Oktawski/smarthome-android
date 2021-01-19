@@ -1,5 +1,6 @@
 package com.example.smarthome.relays.services;
 
+import com.example.smarthome.BasicResponse;
 import com.example.smarthome.relays.models.Relay;
 import com.google.gson.JsonObject;
 
@@ -26,7 +27,7 @@ public interface IRelayRetrofitService {
     Call<JsonObject> getByIp(@Path("ip") String ip);
 
     @POST("/relays")
-    Call<JsonObject> add(@Body Relay relay);
+    Call<BasicResponse<Relay>> add(@Body Relay relay);
 
     @POST("/relays/{id}/turn")
     Call<ResponseBody> turn(@Path("id") Long id);

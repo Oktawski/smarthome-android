@@ -5,10 +5,14 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.smarthome.BasicResponse;
 import com.example.smarthome.RetrofitContext;
 import com.example.smarthome.relays.models.Relay;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,15 +31,16 @@ public class RelayService {
     private MutableLiveData<Boolean> progressBarLD = new MutableLiveData<>();
     private MutableLiveData<Boolean> addProgressBarLD = new MutableLiveData<>();
     private final MutableLiveData<List<Relay>> relaysLD = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<String> responseMsgLD = new MutableLiveData<>();
 
 
     public LiveData<Boolean> getProgressBarLD(){
         return progressBarLD;
     }
-
     public LiveData<Boolean> getAddProgressBarLD(){
         return addProgressBarLD;
     }
+    public LiveData<String> getResponseMsgLD() {return responseMsgLD;}
 
 
     public static RelayService getInstance() {
@@ -46,19 +51,29 @@ public class RelayService {
     }
 
     public void addRelay(Relay relay){
-        Call<JsonObject> call = service.add(relay);
+        Call<BasicResponse<Relay>> call = service.add(relay);
 
         addProgressBarLD.setValue(true);
 
-        call.enqueue(new Callback<JsonObject>() {
+        call.enqueue(new Callback<BasicResponse<Relay>>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Log.i(TAG, "onResponse: addRelay");
+            public void onResponse(Call<BasicResponse<Relay>> call, Response<BasicResponse<Relay>> response) {
+                if(response.isSuccessful()){
+                    responseMsgLD.setValue(response.body().getMsg());
+                }
+                else{
+                    Gson gson = new Gson();
+                    Type type = new TypeToken<BasicResponse<Relay>>() {}.getType();
+                    BasicResponse<Relay> errorResponse = gson.fromJson(response.errorBody().charStream(), type);
+                    responseMsgLD.setValue(errorResponse.getMsg());
+                }
+
+                responseMsgLD.setValue("");
                 addProgressBarLD.setValue(false);
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<BasicResponse<Relay>> call, Throwable t) {
                 Log.i(TAG, "onFailure: addRelay");
                 addProgressBarLD.setValue(false);
             }

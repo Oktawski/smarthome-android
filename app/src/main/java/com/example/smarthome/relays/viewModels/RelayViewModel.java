@@ -27,6 +27,9 @@ public class RelayViewModel extends ViewModel{
         return service.getAddProgressBarLD();
     }
 
+    public LiveData<String> getResponseMsg(){return service.getResponseMsgLD();}
+
+
     public void add(Relay relay){
         service.addRelay(relay);
     }

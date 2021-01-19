@@ -3,11 +3,12 @@ package com.example.smarthome;
 
 import com.google.gson.annotations.SerializedName;
 
-public class BasicResponse<T> {
+public class BasicResponse<T extends Object> {
 
     @SerializedName("object")
     protected T t;
 
+    @SerializedName("msg")
     protected String msg;
 
     public BasicResponse() {
@@ -18,11 +19,11 @@ public class BasicResponse<T> {
         this.msg = msg;
     }
 
-    public T getT() {
+    public T getObject() {
         return t;
     }
 
-    public void setT(T t) {
+    public void setObject(T t) {
         this.t = t;
     }
 
