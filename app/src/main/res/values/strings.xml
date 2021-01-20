@@ -2,4 +2,9 @@
     <string name="app_name">Smart Home</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_fragment">Login</string>
+    <string name="about">ABOUT</string>
+    <string name="login">LOGIN</string>
+    <string name="logout">LOGOUT</string>
+    <string name="devices">DEVICES</string>
 </resources>

@@ -33,6 +33,13 @@ class RegistrationFragment: Fragment() {
         super.onCreate(savedInstanceState)
 
         model = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
+        setToolbarTitle()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setToolbarTitle()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,5 +69,9 @@ class RegistrationFragment: Fragment() {
 
             model!!.signup(user)
         }
+    }
+
+    private fun setToolbarTitle(){
+        (activity as LoginActivity).supportActionBar?.title = "Register";
     }
 }

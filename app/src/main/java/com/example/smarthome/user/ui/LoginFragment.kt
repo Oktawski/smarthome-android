@@ -1,5 +1,6 @@
 package com.example.smarthome.user.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
+import com.example.smarthome.MainActivity
 import com.example.smarthome.R
 import com.example.smarthome.user.models.LoginBody
 import com.example.smarthome.user.viewModels.UserViewModel
@@ -29,6 +31,13 @@ class LoginFragment: Fragment() {
         super.onCreate(savedInstanceState)
 
         model = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
+        setToolbarTitle()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setToolbarTitle()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -65,7 +74,9 @@ class LoginFragment: Fragment() {
         } })
 
         model!!.getIsSignedIn().observe(viewLifecycleOwner, Observer { bool -> run{
-            if(bool) requireActivity().finish()
+            if(bool) {
+                startActivity(Intent(requireActivity(), MainActivity::class.java))
+            }
         } })
 
         eFabLogin.setOnClickListener{
@@ -88,5 +99,9 @@ class LoginFragment: Fragment() {
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_viewRegistrationFragment, bundle)
         }
+    }
+
+    private fun setToolbarTitle(){
+        (activity as LoginActivity).supportActionBar?.title = "Login";
     }
 }

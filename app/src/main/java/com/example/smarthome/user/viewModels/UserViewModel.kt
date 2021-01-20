@@ -22,4 +22,8 @@ class UserViewModel : ViewModel(){
     fun signup(user: User){
         service.signup(user)
     }
+
+    fun signOut(){
+        service.signOut()
+    }
 }

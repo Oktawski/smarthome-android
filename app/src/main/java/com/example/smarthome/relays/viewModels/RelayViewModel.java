@@ -11,33 +11,25 @@ import java.util.List;
 
 public class RelayViewModel extends ViewModel{
 
-    private RelayService service = RelayService.getInstance();
+    private final RelayService service = RelayService.getInstance();
 
-    private MutableLiveData<Boolean> progressBarLD;
 
     public MutableLiveData<List<Relay>> getRelaysLD(){
         return service.getRelaysLD();
     }
-
     public LiveData<Boolean> getProgressBarLD(){
         return service.getProgressBarLD();
     }
-
     public LiveData<Boolean> getAddResult(){
         return service.getAddProgressBarLD();
     }
-
     public LiveData<String> getResponseMsg(){return service.getResponseMsgLD();}
-
 
     public void add(Relay relay){
         service.addRelay(relay);
     }
-
     public void delete(Long id){service.deleteById(id);}
-
     public LiveData<Relay> getRelayById(Long id){return service.getRelayById(id);}
-
     public void turn(Long id){
         service.turn(id);
     }

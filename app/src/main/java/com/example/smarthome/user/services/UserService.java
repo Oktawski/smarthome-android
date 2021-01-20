@@ -30,7 +30,7 @@ public class UserService {
 
     private MutableLiveData<String> loginResponse = new MutableLiveData<>();
     private MutableLiveData<String> signupResponse = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isSignedIn = new MutableLiveData<>();
+    private MutableLiveData<Boolean> isSignedIn = new MutableLiveData<>(false);
     private MutableLiveData<Boolean> showProgressBar = new MutableLiveData<>();
 
 
@@ -104,5 +104,11 @@ public class UserService {
                 showProgressBar.setValue(false);
             }
         });
+    }
+
+    public void signOut(){
+        Log.i(TAG, "signOut: signin out");
+        isSignedIn.setValue(false);
+        User.Companion.setSignedIn(false);
     }
 }
