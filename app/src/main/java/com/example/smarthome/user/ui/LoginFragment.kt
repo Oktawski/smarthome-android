@@ -20,7 +20,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 class LoginFragment: Fragment() {
 
-    private var model: UserViewModel? = null;
+    private var model: UserViewModel? = null
 
     companion object{
         @JvmStatic
@@ -102,6 +102,6 @@ class LoginFragment: Fragment() {
     }
 
     private fun setToolbarTitle(){
-        (activity as LoginActivity).supportActionBar?.title = "Login";
+        (activity as LoginActivity).supportActionBar?.title = "Login"
     }
 }

@@ -1,12 +1,9 @@
 package com.example.smarthome.relays.ui;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -53,16 +50,10 @@ public class AddRelayFragment extends Fragment {
             int visibility = bool ? View.VISIBLE : View.GONE;
             progressBar.setVisibility(visibility);
             fabAdd.setVisibility(bool ? View.GONE : View.VISIBLE);
-            /*
-            if (bool) {
-                fabAdd.hide();
-            } else {
-                fabAdd.show();
-            }*/
         });
 
         model.getResponseMsg().observe(requireActivity(), str -> {
-            if(str != "") {
+            if(!str.isEmpty()) {
                 Toast.makeText(requireActivity(), str, Toast.LENGTH_SHORT).show();
             }
         });

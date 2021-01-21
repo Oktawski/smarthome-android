@@ -28,14 +28,14 @@ public class UserService {
         return instance;
     }
 
-    private MutableLiveData<String> loginResponse = new MutableLiveData<>();
-    private MutableLiveData<String> signupResponse = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isSignedIn = new MutableLiveData<>(false);
-    private MutableLiveData<Boolean> showProgressBar = new MutableLiveData<>();
+    private final MutableLiveData<String> loginResponse = new MutableLiveData<>();
+    private final MutableLiveData<String> signupResponse = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isSignedIn = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> showProgressBar = new MutableLiveData<>();
 
 
-    public MutableLiveData<String> getLoginMsg(){return loginResponse;}
-    public MutableLiveData<String> getSignupMsg(){return signupResponse;}
+    public LiveData<String> getLoginMsg(){return loginResponse;}
+    public LiveData<String> getSignupMsg(){return signupResponse;}
     public LiveData<Boolean> getSignedIn(){return isSignedIn;}
     public LiveData<Boolean> getShowProgressBar(){return showProgressBar;}
 
@@ -85,11 +85,12 @@ public class UserService {
                     JwtToken.Companion.setJwtToken(token);
                 }
                 else{
-                    User.Companion.setSignedIn(false);
                     isSignedIn.setValue(false);
+                    User.Companion.setSignedIn(false);
+                    JwtToken.Companion.clear();
+
                 }
-                loginResponse.setValue(response.message());
-                loginResponse.setValue("");
+                // TODO set loginResponse MutableLiveData
 
                 showProgressBar.setValue(false);
             }
@@ -107,8 +108,8 @@ public class UserService {
     }
 
     public void signOut(){
-        Log.i(TAG, "signOut: signin out");
         isSignedIn.setValue(false);
         User.Companion.setSignedIn(false);
+        JwtToken.Companion.clear();
     }
 }
