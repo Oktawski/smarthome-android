@@ -28,6 +28,7 @@ public class AddDevicePagerActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_device_pager);
 
+        // ViewPager and it's adapter
         viewPager = findViewById(R.id.add_device_pager);
         adapter = new AddDevicePagerAdapter(this);
         viewPager.setAdapter(adapter);
@@ -38,6 +39,11 @@ public class AddDevicePagerActivity extends FragmentActivity {
                 (tab, position) -> {
                     tab.setText(tabs[position]);
                 }).attach();
+
+        // Position acquired from DevicesPagerActivity, viewPager currentPosition set
+        // accordingly
+        int position = getIntent().getIntExtra("position", 0);
+        viewPager.setCurrentItem(position);
     }
 
 

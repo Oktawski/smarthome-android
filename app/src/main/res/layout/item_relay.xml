@@ -61,5 +61,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <View style="@style/Divider.Horizontal"/>
 </LinearLayout>

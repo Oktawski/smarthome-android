@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,6 +63,11 @@ public class RelaysFragment extends Fragment {
         RelayRecyclerViewAdapter adapter = new RelayRecyclerViewAdapter(relays, requireActivity());
         rvRelaysFound.setAdapter(adapter);
         rvRelaysFound.setLayoutManager(new LinearLayoutManager(requireActivity()));
+
+        // Adding vertical lines between items
+        RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(rvRelaysFound.getContext(),
+                DividerItemDecoration.VERTICAL);
+        rvRelaysFound.addItemDecoration(dividerItemDecoration);
 
         model.getRelaysLD().observe(getViewLifecycleOwner(), relayList -> {
             adapter.update(relayList);

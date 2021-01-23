@@ -1,5 +1,6 @@
 package com.example.smarthome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
         toolbar = findViewById(R.id.main_toolbar);
+        toolbar.setTitle("");
         toolbar.inflateMenu(R.menu.main_toolbar_menu);
 
         setSupportActionBar(toolbar);
@@ -59,12 +61,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.menu_logout:
-                Log.i("TAG", "onOptionsItemSelected: logout");
                 model.signOut();
                 break;
             case R.id.menu_about:
                 Log.i("TAG", "onOptionsItemSelected: ABOUT");
                 break;
+            case R.id.menu_devices:
+                startActivity(new Intent(this, DevicesPagerActivity.class));
         }
         return true;
     }
