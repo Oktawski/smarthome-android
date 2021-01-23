@@ -1,6 +1,7 @@
 package com.example.smarthome;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +45,8 @@ public class AddDevicePagerActivity extends FragmentActivity {
         // accordingly
         int position = getIntent().getIntExtra("position", 0);
         viewPager.setCurrentItem(position);
+
+        Log.i("POSITION ADD", "onCreate: " + position);
     }
 
 

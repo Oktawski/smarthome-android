@@ -3,6 +3,7 @@ package com.example.smarthome;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,9 +25,8 @@ public class DevicesPagerActivity extends FragmentActivity {
     private FragmentStateAdapter adapter;
     private FloatingActionButton fabAdd;
 
-    private static int currentPosition = 0;
-
     private final static String[] tabs = {"Relays", "Lights"};
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,8 +51,17 @@ public class DevicesPagerActivity extends FragmentActivity {
         Intent intent = new Intent(this, AddDevicePagerActivity.class);
         intent.putExtra("position", viewPager2.getCurrentItem());
 
-        fabAdd.setOnClickListener(v -> startActivity(intent));
 
+        // ViewPager2 OnChangeCallback puts current position in intent
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                intent.putExtra("position", viewPager2.getCurrentItem());
+                super.onPageSelected(position);
+            }
+        });
+
+        fabAdd.setOnClickListener(v -> startActivity(intent));
     }
 
     private static class DevicesPagerAdapter extends FragmentStateAdapter{

@@ -1,16 +1,11 @@
 package com.example.smarthome.relays.ui;
 
 import android.content.Context;
-import android.graphics.drawable.Icon;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -63,9 +58,7 @@ public class RelayRecyclerViewAdapter
         holder.switchMaterial.setChecked(relay.getOn());
         holder.switchMaterial.setClickable(false);
 
-        holder.switchMaterial.setOnClickListener(v -> {
-            model.turn(relay.getId());
-        });
+        holder.switchMaterial.setOnClickListener(v -> model.turn(relay.getId()));
     }
 
     @Override
@@ -75,6 +68,12 @@ public class RelayRecyclerViewAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private Long relayId;
+
+        /*
+        *TODO stick "isExtended" to only one item
+        * currently when extended item is removed, the item above it will become extended
+        * (21.01.2021)
+        */
         private boolean isExtended = false;
 
         private TextView etName;

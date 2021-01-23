@@ -1,7 +1,6 @@
 package com.example.smarthome.user.ui
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 class RegistrationFragment: Fragment() {
 
-    private var model: UserViewModel? = null;
+    private var model: UserViewModel? = null
 
     companion object{
         @JvmStatic
@@ -72,6 +71,6 @@ class RegistrationFragment: Fragment() {
     }
 
     private fun setToolbarTitle(){
-        (activity as LoginActivity).supportActionBar?.title = "Register";
+        (activity as LoginActivity).supportActionBar?.title = "Register"
     }
 }

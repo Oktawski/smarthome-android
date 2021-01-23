@@ -28,10 +28,10 @@ public class RelayService {
 
     private static final String TAG = "Relay Service";
 
-    private MutableLiveData<Boolean> progressBarLD = new MutableLiveData<>();
-    private MutableLiveData<Boolean> addProgressBarLD = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> progressBarLD = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> addProgressBarLD = new MutableLiveData<>();
     private final MutableLiveData<List<Relay>> relaysLD = new MutableLiveData<>(new ArrayList<>());
-    private MutableLiveData<String> responseMsgLD = new MutableLiveData<>();
+    private final MutableLiveData<String> responseMsgLD = new MutableLiveData<>();
 
 
     public LiveData<Boolean> getProgressBarLD(){

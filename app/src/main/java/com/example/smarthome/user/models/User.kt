@@ -9,12 +9,12 @@ data class User(
         val relayList: List<Relay>?
 ){
     companion object{
-        var isSignedIn: Boolean = false;
+        var isSignedIn: Boolean = false
     }
 
     constructor(email: String, password: String)
         :this(email, email, password, null)
 
     constructor(username: String, email: String, password: String)
-        :this(username, email, password, null);
+        :this(username, email, password, null)
 }

@@ -37,16 +37,4 @@ public interface IRelayRetrofitService {
 
     @DELETE("/relays/{id}")
     Call<ResponseBody> deleteById(@Path("id") Long id);
-
-
-    // TODO implement observable
-/*    @GET("/relays")
-    Observable<List<Relay>> getRelaysObservable();*/
-
-
-
-
-
-
-
 }

@@ -72,10 +72,10 @@ public class RelaysFragment extends Fragment {
         model.getRelaysLD().observe(getViewLifecycleOwner(), relayList -> {
             adapter.update(relayList);
         });
+        // TODO replace Lambda with method reference (21.01.2020)
+        model.getRelaysLD().observe(getViewLifecycleOwner(), relayList -> adapter.update(relayList));
 
-        bRefresh.setOnClickListener(v -> {
-            model.getRelaysLD();
-        });
+        bRefresh.setOnClickListener(v -> model.getRelaysLD());
 
         fabAdd.setOnClickListener(v -> startActivity(
                 new Intent(requireActivity(), AddDevicePagerActivity.class)));
