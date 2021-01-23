@@ -45,8 +45,6 @@ public class AddDevicePagerActivity extends FragmentActivity {
         // accordingly
         int position = getIntent().getIntExtra("position", 0);
         viewPager.setCurrentItem(position);
-
-        Log.i("POSITION ADD", "onCreate: " + position);
     }
 
 

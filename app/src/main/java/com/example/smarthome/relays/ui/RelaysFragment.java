@@ -64,6 +64,7 @@ public class RelaysFragment extends Fragment {
         rvRelaysFound.setAdapter(adapter);
         rvRelaysFound.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
+
         // Adding vertical lines between items
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(rvRelaysFound.getContext(),
                 DividerItemDecoration.VERTICAL);
@@ -72,6 +73,7 @@ public class RelaysFragment extends Fragment {
         model.getRelaysLD().observe(getViewLifecycleOwner(), relayList -> {
             adapter.update(relayList);
         });
+
         // TODO replace Lambda with method reference (21.01.2020)
         model.getRelaysLD().observe(getViewLifecycleOwner(), relayList -> adapter.update(relayList));
 
