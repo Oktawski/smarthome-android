@@ -29,6 +29,10 @@ import java.util.List;
 public class RelaysFragment extends Fragment {
 
     private RelayViewModel model;
+    private Button bRefresh;
+    private RecyclerView rvRelaysFound;
+    private FloatingActionButton fabAdd;
+    private RelayRecyclerViewAdapter adapter;
 
     public RelaysFragment(){}
 
@@ -53,14 +57,14 @@ public class RelaysFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final Button bRefresh = view.findViewById(R.id.relays_button_refresh);
-        final RecyclerView rvRelaysFound = view.findViewById(R.id.relays_found_rv);
-        final FloatingActionButton fabAdd = view.findViewById(R.id.relays_fragment_add_fab);
+        bRefresh = view.findViewById(R.id.relays_button_refresh);
+        rvRelaysFound = view.findViewById(R.id.relays_found_rv);
+        fabAdd = view.findViewById(R.id.relays_fragment_add_fab);
 
         List<Relay> relays = new ArrayList<>();
 
         //Adding adapter to relays recycler view
-        RelayRecyclerViewAdapter adapter = new RelayRecyclerViewAdapter(relays, requireActivity());
+        adapter = new RelayRecyclerViewAdapter(relays, requireActivity());
         rvRelaysFound.setAdapter(adapter);
         rvRelaysFound.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
@@ -70,14 +74,7 @@ public class RelaysFragment extends Fragment {
                 DividerItemDecoration.VERTICAL);
         rvRelaysFound.addItemDecoration(dividerItemDecoration);
 
-        model.getRelaysLD().observe(getViewLifecycleOwner(), relayList -> {
-            adapter.update(relayList);
-        });
-
-        // TODO replace Lambda with method reference (21.01.2020)
-        model.getRelaysLD().observe(getViewLifecycleOwner(), relayList -> adapter.update(relayList));
-
-        bRefresh.setOnClickListener(v -> model.getRelaysLD());
+        observableViewModel();
 
         fabAdd.setOnClickListener(v -> startActivity(
                 new Intent(requireActivity(), AddDevicePagerActivity.class)));
@@ -87,5 +84,9 @@ public class RelaysFragment extends Fragment {
     public void onResume() {
         super.onResume();
         model.getRelaysLD();
+    }
+
+    private void observableViewModel(){
+        model.getRelaysLD().observe(getViewLifecycleOwner(), relays -> adapter.update(relays));
     }
 }

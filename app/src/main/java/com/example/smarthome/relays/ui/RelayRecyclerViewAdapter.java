@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -90,7 +91,8 @@ public class RelayRecyclerViewAdapter
             deleteIcon = itemView.findViewById(R.id.item_relay_delete_icon);
             editIcon = itemView.findViewById(R.id.item_relay_edit_icon);
 
-            etName.setOnClickListener(v -> {
+
+            itemView.setOnClickListener(v -> {
                 Log.i("RELAY CLICKED", String.format("Name: %s", etName.getText().toString()));
                 model.getRelayById(relayId);
                 Log.i("RELAY FROM ITEM VIEW", "Name:  " + relayId);
