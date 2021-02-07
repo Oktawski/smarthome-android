@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,7 +70,7 @@ public class RelayRecyclerViewAdapter
         private Long relayId;
 
         /*
-        *TODO stick "isExtended" to only one item
+        *TODO stick "isExtended" to only one item, add as property in database
         * currently when extended item is removed, the item above it will become extended
         * (21.01.2021)
         */

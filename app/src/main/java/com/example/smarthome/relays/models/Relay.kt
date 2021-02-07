@@ -1,17 +1,22 @@
 package com.example.smarthome.relays.models
 
+import com.example.smarthome.WifiDevice
+
 
 data class Relay(
-        val id: Long?,
-        var name: String,
-        var ip: String,
-        val on: Boolean
-) {
+        var id: Long?
+) : WifiDevice() {
     constructor(name: String, ip: String, on: Boolean)
-        :this(null, name, ip, on)
+            : this(null){
+        super.setName(if (name != "") name else "No name")
+        super.setIp(ip)
+        super.setOn(on)
+    }
 
-    init {
+
+
+  /*  init {
         if(name == "") name = "No name" else name
         if(ip == "") ip = "No ip" else ip
-    }
+    }*/
 }
