@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -24,8 +25,8 @@ import java.util.List;
 public abstract class GenericRVAdapter<T extends WifiDevice>
     extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    private Context context;
-    private List<T> items;
+    private final Context context;
+    private final List<T> items;
 
 
     public GenericRVAdapter(Context context, List<T> items){
@@ -67,12 +68,12 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
     public class RelayViewHolder extends RecyclerView.ViewHolder {
         private boolean isExpanded = false;
 
-        private TextView tvName;
-        private SwitchMaterial switchMaterial;
-        private ConstraintLayout expandableLayout;
-        private AppCompatImageButton deleteIcon, editIcon;
+        private final TextView tvName;
+        private final SwitchMaterial switchMaterial;
+        private final ConstraintLayout expandableLayout;
+        private final AppCompatImageButton deleteIcon, editIcon;
 
-        private RelayViewModel viewModel;
+        private final RelayViewModel viewModel;
 
         public RelayViewHolder(@NonNull View itemView, RelayViewModel viewModel) {
             super(itemView);
@@ -97,6 +98,10 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             });
 
             deleteIcon.setOnClickListener(v -> viewModel.delete(relay.getId()));
+
+            // TODO implement edit icon
+            editIcon.setOnClickListener(v ->
+                    Toast.makeText(context, "IMPLEMENT ME", Toast.LENGTH_SHORT).show());
 
             switchMaterial.setOnClickListener(v -> viewModel.turn(relay.getId()));
         }

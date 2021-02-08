@@ -9,7 +9,6 @@ import com.example.smarthome.BasicResponse;
 import com.example.smarthome.RetrofitContext;
 import com.example.smarthome.relays.models.Relay;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;

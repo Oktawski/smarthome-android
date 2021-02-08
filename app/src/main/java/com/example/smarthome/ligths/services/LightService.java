@@ -1,8 +1,6 @@
 package com.example.smarthome.ligths.services;
 
 import com.example.smarthome.RetrofitContext;
-import com.example.smarthome.ligths.models.Light;
-import com.example.smarthome.relays.services.RelayService;
 
 public class LightService {
 
@@ -17,7 +15,4 @@ public class LightService {
         return instance;
     }
 
-    public void addLight(Light light){
-
-    }
 }

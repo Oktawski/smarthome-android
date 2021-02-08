@@ -24,7 +24,7 @@ public interface IRelayRetrofitService {
     Call<Relay> getById(@Path("id") Long id);
 
     @GET("/relays/ip/{ip}")
-    Call<JsonObject> getByIp(@Path("ip") String ip);
+    Call<BasicResponse<Relay>> getByIp(@Path("ip") String ip);
 
     @POST("/relays")
     Call<BasicResponse<Relay>> add(@Body Relay relay);
@@ -33,7 +33,7 @@ public interface IRelayRetrofitService {
     Call<ResponseBody> turn(@Path("id") Long id);
 
     @PUT("/relays/{id}")
-    Call<JsonObject> updateById(@Path("id") Long id, @Body Relay relay);
+    Call<ResponseBody> updateById(@Path("id") Long id, @Body Relay relay);
 
     @DELETE("/relays/{id}")
     Call<ResponseBody> deleteById(@Path("id") Long id);

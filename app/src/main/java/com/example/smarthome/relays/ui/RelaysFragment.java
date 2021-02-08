@@ -1,5 +1,6 @@
 package com.example.smarthome.relays.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,12 +29,10 @@ import java.util.List;
 public class RelaysFragment extends Fragment {
 
     private RelayViewModel model;
-    private Button bRefresh;
-    private RecyclerView rvRelaysFound;
-    private FloatingActionButton fabAdd;
-    //private RelayRecyclerViewAdapter adapter;
-
+    private List<Relay> relays;
     private GenericRVAdapter<Relay> adapter;
+    private RecyclerView rvRelaysFound;
+
 
     public RelaysFragment(){}
 
@@ -58,36 +57,14 @@ public class RelaysFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        bRefresh = view.findViewById(R.id.relays_button_refresh);
+        Button bRefresh = view.findViewById(R.id.relays_button_refresh);
         rvRelaysFound = view.findViewById(R.id.relays_found_rv);
-        fabAdd = view.findViewById(R.id.relays_fragment_add_fab);
+        FloatingActionButton fabAdd = view.findViewById(R.id.relays_fragment_add_fab);
 
-        List<Relay> relays = new ArrayList<>();
+        relays = new ArrayList<>();
 
-        //Adding adapter to relays recycler view
-/*        adapter = new RelayRecyclerViewAdapter(relays, requireActivity());
-        rvRelaysFound.setAdapter(adapter);
-        rvRelaysFound.setLayoutManager(new LinearLayoutManager(requireActivity()));*/
-
-        adapter = new GenericRVAdapter<Relay>(requireActivity(), relays){
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-                ((RelayViewHolder) holder).setDetails(relays.get(position));
-            }
-        };
-
-
-       // adapter = new GenericRVAdapter(requireActivity(), relays);
-        rvRelaysFound.setAdapter(adapter);
-        rvRelaysFound.setLayoutManager(new LinearLayoutManager(requireActivity()));
-
-
-        // Adding vertical lines between items
-        RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecoration(rvRelaysFound.getContext(),
-                DividerItemDecoration.VERTICAL);
-        rvRelaysFound.addItemDecoration(dividerItemDecoration);
-
-        observableViewModel();
+        initAdapter(requireActivity());
+        initViewModel();
 
         fabAdd.setOnClickListener(v -> startActivity(
                 new Intent(requireActivity(), AddDevicePagerActivity.class)));
@@ -99,8 +76,25 @@ public class RelaysFragment extends Fragment {
         model.getRelaysLD();
     }
 
-    private void observableViewModel(){
-       // model.getRelaysLD().observe(getViewLifecycleOwner(), relays -> adapter.update(relays));
+    private void initViewModel(){
         model.getRelaysLD().observe(getViewLifecycleOwner(), relays -> adapter.update(relays));
+    }
+
+    private void initAdapter(Context context){
+        adapter = new GenericRVAdapter<Relay>(context, relays) {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+                ((RelayViewHolder)holder).setDetails(relays.get(position));
+            }
+        };
+
+        // Setting adapter for RecyclerViewRelaysFound
+        rvRelaysFound.setAdapter(adapter);
+        rvRelaysFound.setLayoutManager(new LinearLayoutManager(context));
+
+        // Vertical lines between items
+        rvRelaysFound.addItemDecoration(
+                new DividerItemDecoration(rvRelaysFound.getContext(),DividerItemDecoration.VERTICAL));
     }
 }

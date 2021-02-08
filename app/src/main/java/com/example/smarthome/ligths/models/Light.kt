@@ -1,8 +1,6 @@
 package com.example.smarthome.ligths.models
 
-import com.example.smarthome.R
 import com.example.smarthome.WifiDevice
-import com.example.smarthome.adapter.AdapterConstants
 import com.example.smarthome.adapter.ViewType
 
 data class Light(
