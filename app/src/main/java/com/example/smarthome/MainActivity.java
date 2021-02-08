@@ -51,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
         toolbar.getMenu().findItem(R.id.menu_logout).setVisible(true);
