@@ -1,9 +1,10 @@
 package com.example.smarthome;
 
+import com.example.smarthome.adapter.ViewType;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class WifiDevice {
+public class WifiDevice implements ViewType {
 
     @SerializedName("name")
     @Expose
@@ -23,6 +24,11 @@ public class WifiDevice {
         this.name = !name.equals("") ? name : "NoName";
         this.ip = !ip.equals("") ? ip : "No ip";
         this.on = on;
+    }
+
+    @Override
+    public int getViewType() {
+        return 0;
     }
 
     public String getName() {

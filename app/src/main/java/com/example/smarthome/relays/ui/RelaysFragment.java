@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthome.AddDevicePagerActivity;
 import com.example.smarthome.R;
+import com.example.smarthome.adapter.GenericRVAdapter;
 import com.example.smarthome.relays.models.Relay;
 import com.example.smarthome.relays.viewModels.RelayViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,7 +31,9 @@ public class RelaysFragment extends Fragment {
     private Button bRefresh;
     private RecyclerView rvRelaysFound;
     private FloatingActionButton fabAdd;
-    private RelayRecyclerViewAdapter adapter;
+    //private RelayRecyclerViewAdapter adapter;
+
+    private GenericRVAdapter<Relay> adapter;
 
     public RelaysFragment(){}
 
@@ -62,7 +65,19 @@ public class RelaysFragment extends Fragment {
         List<Relay> relays = new ArrayList<>();
 
         //Adding adapter to relays recycler view
-        adapter = new RelayRecyclerViewAdapter(relays, requireActivity());
+/*        adapter = new RelayRecyclerViewAdapter(relays, requireActivity());
+        rvRelaysFound.setAdapter(adapter);
+        rvRelaysFound.setLayoutManager(new LinearLayoutManager(requireActivity()));*/
+
+        adapter = new GenericRVAdapter<Relay>(requireActivity(), relays){
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+                ((RelayViewHolder) holder).setDetails(relays.get(position));
+            }
+        };
+
+
+       // adapter = new GenericRVAdapter(requireActivity(), relays);
         rvRelaysFound.setAdapter(adapter);
         rvRelaysFound.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
@@ -85,6 +100,7 @@ public class RelaysFragment extends Fragment {
     }
 
     private void observableViewModel(){
+       // model.getRelaysLD().observe(getViewLifecycleOwner(), relays -> adapter.update(relays));
         model.getRelaysLD().observe(getViewLifecycleOwner(), relays -> adapter.update(relays));
     }
 }
