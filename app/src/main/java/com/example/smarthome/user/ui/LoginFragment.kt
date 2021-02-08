@@ -33,6 +33,7 @@ class LoginFragment: Fragment() {
         model = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         setToolbarTitle()
+        this.model = null;
     }
 
     override fun onResume() {
@@ -64,11 +65,13 @@ class LoginFragment: Fragment() {
 
         model!!.showProgressBar().observe(viewLifecycleOwner, Observer { bool -> run{
             if(bool){
-                eFabLogin.visibility = View.INVISIBLE
+                eFabLogin.hide()
+                eFabRegister.hide()
                 pb.visibility = View.VISIBLE
             }
             else{
-                eFabLogin.visibility = View.VISIBLE
+                eFabLogin.show()
+                eFabRegister.show()
                 pb.visibility = View.GONE
             }
         } })
