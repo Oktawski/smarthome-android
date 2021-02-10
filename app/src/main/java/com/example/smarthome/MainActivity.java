@@ -15,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.smarthome.user.models.User;
+import com.example.smarthome.user.ui.UserActivity;
 import com.example.smarthome.user.viewModels.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menu_devices:
                 startActivity(new Intent(this, DevicesPagerActivity.class));
+            case R.id.menu_user:
+                startActivity(new Intent(this, UserActivity.class));
         }
         return true;
     }

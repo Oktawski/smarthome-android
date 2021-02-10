@@ -24,4 +24,9 @@
         app:showAsAction="never"
         android:visible="false"/>
 
+    <item
+        android:id="@+id/menu_user"
+        android:title="@string/user"
+        app:showAsAction="ifRoom"/>
+
 </menu>

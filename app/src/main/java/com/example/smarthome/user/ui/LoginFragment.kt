@@ -33,7 +33,6 @@ class LoginFragment: Fragment() {
         model = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         setToolbarTitle()
-        this.model = null;
     }
 
     override fun onResume() {

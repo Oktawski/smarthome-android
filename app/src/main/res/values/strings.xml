@@ -7,4 +7,9 @@
     <string name="login">LOGIN</string>
     <string name="logout">LOGOUT</string>
     <string name="devices">DEVICES</string>
+
+    <!-- User -->
+    <string name="user">USER</string>
+    <string name="firstName">First name</string>
+    <string name="lastName">Last name</string>
 </resources>
