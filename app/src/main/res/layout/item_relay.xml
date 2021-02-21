@@ -40,12 +40,35 @@
             app:layout_constraintRight_toRightOf="parent"
             android:visibility="gone">
 
+            <TextView
+                android:id="@+id/ip_label"
+                android:text="@string/ip"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/ip_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/ip_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/ip_label"
+                app:layout_constraintRight_toLeftOf="@id/item_relay_edit_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/item_relay_delete_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/item_relay_edit_icon"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_delete_24px" />
@@ -55,8 +78,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="@id/item_relay_delete_icon"
+                app:layout_constraintLeft_toRightOf="@id/ip_description"
+                app:layout_constraintRight_toLeftOf="@id/item_relay_delete_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_create_24px" />
 

@@ -68,7 +68,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
     public class RelayViewHolder extends RecyclerView.ViewHolder {
         private boolean isExpanded = false;
 
-        private final TextView tvName;
+        private final TextView tvName, ipDescription;
         private final SwitchMaterial switchMaterial;
         private final ConstraintLayout expandableLayout;
         private final AppCompatImageButton deleteIcon, editIcon;
@@ -81,6 +81,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             tvName = itemView.findViewById(R.id.relay_item_name);
             switchMaterial = itemView.findViewById(R.id.relay_item_slider);
             expandableLayout = itemView.findViewById(R.id.item_relay_expandable_view);
+            ipDescription = itemView.findViewById(R.id.ip_description);
             deleteIcon = itemView.findViewById(R.id.item_relay_delete_icon);
             editIcon = itemView.findViewById(R.id.item_relay_edit_icon);
 
@@ -91,6 +92,8 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             tvName.setText(relay.getName());
             switchMaterial.setChecked(relay.getOn());
             switchMaterial.setClickable(false);
+
+            ipDescription.setText(relay.getIp());
 
             itemView.setOnClickListener(v -> {
                 isExpanded = !isExpanded;

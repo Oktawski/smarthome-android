@@ -12,4 +12,7 @@
     <string name="user">USER</string>
     <string name="firstName">First name</string>
     <string name="lastName">Last name</string>
+
+    <!-- Relay -->
+    <string name="ip">Ip:</string>
 </resources>
