@@ -74,8 +74,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menu_devices:
                 startActivity(new Intent(this, DevicesPagerActivity.class));
+                break;
             case R.id.menu_user:
                 startActivity(new Intent(this, UserActivity.class));
+                break;
         }
         return true;
     }
