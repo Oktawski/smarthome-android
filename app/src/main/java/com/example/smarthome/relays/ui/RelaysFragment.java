@@ -79,11 +79,7 @@ public class RelaysFragment extends Fragment {
     }
 
     private void initViewModel(){
-        model.getRelaysLD().observe(getViewLifecycleOwner(), relays -> {
-            adapter.items.clear();
-            adapter.items.addAll(relays);
-            adapter.notifyDataSetChanged();
-        });
+        model.getRelaysLD().observe(getViewLifecycleOwner(), relays -> adapter.update(relays));
     }
 
     private void initAdapter(Context context){

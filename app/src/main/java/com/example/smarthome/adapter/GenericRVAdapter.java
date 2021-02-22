@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,7 +70,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
 
         private final TextView tvName, ipDescription;
         private final SwitchMaterial switchMaterial;
-        private final ConstraintLayout expandableLayout;
+        private final LinearLayout expandableLayout;
         private final AppCompatImageButton deleteIcon, editIcon;
 
         private final RelayViewModel viewModel;
@@ -80,9 +81,9 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             tvName = itemView.findViewById(R.id.relay_item_name);
             switchMaterial = itemView.findViewById(R.id.relay_item_slider);
             expandableLayout = itemView.findViewById(R.id.item_relay_expandable_view);
-            ipDescription = itemView.findViewById(R.id.ip_description);
-            deleteIcon = itemView.findViewById(R.id.item_relay_delete_icon);
-            editIcon = itemView.findViewById(R.id.item_relay_edit_icon);
+            ipDescription = itemView.findViewById(R.id.item_relay_ip_description);
+            deleteIcon = itemView.findViewById(R.id.item_relay_delete_button);
+            editIcon = itemView.findViewById(R.id.item_relay_edit_button);
 
             this.viewModel = viewModel;
         }
