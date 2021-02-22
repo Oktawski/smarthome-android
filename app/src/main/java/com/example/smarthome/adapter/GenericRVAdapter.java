@@ -26,7 +26,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
     extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private final Context context;
-    private final List<T> items;
+    public List<T> items;
 
 
     public GenericRVAdapter(Context context, List<T> items){
@@ -37,7 +37,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
     public void update(List<T> list){
         this.items.clear();
         this.items.addAll(list);
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -57,7 +57,6 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         throw new UnsupportedOperationException();
-
     }
 
     @Override

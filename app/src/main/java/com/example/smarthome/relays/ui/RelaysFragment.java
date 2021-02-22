@@ -66,6 +66,8 @@ public class RelaysFragment extends Fragment {
         initAdapter(requireActivity());
         initViewModel();
 
+        bRefresh.setOnClickListener(v -> model.getRelaysLD());
+
         fabAdd.setOnClickListener(v -> startActivity(
                 new Intent(requireActivity(), AddDevicePagerActivity.class)));
     }
@@ -77,11 +79,15 @@ public class RelaysFragment extends Fragment {
     }
 
     private void initViewModel(){
-        model.getRelaysLD().observe(getViewLifecycleOwner(), relays -> adapter.update(relays));
+        model.getRelaysLD().observe(getViewLifecycleOwner(), relays -> {
+            adapter.items.clear();
+            adapter.items.addAll(relays);
+            adapter.notifyDataSetChanged();
+        });
     }
 
     private void initAdapter(Context context){
-        adapter = new GenericRVAdapter<Relay>(context, relays) {
+        adapter = new GenericRVAdapter<Relay>(context, relays){
             @SuppressWarnings("unchecked")
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {

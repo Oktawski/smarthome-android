@@ -112,9 +112,7 @@ public class RelayService {
                 Log.i(TAG, "onResponse: body: " + response.body()); //temp
                 List<Relay> relays = response.body();
                 if(relays != null){
-                    if(!relaysLD.getValue().equals(relays)) {
-                        relaysLD.setValue(relays);
-                    }
+                    relaysLD.setValue(relays);
                 }
                 progressBarLD.setValue(false);
             }

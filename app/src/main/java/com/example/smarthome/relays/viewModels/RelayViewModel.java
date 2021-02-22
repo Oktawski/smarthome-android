@@ -14,7 +14,7 @@ public class RelayViewModel extends ViewModel{
     private final RelayService service = RelayService.getInstance();
 
 
-    public MutableLiveData<List<Relay>> getRelaysLD(){
+    public LiveData<List<Relay>> getRelaysLD(){
         return service.getRelaysLD();
     }
     public LiveData<Boolean> getProgressBarLD(){
