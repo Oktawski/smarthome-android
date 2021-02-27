@@ -1,6 +1,7 @@
 package com.example.smarthome.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +21,8 @@ import com.example.smarthome.R;
 import com.example.smarthome.WifiDevice;
 import com.example.smarthome.relays.models.Relay;
 import com.example.smarthome.relays.viewModels.RelayViewModel;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.List;
@@ -100,7 +104,20 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
                 expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
             });
 
-            deleteIcon.setOnClickListener(v -> viewModel.delete(relay.getId()));
+            deleteIcon.setOnClickListener(v -> {
+                Snackbar snackbar = Snackbar.make(v,
+                            "Do you want to delete relay: " + relay.getName(),
+                            Snackbar.LENGTH_INDEFINITE
+                        )
+                        .setDuration(5000)
+                        .setAction("Yes", a -> viewModel.delete(relay.getId()))
+                        .setTextColor(Color.WHITE)
+                        .setActionTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
+
+                snackbar.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.actionDarkBackground));
+
+                snackbar.show();
+            });
 
             // TODO implement edit icon
             editIcon.setOnClickListener(v ->
