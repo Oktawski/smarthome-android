@@ -17,6 +17,12 @@ import retrofit2.http.Path;
 
 public interface IRelayRetrofitService {
 
+    @POST("/relays")
+    Call<BasicResponse<Relay>> add(@Body Relay relay);
+
+    @DELETE("/relays/{id}")
+    Call<ResponseBody> deleteById(@Path("id") Long id);
+
     @GET("/relays")
     Call<List<Relay>> getAll();
 
@@ -26,15 +32,9 @@ public interface IRelayRetrofitService {
     @GET("/relays/ip/{ip}")
     Call<BasicResponse<Relay>> getByIp(@Path("ip") String ip);
 
-    @POST("/relays")
-    Call<BasicResponse<Relay>> add(@Body Relay relay);
+    @PUT("/relays/{id}")
+    Call<Relay> updateById(@Path("id") Long id, @Body Relay relay);
 
     @POST("/relays/{id}/turn")
     Call<ResponseBody> turn(@Path("id") Long id);
-
-    @PUT("/relays/{id}")
-    Call<ResponseBody> updateById(@Path("id") Long id, @Body Relay relay);
-
-    @DELETE("/relays/{id}")
-    Call<ResponseBody> deleteById(@Path("id") Long id);
 }

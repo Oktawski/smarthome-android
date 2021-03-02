@@ -31,6 +31,7 @@ public class RelayService {
     private final MutableLiveData<Boolean> addProgressBarLD = new MutableLiveData<>();
     private final MutableLiveData<List<Relay>> relaysLD = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<String> responseMsgLD = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> updateStatusLD = new MutableLiveData<>();
 
 
     public LiveData<Boolean> getProgressBarLD(){
@@ -40,6 +41,7 @@ public class RelayService {
         return addProgressBarLD;
     }
     public LiveData<String> getResponseMsgLD() {return responseMsgLD;}
+    public LiveData<Boolean> getUpdateStatusLD() {return updateStatusLD;}
 
 
     public static RelayService getInstance() {
@@ -147,6 +149,25 @@ public class RelayService {
             }
         });
         return relayLD;
+    }
+
+    public void updateRelay(Long id, Relay relay){
+        Call<Relay> call = service.updateById(id, relay);
+
+        call.enqueue(new Callback<Relay>() {
+            @Override
+            public void onResponse(Call<Relay> call, Response<Relay> response) {
+                if(response.isSuccessful()){
+                    updateStatusLD.setValue(true);
+                }
+                updateStatusLD.setValue(false);
+            }
+
+            @Override
+            public void onFailure(Call<Relay> call, Throwable t) {
+                updateStatusLD.setValue(false);
+            }
+        });
     }
 
     public void turn(Long id){

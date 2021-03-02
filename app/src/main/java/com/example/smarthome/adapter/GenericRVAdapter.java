@@ -79,6 +79,8 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
     // Relay View Holder
     public class RelayViewHolder extends RecyclerView.ViewHolder {
         private boolean isExpanded = false;
+        private Long id;
+        private boolean on;
 
         private final TextView tvName, ipDescription;
         private final SwitchMaterial switchMaterial;
@@ -130,6 +132,8 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             // TODO implement edit icon
             editIcon.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();
+                bundle.putString("id", String.valueOf(relay.getId()));
+                bundle.putString("on", String.valueOf(relay.getOn()));
                 bundle.putString("name", tvName.getText().toString());
                 bundle.putString("ip", ipDescription.getText().toString());
 
