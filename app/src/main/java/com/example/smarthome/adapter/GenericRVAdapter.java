@@ -1,7 +1,9 @@
 package com.example.smarthome.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,9 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthome.R;
 import com.example.smarthome.WifiDevice;
+import com.example.smarthome.ligths.viewModels.LightViewModel;
 import com.example.smarthome.relays.models.Relay;
+import com.example.smarthome.relays.ui.DetailsRelayActivity;
 import com.example.smarthome.relays.viewModels.RelayViewModel;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -56,7 +58,12 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
         View v = LayoutInflater.from(context)
                 .inflate(viewType, parent, false);
 
-        return new RelayViewHolder(v, new ViewModelProvider((FragmentActivity)context).get(RelayViewModel.class));
+        switch(viewType){
+            case R.layout.item_relay:
+                return new RelayViewHolder(v, new ViewModelProvider((FragmentActivity)context).get(RelayViewModel.class));
+            default:
+                return null;
+        }
     }
 
     @Override
@@ -69,6 +76,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
        return items.size();
     }
 
+    // Relay View Holder
     public class RelayViewHolder extends RecyclerView.ViewHolder {
         private boolean isExpanded = false;
 
@@ -120,10 +128,24 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             });
 
             // TODO implement edit icon
-            editIcon.setOnClickListener(v ->
-                    Toast.makeText(context, "IMPLEMENT ME", Toast.LENGTH_SHORT).show());
+            editIcon.setOnClickListener(v -> {
+                Bundle bundle = new Bundle();
+                bundle.putString("name", tvName.getText().toString());
+                bundle.putString("ip", ipDescription.getText().toString());
+
+                Intent intent = new Intent(context, DetailsRelayActivity.class);
+                intent.putExtras(bundle);
+
+                context.startActivity(intent);
+            });
 
             switchMaterial.setOnClickListener(v -> viewModel.turn(relay.getId()));
+        }
+    }
+
+    public class LightViewHolder extends RecyclerView.ViewHolder{
+        public LightViewHolder(@NonNull View itemView, LightViewModel viewModel) {
+            super(itemView);
         }
     }
 }
