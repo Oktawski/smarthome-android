@@ -5,13 +5,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/main_top_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        app:title="@string/app_name"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/devices_pager"/>
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/devices_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
 
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_top_toolbar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/devices_pager_tab_layout"/>
@@ -20,6 +31,8 @@
         android:id="@+id/devices_pager_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabSelectedTextColor="@color/colorAccent"
 
         app:layout_constraintTop_toBottomOf="@id/devices_pager"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -42,6 +55,7 @@
         android:layout_height="wrap_content"
         app:fabSize="normal"
         app:srcCompat="@drawable/add_circle"
+        app:maxImageSize="64dp"
 
         app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintVertical_bias="1"

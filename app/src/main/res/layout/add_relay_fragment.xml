@@ -86,6 +86,7 @@
         android:layout_height="wrap_content"
         app:fabSize="normal"
         app:srcCompat="@drawable/add_circle"
+        app:maxImageSize="64dp"
 
         app:layout_constraintHorizontal_bias="1.0"
         android:layout_margin="32dp"

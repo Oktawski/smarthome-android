@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
+import com.example.smarthome.DevicesPagerActivity
 import com.example.smarthome.MainActivity
 import com.example.smarthome.R
 import com.example.smarthome.user.models.LoginBody
@@ -77,7 +78,8 @@ class LoginFragment: Fragment() {
 
         model!!.getIsSignedIn().observe(viewLifecycleOwner, Observer { bool -> run{
             if(bool) {
-                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                //startActivity(Intent(requireActivity(), MainActivity::class.java))
+                startActivity(Intent(requireActivity(), DevicesPagerActivity::class.java))
             }
         } })
 
