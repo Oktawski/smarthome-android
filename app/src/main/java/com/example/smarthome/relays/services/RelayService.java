@@ -61,6 +61,7 @@ public class RelayService {
             public void onResponse(Call<BasicResponse<Relay>> call, Response<BasicResponse<Relay>> response) {
                 if(response.isSuccessful()){
                     responseMsgLD.setValue(response.body().getMsg());
+                    getRelaysLD();
                 }
                 else{
                     Gson gson = new Gson();
@@ -159,6 +160,7 @@ public class RelayService {
             public void onResponse(Call<Relay> call, Response<Relay> response) {
                 if(response.isSuccessful()){
                     updateStatusLD.setValue(true);
+                    getRelaysLD();
                 }
                 updateStatusLD.setValue(false);
             }

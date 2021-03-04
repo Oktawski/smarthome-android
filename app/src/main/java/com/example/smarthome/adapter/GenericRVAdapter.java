@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -78,14 +79,12 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
 
     // Relay View Holder
     public class RelayViewHolder extends RecyclerView.ViewHolder {
-        private boolean isExpanded = false;
-        private Long id;
-        private boolean on;
+        private boolean isExpanded = true;
 
         private final TextView tvName, ipDescription;
         private final SwitchMaterial switchMaterial;
         private final LinearLayout expandableLayout;
-        private final AppCompatImageButton deleteIcon, editIcon;
+        private final AppCompatImageButton deleteIcon, editIcon, expandArrow;
 
         private final RelayViewModel viewModel;
 
@@ -98,21 +97,35 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             ipDescription = itemView.findViewById(R.id.item_relay_ip_description);
             deleteIcon = itemView.findViewById(R.id.item_relay_delete_button);
             editIcon = itemView.findViewById(R.id.item_relay_edit_button);
+            expandArrow = itemView.findViewById(R.id.relay_item_expand_arrow);
 
             this.viewModel = viewModel;
         }
 
         public void setDetails(Relay relay) {
             tvName.setText(relay.getName());
+            tvName.setWidth(((View)tvName.getParent()).getWidth() / 2);
             switchMaterial.setChecked(relay.getOn());
             switchMaterial.setClickable(false);
 
             ipDescription.setText(relay.getIp());
 
+            switchMaterial.setOnClickListener(v -> viewModel.turn(relay.getId()));
+
+
             itemView.setOnClickListener(v -> {
+                Log.i("ITEM CLICK", "setDetails: " + relay.getName());
                 isExpanded = !isExpanded;
                 expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+
             });
+
+            expandArrow.setOnClickListener(v -> {
+                isExpanded = !isExpanded;
+                expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+
+            });
+
 
             deleteIcon.setOnClickListener(v -> {
                 Snackbar snackbar = Snackbar.make(v,
@@ -122,14 +135,13 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
                         .setDuration(5000)
                         .setAction("Yes", a -> viewModel.delete(relay.getId()))
                         .setTextColor(Color.WHITE)
-                        .setActionTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                        .setActionTextColor(ContextCompat.getColor(context, R.color.deleteColor));
 
                 snackbar.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.actionDarkBackground));
 
                 snackbar.show();
             });
 
-            // TODO implement edit icon
             editIcon.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();
                 bundle.putString("id", String.valueOf(relay.getId()));
@@ -143,7 +155,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
                 context.startActivity(intent);
             });
 
-            switchMaterial.setOnClickListener(v -> viewModel.turn(relay.getId()));
+
         }
     }
 

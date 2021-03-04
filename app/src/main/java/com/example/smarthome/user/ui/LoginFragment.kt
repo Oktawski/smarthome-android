@@ -13,15 +13,21 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.example.smarthome.DevicesPagerActivity
-import com.example.smarthome.MainActivity
 import com.example.smarthome.R
-import com.example.smarthome.user.models.LoginBody
+import com.example.smarthome.user.models.LoginRequest
 import com.example.smarthome.user.viewModels.UserViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import java.net.PasswordAuthentication
 
 class LoginFragment: Fragment() {
 
-    private var model: UserViewModel? = null
+//    private var viewModel: UserViewModel? = null
+    private lateinit var viewModel: UserViewModel
+    lateinit var etUsername: EditText
+    lateinit var etPassword: EditText
+    lateinit var eFabLogin: ExtendedFloatingActionButton
+    lateinit var eFabRegister: ExtendedFloatingActionButton
+    lateinit var pb: ProgressBar
 
     companion object{
         @JvmStatic
@@ -31,7 +37,7 @@ class LoginFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        model = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         setToolbarTitle()
     }
@@ -49,47 +55,21 @@ class LoginFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val etUsername = view.findViewById<EditText>(R.id.login_et_username)
-        val etPassword = view.findViewById<EditText>(R.id.login_et_password)
-        val eFabLogin = view.findViewById<ExtendedFloatingActionButton>(R.id.login_fab_login)
-        val eFabRegister = view.findViewById<ExtendedFloatingActionButton>(R.id.login_fab_register)
-        val pb = view.findViewById<ProgressBar>(R.id.login_pb)
+        etUsername = view.findViewById(R.id.login_et_username)
+        etPassword = view.findViewById(R.id.login_et_password)
+        eFabLogin = view.findViewById(R.id.login_fab_login)
+        eFabRegister = view.findViewById(R.id.login_fab_register)
+        pb = view.findViewById(R.id.login_pb)
 
-        model!!.getLoginMsg().observe(viewLifecycleOwner, Observer { str -> run{
-            if(str.isNotEmpty()) Toast.makeText(requireActivity(), str, Toast.LENGTH_SHORT).show()
-        } })
-
-        model!!.getSignupMsg().observe(viewLifecycleOwner, Observer{ str -> run{
-            if(str.isNotEmpty()) Toast.makeText(requireActivity(), str, Toast.LENGTH_SHORT).show()
-        } })
-
-        model!!.showProgressBar().observe(viewLifecycleOwner, Observer { bool -> run{
-            if(bool){
-                eFabLogin.hide()
-                eFabRegister.hide()
-                pb.visibility = View.VISIBLE
-            }
-            else{
-                eFabLogin.show()
-                eFabRegister.show()
-                pb.visibility = View.GONE
-            }
-        } })
-
-        model!!.getIsSignedIn().observe(viewLifecycleOwner, Observer { bool -> run{
-            if(bool) {
-                //startActivity(Intent(requireActivity(), MainActivity::class.java))
-                startActivity(Intent(requireActivity(), DevicesPagerActivity::class.java))
-            }
-        } })
+        initViewModel()
 
         eFabLogin.setOnClickListener{
             val username = etUsername.text.toString()
             val password = etPassword.text.toString()
 
-            val loginBody = LoginBody(username, password)
+            val loginBody = LoginRequest(username, password)
 
-            model!!.signin(loginBody)
+            viewModel!!.signin(loginBody)
         }
 
         eFabRegister.setOnClickListener{
@@ -107,5 +87,38 @@ class LoginFragment: Fragment() {
 
     private fun setToolbarTitle(){
         (activity as LoginActivity).supportActionBar?.title = "Login"
+    }
+
+    private fun initViewModel(){
+        viewModel?.getIsSignedIn()?.observe(viewLifecycleOwner, Observer {bool -> run{
+            startActivity(Intent(requireActivity(), DevicesPagerActivity::class.java))
+        }})
+
+        viewModel?.getLoginMsg()?.observe(viewLifecycleOwner, Observer{str -> run{
+            toastResponseMsg(str)
+        }})
+
+        viewModel?.getSignupMsg()?.observe(viewLifecycleOwner, Observer{str -> run{
+            toastResponseMsg(str)
+        }})
+
+        viewModel?.showProgressBar()?.observe(viewLifecycleOwner, Observer {bool -> run{
+            if(bool){
+                eFabLogin.hide()
+                eFabRegister.hide()
+                pb.visibility = View.VISIBLE
+            }
+            else{
+                eFabLogin.show()
+                eFabRegister.show()
+                pb.visibility = View.GONE
+            }
+        }})
+    }
+
+    private fun toastResponseMsg(str: String){
+        if(str.isNotEmpty()){
+            Toast.makeText(requireActivity(), str, Toast.LENGTH_SHORT).show()
+        }
     }
 }

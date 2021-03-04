@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi;
 
 import java.util.Arrays;
 
-public class StringChecker {
+public class StringUtil {
 
     //todo implement checking IPv4
     @RequiresApi(api = Build.VERSION_CODES.N)

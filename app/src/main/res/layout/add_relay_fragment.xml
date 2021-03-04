@@ -88,6 +88,8 @@
         app:srcCompat="@drawable/add_circle"
         app:maxImageSize="64dp"
 
+        android:backgroundTint="#ffffff"
+
         app:layout_constraintHorizontal_bias="1.0"
         android:layout_margin="32dp"
 

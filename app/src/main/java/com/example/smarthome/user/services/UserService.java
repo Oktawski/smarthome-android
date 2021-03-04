@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.smarthome.RetrofitContext;
 import com.example.smarthome.user.models.JwtToken;
-import com.example.smarthome.user.models.LoginBody;
+import com.example.smarthome.user.models.LoginRequest;
 import com.example.smarthome.user.models.User;
 
 import okhttp3.ResponseBody;
@@ -70,7 +70,7 @@ public class UserService {
     }
 
     // TODO make responses correspond to server responses
-    public void signin(LoginBody user){
+    public void signin(LoginRequest user){
         Call<ResponseBody> call = service.signin(user);
 
         showProgressBar.setValue(true);

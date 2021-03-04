@@ -19,15 +19,17 @@ import com.example.smarthome.relays.viewModels.RelayViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-public class AddRelayFragment extends Fragment {
+public class AddRelayFragment extends Fragment{
 
-    private RelayViewModel model;
+    private RelayViewModel viewModel;
+    private ProgressBar progressBar;
+    private FloatingActionButton fabAdd;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        model = new ViewModelProvider(requireActivity()).get(RelayViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(RelayViewModel.class);
     }
 
     @Nullable
@@ -42,21 +44,10 @@ public class AddRelayFragment extends Fragment {
         final EditText etName = view.findViewById(R.id.relay_add_et_name);
         final EditText etIp = view.findViewById(R.id.relay_add_et_ip);
         final SwitchMaterial switchOnOf = view.findViewById(R.id.relay_add_switch_onof);
-        final ProgressBar progressBar = view.findViewById(R.id.relay_add_pb);
-        final FloatingActionButton fabAdd = view.findViewById(R.id.relay_add_fab);
+        progressBar = view.findViewById(R.id.relay_add_pb);
+        fabAdd = view.findViewById(R.id.relay_add_fab);
 
-
-        model.getAddResult().observe(requireActivity(), bool -> {
-            int visibility = bool ? View.VISIBLE : View.GONE;
-            progressBar.setVisibility(visibility);
-            fabAdd.setVisibility(bool ? View.GONE : View.VISIBLE);
-        });
-
-        model.getResponseMsg().observe(requireActivity(), str -> {
-            if(!str.isEmpty()) {
-                Toast.makeText(requireActivity(), str, Toast.LENGTH_SHORT).show();
-            }
-        });
+        initViewModel();
 
         fabAdd.setOnClickListener(v -> {
             String name = etName.getText().toString();
@@ -65,7 +56,22 @@ public class AddRelayFragment extends Fragment {
 
             Relay relay = new Relay(name, ip, on);
 
-            model.add(relay);
+            viewModel.add(relay);
+        });
+    }
+
+    private void initViewModel(){
+        viewModel.getAddResult().observe(requireActivity(), bool -> {
+            int pbVisibility = bool ? View.VISIBLE : View.GONE;
+            int fabVisibility = bool ? View.GONE : View.VISIBLE;
+            progressBar.setVisibility(pbVisibility);
+            fabAdd.setVisibility(fabVisibility);
+        });
+
+        viewModel.getResponseMsg().observe(requireActivity(), str -> {
+            if(!str.isEmpty()){
+                Toast.makeText(requireActivity(), str, Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

@@ -1,40 +1,58 @@
 package com.example.smarthome.relays.viewModels;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.smarthome.relays.models.Relay;
 import com.example.smarthome.relays.services.RelayService;
 
 import java.util.List;
 
-public class RelayViewModel extends ViewModel{
+public class RelayViewModel extends AndroidViewModel{
 
-    private final RelayService service = RelayService.getInstance();
+    private final RelayService repository = RelayService.getInstance();
+
+    private LiveData<List<Relay>> relaysLD;
+    private LiveData<Boolean> progressBarLD;
+    private LiveData<Boolean> addResultLD;
+    private LiveData<String> responseMsgLD;
+    private LiveData<Boolean> updateStatusLD;
+
+    public RelayViewModel(Application application){
+        super(application);
+
+        relaysLD = repository.getRelaysLD();
+        progressBarLD = repository.getProgressBarLD();
+        addResultLD = repository.getAddProgressBarLD();
+        responseMsgLD = repository.getResponseMsgLD();
+        updateStatusLD = repository.getUpdateStatusLD();
+    }
+
+    public LiveData<List<Relay>> getRelaysLD(){return relaysLD;}
+    public LiveData<Boolean> getProgressBarLD(){return progressBarLD;}
+    public LiveData<Boolean> getAddResult(){return addResultLD;}
+    public LiveData<String> getResponseMsg(){return responseMsgLD;}
+    public LiveData<Boolean> getUpdateStatus(){return updateStatusLD;}
 
 
-    public LiveData<List<Relay>> getRelaysLD(){
-        return service.getRelaysLD();
-    }
-    public LiveData<Boolean> getProgressBarLD(){
-        return service.getProgressBarLD();
-    }
-    public LiveData<Boolean> getAddResult(){
-        return service.getAddProgressBarLD();
-    }
-    public LiveData<String> getResponseMsg(){return service.getResponseMsgLD();}
-    public LiveData<Boolean> getUpdateStatus(){return service.getUpdateStatusLD();}
+    public void refresh(){repository.getRelaysLD();}
 
     public void add(Relay relay){
-        service.addRelay(relay);
+        repository.addRelay(relay);
     }
-    public void delete(Long id){service.deleteById(id);}
-    public LiveData<Relay> getRelayById(Long id){return service.getRelayById(id);}
+
+    public void delete(Long id){
+        repository.deleteById(id);}
+
+    public LiveData<Relay> getRelayById(Long id){return repository.getRelayById(id);}
+
     public void turn(Long id){
-        service.turn(id);
+        repository.turn(id);
     }
+
     public void update(Long id, Relay relay){
-        service.updateRelay(id, relay);
+        repository.updateRelay(id, relay);
     }
 }

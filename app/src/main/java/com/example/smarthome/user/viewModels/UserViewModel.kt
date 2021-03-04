@@ -2,7 +2,7 @@ package com.example.smarthome.user.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.smarthome.user.models.LoginBody
+import com.example.smarthome.user.models.LoginRequest
 import com.example.smarthome.user.models.User
 import com.example.smarthome.user.services.UserService
 
@@ -16,8 +16,8 @@ class UserViewModel : ViewModel(){
     fun showProgressBar(): LiveData<Boolean> = service.showProgressBar
 
 
-    fun signin(loginBody: LoginBody){
-        service.signin(loginBody)
+    fun signin(loginRequest: LoginRequest){
+        service.signin(loginRequest)
     }
 
     fun signup(user: User){

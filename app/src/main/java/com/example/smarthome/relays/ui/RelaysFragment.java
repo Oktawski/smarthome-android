@@ -57,7 +57,6 @@ public class RelaysFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button bRefresh = view.findViewById(R.id.relays_button_refresh);
         rvRelaysFound = view.findViewById(R.id.relays_found_rv);
         FloatingActionButton fabAdd = view.findViewById(R.id.relays_fragment_add_fab);
 
@@ -66,7 +65,7 @@ public class RelaysFragment extends Fragment {
         initAdapter(requireActivity());
         initViewModel();
 
-        bRefresh.setOnClickListener(v -> model.getRelaysLD());
+        model.getRelaysLD();
 
         fabAdd.setOnClickListener(v -> startActivity(
                 new Intent(requireActivity(), AddDevicePagerActivity.class)));

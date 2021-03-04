@@ -16,6 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
+            android:textSize="20dp"
+            android:autoSizeTextType="uniform"
+
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -25,11 +28,25 @@
             android:id="@+id/relay_item_slider"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            app:layout_constraintHorizontal_bias="0.90"
+
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintRight_toLeftOf="@id/relay_item_expand_arrow"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            />
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/relay_item_expand_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_left_24px"
+
+            android:backgroundTint="@color/transparent"
+            android:tint="@color/white"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
 
 
         <LinearLayout
@@ -68,6 +85,9 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_create_24px"
                 android:layout_marginRight="5dp"
+
+                android:backgroundTint="#00000000"
+                android:tint="#fff"
                 />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -77,6 +97,9 @@
                 app:srcCompat="@drawable/ic_delete_24px"
                 android:layout_marginRight="5dp"
                 android:layout_gravity="end"
+
+                android:backgroundTint="#00000000"
+                android:tint="@color/deleteColor"
                 />
 
 
