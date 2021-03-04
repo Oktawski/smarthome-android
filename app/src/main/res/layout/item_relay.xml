@@ -28,11 +28,11 @@
             android:id="@+id/relay_item_slider"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-
             app:layout_constraintHorizontal_bias="0.95"
             app:layout_constraintRight_toLeftOf="@id/relay_item_expand_arrow"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            style="@style/MaterialSwitch"
             />
 
         <androidx.appcompat.widget.AppCompatImageButton
