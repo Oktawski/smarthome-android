@@ -61,6 +61,7 @@ public class RelayService {
             public void onResponse(Call<BasicResponse<Relay>> call, Response<BasicResponse<Relay>> response) {
                 if(response.isSuccessful()){
                     responseMsgLD.setValue(response.body().getMsg());
+                    Log.i(TAG, "onResponse: " + response.body().getMsg());
                     getRelaysLD();
                 }
                 else{
