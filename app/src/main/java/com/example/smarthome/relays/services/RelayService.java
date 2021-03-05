@@ -70,6 +70,7 @@ public class RelayService {
                     BasicResponse<Relay> errorResponse = gson.fromJson(response.errorBody().charStream(), type);
                     responseMsgLD.setValue(errorResponse.getMsg());
                     Log.i(TAG, "onResponse: " + errorResponse.getMsg());
+                    Log.i(TAG, "onResponse: " + errorResponse.getMsg());
                 }
 
                 responseMsgLD.setValue("");
