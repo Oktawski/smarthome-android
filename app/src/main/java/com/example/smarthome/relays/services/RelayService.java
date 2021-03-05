@@ -61,7 +61,6 @@ public class RelayService {
             public void onResponse(Call<BasicResponse<Relay>> call, Response<BasicResponse<Relay>> response) {
                 if(response.isSuccessful()){
                     responseMsgLD.setValue(response.body().getMsg());
-                    Log.i(TAG, "onResponse: " + response.body().getMsg());
                     getRelaysLD();
                 }
                 else{
@@ -69,8 +68,6 @@ public class RelayService {
                     Type type = new TypeToken<BasicResponse<Relay>>() {}.getType();
                     BasicResponse<Relay> errorResponse = gson.fromJson(response.errorBody().charStream(), type);
                     responseMsgLD.setValue(errorResponse.getMsg());
-                    Log.i(TAG, "onResponse: " + errorResponse.getMsg());
-                    Log.i(TAG, "onResponse: " + errorResponse.getMsg());
                 }
 
                 responseMsgLD.setValue("");
