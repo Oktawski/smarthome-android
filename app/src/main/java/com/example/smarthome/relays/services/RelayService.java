@@ -69,6 +69,7 @@ public class RelayService {
                     Type type = new TypeToken<BasicResponse<Relay>>() {}.getType();
                     BasicResponse<Relay> errorResponse = gson.fromJson(response.errorBody().charStream(), type);
                     responseMsgLD.setValue(errorResponse.getMsg());
+                    Log.i(TAG, "onResponse: " + errorResponse.getMsg());
                 }
 
                 responseMsgLD.setValue("");
