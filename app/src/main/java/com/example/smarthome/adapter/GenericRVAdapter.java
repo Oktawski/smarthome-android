@@ -120,7 +120,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             ipDescription.setText(relay.getIp());
             this.relay = relay;
 
-            setOncLickListeners();
+            setOnClickListeners();
         }
 
         @Override
@@ -140,7 +140,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             });
         }
 
-        private void setOncLickListeners(){
+        private void setOnClickListeners(){
             switchMaterial.setOnClickListener(v -> {
                 viewModel.turn(relay.getId());
             });
