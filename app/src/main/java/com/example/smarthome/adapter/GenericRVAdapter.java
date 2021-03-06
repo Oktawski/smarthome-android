@@ -6,12 +6,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.transition.TransitionManager;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -24,6 +28,7 @@ import com.example.smarthome.R;
 import com.example.smarthome.WifiDevice;
 import com.example.smarthome.ligths.viewModels.LightViewModel;
 import com.example.smarthome.relays.models.Relay;
+import com.example.smarthome.relays.services.IRelayRetrofitService;
 import com.example.smarthome.relays.ui.DetailsRelayActivity;
 import com.example.smarthome.relays.viewModels.RelayViewModel;
 import com.google.android.material.snackbar.Snackbar;
@@ -79,13 +84,15 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
     }
 
     // Relay View Holder
-    public class RelayViewHolder extends RecyclerView.ViewHolder {
+    public class RelayViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         private boolean isExpanded = false;
 
         private final TextView tvName, ipDescription;
         private final SwitchMaterial switchMaterial;
         private final LinearLayout expandableLayout;
         private final AppCompatImageButton deleteIcon, editIcon, expandArrow;
+
+        private Relay relay;
 
         private final RelayViewModel viewModel;
 
@@ -101,27 +108,53 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             expandArrow = itemView.findViewById(R.id.relay_item_expand_arrow);
 
             this.viewModel = viewModel;
+
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         public void setDetails(Relay relay) {
             tvName.setText(relay.getName());
             tvName.setWidth(((View)tvName.getParent()).getWidth() / 2);
             switchMaterial.setChecked(relay.getOn());
-
             ipDescription.setText(relay.getIp());
+            this.relay = relay;
 
+            setOncLickListeners();
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.setHeaderTitle(relay.getName() + " Relay");
+            MenuItem edit = menu.add(Menu.FIRST, 0, Menu.NONE, "Edit");
+            MenuItem delete = menu.add(Menu.FIRST, 1, Menu.NONE, "Delete");
+
+            edit.setOnMenuItemClickListener(v -> {
+                edit();
+                return true;
+            });
+
+            delete.setOnMenuItemClickListener(v -> {
+                delete(view);
+                return true;
+            });
+        }
+
+        private void setOncLickListeners(){
             switchMaterial.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 viewModel.turn(relay.getId());
             });
 
-
             expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
             itemView.setOnClickListener(v -> {
-                Log.i("ITEM CLICK", "setDetails: " + relay.getName());
                 isExpanded = !isExpanded;
                 expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
+            });
+
+            itemView.setOnLongClickListener(v -> {
+                itemView.showContextMenu();
+                return true;
             });
 
             expandArrow.setOnClickListener(v -> {
@@ -130,36 +163,36 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
 
             });
 
+            deleteIcon.setOnClickListener(v -> delete(v));
+            editIcon.setOnClickListener(v -> edit());
+        }
 
-            deleteIcon.setOnClickListener(v -> {
-                Snackbar snackbar = Snackbar.make(v,
-                            "Do you want to delete relay: " + relay.getName(),
-                            Snackbar.LENGTH_INDEFINITE
-                        )
-                        .setDuration(5000)
-                        .setAction("Yes", a -> viewModel.delete(relay.getId()))
-                        .setTextColor(Color.WHITE)
-                        .setActionTextColor(ContextCompat.getColor(context, R.color.deleteColor));
+        private void edit(){
+            Bundle bundle = new Bundle();
+            bundle.putString("id", String.valueOf(relay.getId()));
+            bundle.putString("on", String.valueOf(relay.getOn()));
+            bundle.putString("name", tvName.getText().toString());
+            bundle.putString("ip", ipDescription.getText().toString());
 
-                snackbar.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.actionDarkBackground));
+            Intent intent = new Intent(context, DetailsRelayActivity.class);
+            intent.putExtras(bundle);
 
-                snackbar.show();
-            });
+            context.startActivity(intent);
+        }
 
-            editIcon.setOnClickListener(v -> {
-                Bundle bundle = new Bundle();
-                bundle.putString("id", String.valueOf(relay.getId()));
-                bundle.putString("on", String.valueOf(relay.getOn()));
-                bundle.putString("name", tvName.getText().toString());
-                bundle.putString("ip", ipDescription.getText().toString());
+        private void delete(View v){
+            Snackbar snackbar = Snackbar.make(v,
+                    "Do you want to delete relay: " + relay.getName(),
+                    Snackbar.LENGTH_INDEFINITE
+            )
+                    .setDuration(5000)
+                    .setAction("Yes", a -> viewModel.delete(relay.getId()))
+                    .setTextColor(Color.WHITE)
+                    .setActionTextColor(ContextCompat.getColor(context, R.color.deleteColor));
 
-                Intent intent = new Intent(context, DetailsRelayActivity.class);
-                intent.putExtras(bundle);
+            snackbar.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.actionDarkBackground));
 
-                context.startActivity(intent);
-            });
-
-
+            snackbar.show();
         }
     }
 

@@ -4,9 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class RelaysFragment extends Fragment {
 
-    private RelayViewModel model;
+    private RelayViewModel viewModel;
     private List<Relay> relays;
     private GenericRVAdapter<Relay> adapter;
     private RecyclerView rvRelaysFound;
@@ -44,7 +45,7 @@ public class RelaysFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        model = new ViewModelProvider(requireActivity()).get(RelayViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(RelayViewModel.class);
     }
 
     @Nullable
@@ -65,7 +66,7 @@ public class RelaysFragment extends Fragment {
         initAdapter(requireActivity());
         initViewModel();
 
-        model.getRelaysLD();
+        viewModel.getRelaysLD();
 
         fabAdd.setOnClickListener(v -> startActivity(
                 new Intent(requireActivity(), AddDevicePagerActivity.class)));
@@ -74,11 +75,12 @@ public class RelaysFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        model.getRelaysLD();
+        viewModel.getRelaysLD();
     }
 
+
     private void initViewModel(){
-        model.getRelaysLD().observe(getViewLifecycleOwner(), relays -> adapter.update(relays));
+        viewModel.getRelaysLD().observe(getViewLifecycleOwner(), relays -> adapter.update(relays));
     }
 
     private void initAdapter(Context context){
@@ -87,6 +89,7 @@ public class RelaysFragment extends Fragment {
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
                 ((RelayViewHolder)holder).setDetails(relays.get(position));
+                holder.itemView.setTag(position);
             }
         };
 
