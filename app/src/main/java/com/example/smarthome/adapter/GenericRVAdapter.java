@@ -116,6 +116,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             tvName.setText(relay.getName());
             tvName.setWidth(((View)tvName.getParent()).getWidth() / 2);
             switchMaterial.setChecked(relay.getOn());
+            switchMaterial.setClickable(false);
             ipDescription.setText(relay.getIp());
             this.relay = relay;
 
@@ -140,7 +141,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
         }
 
         private void setOncLickListeners(){
-            switchMaterial.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            switchMaterial.setOnClickListener(v -> {
                 viewModel.turn(relay.getId());
             });
 

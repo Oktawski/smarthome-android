@@ -2,6 +2,7 @@ package com.example.smarthome.relays.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.sip.SipSession;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -70,6 +71,8 @@ public class RelaysFragment extends Fragment {
 
         fabAdd.setOnClickListener(v -> startActivity(
                 new Intent(requireActivity(), AddDevicePagerActivity.class)));
+
+
     }
 
     @Override
