@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -79,7 +80,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
 
     // Relay View Holder
     public class RelayViewHolder extends RecyclerView.ViewHolder {
-        private boolean isExpanded = true;
+        private boolean isExpanded = false;
 
         private final TextView tvName, ipDescription;
         private final SwitchMaterial switchMaterial;
@@ -106,12 +107,15 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             tvName.setText(relay.getName());
             tvName.setWidth(((View)tvName.getParent()).getWidth() / 2);
             switchMaterial.setChecked(relay.getOn());
-            switchMaterial.setClickable(false);
 
             ipDescription.setText(relay.getIp());
 
-            switchMaterial.setOnClickListener(v -> viewModel.turn(relay.getId()));
+            switchMaterial.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                viewModel.turn(relay.getId());
+            });
 
+
+            expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
             itemView.setOnClickListener(v -> {
                 Log.i("ITEM CLICK", "setDetails: " + relay.getName());
