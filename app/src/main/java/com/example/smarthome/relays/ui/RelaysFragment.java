@@ -99,9 +99,5 @@ public class RelaysFragment extends Fragment {
         // Setting adapter for RecyclerViewRelaysFound
         rvRelaysFound.setAdapter(adapter);
         rvRelaysFound.setLayoutManager(new LinearLayoutManager(context));
-
-        // Vertical lines between items
-        rvRelaysFound.addItemDecoration(
-                new DividerItemDecoration(rvRelaysFound.getContext(),DividerItemDecoration.VERTICAL));
     }
 }

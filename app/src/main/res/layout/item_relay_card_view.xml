@@ -1,65 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:id="@+id/relay_item">
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:backgroundTint="@color/darkCardBackground"
+    >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:animateLayoutChanges="true"
         >
 
         <TextView
-            android:id="@+id/relay_item_name"
-            android:layout_width="match_parent"
+            android:id="@+id/item_relay_card_name"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-
             android:textSize="20dp"
-            android:autoSizeTextType="uniform"
-
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_centerVertical="true"
+            android:text="@string/placeholder"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignTop="@id/item_relay_card_switch"
+            />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/relay_item_slider"
-            android:layout_width="48dp"
+            android:id="@+id/item_relay_card_switch"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintHorizontal_bias="0.95"
-            app:layout_constraintRight_toLeftOf="@id/relay_item_expand_arrow"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            style="@style/MaterialSwitch"
+            android:layout_margin="5dp"
+            android:layout_toStartOf="@id/item_relay_card_expand_arrow"
             />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/relay_item_expand_arrow"
+            android:id="@+id/item_relay_card_expand_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_left_24px"
-
             android:backgroundTint="@color/transparent"
             android:tint="@color/white"
-
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp"
             />
 
-
-        <LinearLayout
-            android:id="@+id/item_relay_expandable_view"
+        <RelativeLayout
+            android:id="@+id/item_relay_card_expandable_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/relay_item_slider"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:visibility="gone"
+            android:layout_below="@id/item_relay_card_expand_arrow"
             >
 
             <TextView
@@ -67,9 +56,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ip"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_gravity="center_vertical"
                 />
 
             <TextView
@@ -77,16 +66,17 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="123.123.123.123"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/item_relay_card_ip_label"
                 />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/item_relay_card_edit_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_create_24px"
-                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_create_24px"
+                android:layout_toStartOf="@id/item_relay_card_delete_button"
+                android:layout_margin="5dp"
 
                 android:backgroundTint="#00000000"
                 android:tint="#fff"
@@ -96,16 +86,16 @@
                 android:id="@+id/item_relay_card_delete_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_delete_24px"
-                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_delete_24px"
                 android:layout_gravity="end"
+                android:layout_margin="5dp"
+                android:layout_alignParentEnd="true"
 
                 android:backgroundTint="#00000000"
                 android:tint="@color/deleteColor"
                 />
 
+        </RelativeLayout>
+    </RelativeLayout>
 
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+</androidx.cardview.widget.CardView>

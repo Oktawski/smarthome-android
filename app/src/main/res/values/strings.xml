@@ -5,6 +5,7 @@
     <string name="login">LOGIN</string>
     <string name="logout">LOGOUT</string>
     <string name="devices">DEVICES</string>
+    <string name="placeholder">PLACEHOLDER</string>
 
     <!-- User -->
     <string name="user">USER</string>

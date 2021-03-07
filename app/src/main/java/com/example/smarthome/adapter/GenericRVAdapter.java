@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,7 +69,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
                 .inflate(viewType, parent, false);
 
         switch(viewType){
-            case R.layout.item_relay:
+            case R.layout.item_relay_card_view:
                 return new RelayViewHolder(v, new ViewModelProvider((FragmentActivity)context).get(RelayViewModel.class));
             default:
                 return null;
@@ -91,7 +92,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
 
         private final TextView tvName, ipDescription;
         private final SwitchMaterial switchMaterial;
-        private final LinearLayout expandableLayout;
+        private final RelativeLayout expandableLayout;
         private final AppCompatImageButton deleteIcon, editIcon, expandArrow;
 
         private Relay relay;
@@ -101,13 +102,21 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
         public RelayViewHolder(@NonNull View itemView, RelayViewModel viewModel) {
             super(itemView);
 
-            tvName = itemView.findViewById(R.id.relay_item_name);
+          /*  tvName = itemView.findViewById(R.id.relay_item_name);
             switchMaterial = itemView.findViewById(R.id.relay_item_slider);
             expandableLayout = itemView.findViewById(R.id.item_relay_expandable_view);
             ipDescription = itemView.findViewById(R.id.item_relay_ip_description);
             deleteIcon = itemView.findViewById(R.id.item_relay_delete_button);
             editIcon = itemView.findViewById(R.id.item_relay_edit_button);
-            expandArrow = itemView.findViewById(R.id.relay_item_expand_arrow);
+            expandArrow = itemView.findViewById(R.id.relay_item_expand_arrow);*/
+
+            tvName = itemView.findViewById(R.id.item_relay_card_name);
+            switchMaterial = itemView.findViewById(R.id.item_relay_card_switch);
+            expandableLayout = itemView.findViewById(R.id.item_relay_card_expandable_view);
+            ipDescription = itemView.findViewById(R.id.item_relay_card_ip_description);
+            deleteIcon = itemView.findViewById(R.id.item_relay_card_delete_button);
+            editIcon = itemView.findViewById(R.id.item_relay_card_edit_button);
+            expandArrow = itemView.findViewById(R.id.item_relay_card_expand_arrow);
 
             this.viewModel = viewModel;
 
