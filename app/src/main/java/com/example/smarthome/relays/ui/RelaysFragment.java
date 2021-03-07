@@ -67,8 +67,6 @@ public class RelaysFragment extends Fragment {
 
         fabAdd.setOnClickListener(v -> startActivity(
                 new Intent(requireActivity(), AddDevicePagerActivity.class)));
-
-
     }
 
     @Override
