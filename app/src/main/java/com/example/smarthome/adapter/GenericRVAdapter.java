@@ -1,6 +1,8 @@
 package com.example.smarthome.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -135,7 +137,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             });
 
             delete.setOnMenuItemClickListener(v -> {
-                delete(view);
+                showDeleteDialog();
                 return true;
             });
         }
@@ -164,7 +166,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
 
             });
 
-            deleteIcon.setOnClickListener(v -> delete(v));
+            deleteIcon.setOnClickListener(v -> showDeleteDialog());
             editIcon.setOnClickListener(v -> edit());
         }
 
@@ -181,19 +183,13 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
             context.startActivity(intent);
         }
 
-        private void delete(View v){
-            Snackbar snackbar = Snackbar.make(v,
-                    "Do you want to delete relay: " + relay.getName(),
-                    Snackbar.LENGTH_INDEFINITE
-            )
-                    .setDuration(5000)
-                    .setAction("Yes", a -> viewModel.delete(relay.getId()))
-                    .setTextColor(Color.WHITE)
-                    .setActionTextColor(ContextCompat.getColor(context, R.color.deleteColor));
-
-            snackbar.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.actionDarkBackground));
-
-            snackbar.show();
+        private void showDeleteDialog(){
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Delete relay " + relay.getName());
+            builder.setPositiveButton("Confirm", (dialog, which) -> viewModel.delete(relay.getId()));
+            builder.setNegativeButton("Cancel", ((dialog, which) -> dialog.dismiss()));
+            builder.create();
+            builder.show();
         }
     }
 
