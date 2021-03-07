@@ -2,27 +2,19 @@ package com.example.smarthome.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,10 +23,8 @@ import com.example.smarthome.R;
 import com.example.smarthome.WifiDevice;
 import com.example.smarthome.ligths.viewModels.LightViewModel;
 import com.example.smarthome.relays.models.Relay;
-import com.example.smarthome.relays.services.IRelayRetrofitService;
 import com.example.smarthome.relays.ui.DetailsRelayActivity;
 import com.example.smarthome.relays.viewModels.RelayViewModel;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.List;
@@ -101,14 +91,6 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
 
         public RelayViewHolder(@NonNull View itemView, RelayViewModel viewModel) {
             super(itemView);
-
-          /*  tvName = itemView.findViewById(R.id.relay_item_name);
-            switchMaterial = itemView.findViewById(R.id.relay_item_slider);
-            expandableLayout = itemView.findViewById(R.id.item_relay_expandable_view);
-            ipDescription = itemView.findViewById(R.id.item_relay_ip_description);
-            deleteIcon = itemView.findViewById(R.id.item_relay_delete_button);
-            editIcon = itemView.findViewById(R.id.item_relay_edit_button);
-            expandArrow = itemView.findViewById(R.id.relay_item_expand_arrow);*/
 
             tvName = itemView.findViewById(R.id.item_relay_card_name);
             switchMaterial = itemView.findViewById(R.id.item_relay_card_switch);
