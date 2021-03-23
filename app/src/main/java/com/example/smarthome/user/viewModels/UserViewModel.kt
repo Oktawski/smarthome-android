@@ -14,6 +14,7 @@ class UserViewModel : ViewModel(){
     fun getLoginMsg(): LiveData<String> =  service.loginMsg
     fun getIsSignedIn(): LiveData<Boolean> = service.signedIn
     fun showProgressBar(): LiveData<Boolean> = service.showProgressBar
+    fun getServerStatusLD(): LiveData<Boolean> = service.serverStatusLD
 
 
     fun signin(loginRequest: LoginRequest){
@@ -26,5 +27,9 @@ class UserViewModel : ViewModel(){
 
     fun signOut(){
         service.signOut()
+    }
+
+    fun getServerStatus(){
+        service.getServerStatus()
     }
 }

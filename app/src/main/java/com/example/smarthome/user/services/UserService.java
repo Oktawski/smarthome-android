@@ -32,12 +32,14 @@ public class UserService {
     private final MutableLiveData<String> signupResponse = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isSignedIn = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> showProgressBar = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> serverStatus = new MutableLiveData<>();
 
 
     public LiveData<String> getLoginMsg(){return loginResponse;}
     public LiveData<String> getSignupMsg(){return signupResponse;}
     public LiveData<Boolean> getSignedIn(){return isSignedIn;}
     public LiveData<Boolean> getShowProgressBar(){return showProgressBar;}
+    public LiveData<Boolean> getServerStatusLD(){return serverStatus;}
 
 
     // TODO make responses correspond to server responses
@@ -103,6 +105,29 @@ public class UserService {
                 loginResponse.setValue("");
 
                 showProgressBar.setValue(false);
+            }
+        });
+    }
+
+    public void getServerStatus(){
+        Call<ResponseBody> call = service.getStatus();
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    serverStatus.setValue(true);
+                }
+                else{
+                    serverStatus.setValue(false);
+                    signOut();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                serverStatus.setValue(false);
+                signOut();
             }
         });
     }

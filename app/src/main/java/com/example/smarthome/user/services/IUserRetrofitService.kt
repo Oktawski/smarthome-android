@@ -5,6 +5,7 @@ import com.example.smarthome.user.models.User
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface IUserRetrofitService {
@@ -13,4 +14,7 @@ interface IUserRetrofitService {
 
     @POST("/user/signin")
     fun signin(@Body loginRequest: LoginRequest) : Call<ResponseBody>
+
+    @GET("/server")
+    fun getStatus(): Call<ResponseBody>
 }
