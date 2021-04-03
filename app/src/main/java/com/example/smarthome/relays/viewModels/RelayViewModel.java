@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.smarthome.relays.models.Relay;
 import com.example.smarthome.relays.services.RelayService;
+import com.example.smarthome.utilities.Resource;
 
 import java.util.List;
 
@@ -14,30 +15,17 @@ public class RelayViewModel extends AndroidViewModel{
 
     private final RelayService repository = RelayService.getInstance();
 
-    private LiveData<List<Relay>> relaysLD;
-    private LiveData<Boolean> progressBarLD;
-    private LiveData<Boolean> addResultLD;
-    private LiveData<String> responseMsgLD;
-    private LiveData<Boolean> updateStatusLD;
-
     public RelayViewModel(Application application){
         super(application);
-
-        relaysLD = repository.getRelaysLD();
-        progressBarLD = repository.getProgressBarLD();
-        addResultLD = repository.getAddProgressBarLD();
-        responseMsgLD = repository.getResponseMsgLD();
-        updateStatusLD = repository.getUpdateStatusLD();
     }
 
-    public LiveData<List<Relay>> getRelaysLD(){return relaysLD;}
-    public LiveData<Boolean> getProgressBarLD(){return progressBarLD;}
-    public LiveData<Boolean> getAddResult(){return addResultLD;}
-    public LiveData<String> getResponseMsg(){return responseMsgLD;}
-    public LiveData<Boolean> getUpdateStatus(){return updateStatusLD;}
+    public LiveData<List<Relay>> getRelaysLD(){return repository.getRelaysLD();}
+    public LiveData<Resource<Relay>> getStatus(){return repository.getStatus();}
 
 
-    public void refresh(){repository.getRelaysLD();}
+    public void refresh(){
+        repository.getRelaysLD();
+    }
 
     public void add(Relay relay){
         repository.addRelay(relay);
@@ -46,7 +34,9 @@ public class RelayViewModel extends AndroidViewModel{
     public void delete(Long id){
         repository.deleteById(id);}
 
-    public LiveData<Relay> getRelayById(Long id){return repository.getRelayById(id);}
+    public LiveData<Relay> getRelayById(Long id){
+        return repository.getRelayById(id);
+    }
 
     public void turn(Long id){
         repository.turn(id);

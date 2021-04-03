@@ -5,16 +5,15 @@ import androidx.lifecycle.ViewModel
 import com.example.smarthome.user.models.LoginRequest
 import com.example.smarthome.user.models.User
 import com.example.smarthome.user.services.UserService
+import com.example.smarthome.utilities.Resource
 
 class UserViewModel : ViewModel(){
 
     private val service = UserService.getInstance()
 
-    fun getSignupMsg(): LiveData<String> = service.signupMsg
-    fun getLoginMsg(): LiveData<String> =  service.loginMsg
     fun getIsSignedIn(): LiveData<Boolean> = service.signedIn
-    fun showProgressBar(): LiveData<Boolean> = service.showProgressBar
     fun getServerStatusLD(): LiveData<Boolean> = service.serverStatusLD
+    fun getStatus(): LiveData<Resource<User>> = service.status
 
 
     fun signin(loginRequest: LoginRequest){

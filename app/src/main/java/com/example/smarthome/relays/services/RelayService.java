@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.smarthome.BasicResponse;
 import com.example.smarthome.RetrofitContext;
 import com.example.smarthome.relays.models.Relay;
+import com.example.smarthome.utilities.Resource;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,23 +28,6 @@ public class RelayService {
 
     private static final String TAG = "Relay Service";
 
-    private final MutableLiveData<Boolean> progressBarLD = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> addProgressBarLD = new MutableLiveData<>();
-    private final MutableLiveData<List<Relay>> relaysLD = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<String> responseMsgLD = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> updateStatusLD = new MutableLiveData<>();
-
-
-    public LiveData<Boolean> getProgressBarLD(){
-        return progressBarLD;
-    }
-    public LiveData<Boolean> getAddProgressBarLD(){
-        return addProgressBarLD;
-    }
-    public LiveData<String> getResponseMsgLD() {return responseMsgLD;}
-    public LiveData<Boolean> getUpdateStatusLD() {return updateStatusLD;}
-
-
     public static RelayService getInstance() {
         if(instance == null){
             instance = new RelayService();
@@ -51,33 +35,41 @@ public class RelayService {
         return instance;
     }
 
+    private final MutableLiveData<List<Relay>> relaysLD = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<Resource<Relay>> resourceStatusLD = new MutableLiveData<>();
+
+    public LiveData<Resource<Relay>> getStatus(){return resourceStatusLD;}
+
+
     public void addRelay(Relay relay){
         Call<BasicResponse<Relay>> call = service.add(relay);
 
-        addProgressBarLD.setValue(true);
+        resourceStatusLD.setValue(Resource.Companion.loading(null));
 
         call.enqueue(new Callback<BasicResponse<Relay>>() {
             @Override
             public void onResponse(Call<BasicResponse<Relay>> call, Response<BasicResponse<Relay>> response) {
                 if(response.isSuccessful()){
-                    responseMsgLD.setValue(response.body().getMsg());
+                    resourceStatusLD.setValue(
+                            Resource.Companion.success(null, response.body().getMsg()));
                     getRelaysLD();
                 }
                 else{
                     Gson gson = new Gson();
                     Type type = new TypeToken<BasicResponse<Relay>>() {}.getType();
-                    BasicResponse<Relay> errorResponse = gson.fromJson(response.errorBody().charStream(), type);
-                    responseMsgLD.setValue(errorResponse.getMsg());
-                }
+                    BasicResponse<Relay> errorResponse =
+                            gson.fromJson(response.errorBody().charStream(), type);
 
-                responseMsgLD.setValue("");
-                addProgressBarLD.setValue(false);
+                    resourceStatusLD.setValue(
+                            Resource.Companion.error(errorResponse.getMsg(), null));
+                }
             }
 
             @Override
             public void onFailure(Call<BasicResponse<Relay>> call, Throwable t) {
                 Log.i(TAG, "onFailure: addRelay");
-                addProgressBarLD.setValue(false);
+                resourceStatusLD.setValue(
+                        Resource.Companion.error("Could not connect to server", null));
             }
         });
     }
@@ -106,7 +98,7 @@ public class RelayService {
     public MutableLiveData<List<Relay>> getRelaysLD(){
         Call<List<Relay>> call = service.getAll();
 
-        progressBarLD.setValue(true);
+        resourceStatusLD.setValue(Resource.Companion.loading(null));
 
         call.enqueue(new Callback<List<Relay>>() {
             @Override
@@ -117,13 +109,14 @@ public class RelayService {
                 if(relays != null){
                     relaysLD.setValue(relays);
                 }
-                progressBarLD.setValue(false);
+                resourceStatusLD.setValue(Resource.Companion.success(null, null));
             }
 
             @Override
             public void onFailure(Call<List<Relay>> call, Throwable t) {
                 Log.i(TAG, "onFailure: get all");
-                progressBarLD.setValue(false);
+                resourceStatusLD.setValue(
+                        Resource.Companion.error("Could not connect to server", null));
             }
         });
         return relaysLD;
@@ -155,19 +148,23 @@ public class RelayService {
     public void updateRelay(Long id, Relay relay){
         Call<Relay> call = service.updateById(id, relay);
 
+        resourceStatusLD.setValue(Resource.Companion.loading(null));
+
         call.enqueue(new Callback<Relay>() {
             @Override
             public void onResponse(Call<Relay> call, Response<Relay> response) {
                 if(response.isSuccessful()){
-                    updateStatusLD.setValue(true);
+                    resourceStatusLD.setValue(
+                            Resource.Companion.success(null, "Updated"));
+
                     getRelaysLD();
                 }
-                updateStatusLD.setValue(false);
             }
 
             @Override
             public void onFailure(Call<Relay> call, Throwable t) {
-                updateStatusLD.setValue(false);
+                resourceStatusLD.setValue(
+                        Resource.Companion.error("Could not connect to server", null));
             }
         });
     }

@@ -35,8 +35,8 @@ class LoginActivity : AppCompatActivity() {
             }
         }}
 
-        startAskingForServerStatus()
-        job?.start()
+        //startAskingForServerStatus()
+        //job?.start()
     }
 
     private fun startAskingForServerStatus(){
