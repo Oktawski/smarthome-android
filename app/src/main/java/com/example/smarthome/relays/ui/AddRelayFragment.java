@@ -24,6 +24,9 @@ public class AddRelayFragment extends Fragment{
     private RelayViewModel viewModel;
     private ProgressBar progressBar;
     private FloatingActionButton fabAdd;
+    private EditText etName;
+    private EditText etIp;
+    private SwitchMaterial switchOnOf;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,14 +44,40 @@ public class AddRelayFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        final EditText etName = view.findViewById(R.id.relay_add_et_name);
-        final EditText etIp = view.findViewById(R.id.relay_add_et_ip);
-        final SwitchMaterial switchOnOf = view.findViewById(R.id.relay_add_switch_onof);
+        etName = view.findViewById(R.id.relay_add_et_name);
+        etIp = view.findViewById(R.id.relay_add_et_ip);
+        switchOnOf = view.findViewById(R.id.relay_add_switch_onof);
         progressBar = view.findViewById(R.id.relay_add_pb);
         fabAdd = view.findViewById(R.id.relay_add_fab);
 
-        initViewModel();
+        initViewModelObservables();
+        initOnClickListeners();
+    }
 
+    private void initViewModelObservables(){
+        viewModel.getStatus().observe(getViewLifecycleOwner(), status -> {
+
+            String message = "";
+
+            switch(status.getStatus()){
+                case LOADING:
+                    progressBar.setVisibility(View.VISIBLE);
+                    fabAdd.setVisibility(View.GONE);
+                    break;
+                default:
+                    progressBar.setVisibility(View.GONE);
+                    fabAdd.setVisibility(View.VISIBLE);
+                    if(status.getMessage() != null) message = status.getMessage();
+
+                    if(!message.isEmpty())
+                        Toast.makeText(
+                                requireActivity(), status.getMessage(), Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        });
+    }
+
+    private void initOnClickListeners(){
         fabAdd.setOnClickListener(v -> {
             String name = etName.getText().toString();
             String ip = etIp.getText().toString();
@@ -57,21 +86,6 @@ public class AddRelayFragment extends Fragment{
             Relay relay = new Relay(name, ip, on);
 
             viewModel.add(relay);
-        });
-    }
-
-    private void initViewModel(){
-        viewModel.getAddResult().observe(requireActivity(), bool -> {
-            int pbVisibility = bool ? View.VISIBLE : View.GONE;
-            int fabVisibility = bool ? View.GONE : View.VISIBLE;
-            progressBar.setVisibility(pbVisibility);
-            fabAdd.setVisibility(fabVisibility);
-        });
-
-        viewModel.getResponseMsg().observe(requireActivity(), str -> {
-            if(!str.isEmpty()){
-                Toast.makeText(requireActivity(), str, Toast.LENGTH_SHORT).show();
-            }
         });
     }
 }

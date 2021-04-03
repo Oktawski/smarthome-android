@@ -30,6 +30,7 @@ public class RelaysFragment extends Fragment {
     private List<Relay> relays;
     private GenericRVAdapter<Relay> adapter;
     private RecyclerView rvRelaysFound;
+    private FloatingActionButton fabAdd;
 
 
     public RelaysFragment(){}
@@ -47,7 +48,10 @@ public class RelaysFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.relays_fragment, container, false);
     }
 
@@ -56,17 +60,15 @@ public class RelaysFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         rvRelaysFound = view.findViewById(R.id.relays_found_rv);
-        FloatingActionButton fabAdd = view.findViewById(R.id.relays_fragment_add_fab);
+        fabAdd = view.findViewById(R.id.relays_fragment_add_fab);
 
         relays = new ArrayList<>();
 
+        initViewModelObservables();
+        initOnClickListeners();
         initAdapter(requireActivity());
-        initViewModel();
 
         viewModel.getRelaysLD();
-
-        fabAdd.setOnClickListener(v -> startActivity(
-                new Intent(requireActivity(), AddDevicePagerActivity.class)));
     }
 
     @Override
@@ -75,9 +77,13 @@ public class RelaysFragment extends Fragment {
         viewModel.getRelaysLD();
     }
 
-
-    private void initViewModel(){
+    private void initViewModelObservables(){
         viewModel.getRelaysLD().observe(getViewLifecycleOwner(), relays -> adapter.update(relays));
+    }
+
+    private void initOnClickListeners(){
+        fabAdd.setOnClickListener(v -> startActivity(
+                new Intent(requireActivity(), AddDevicePagerActivity.class)));
     }
 
     private void initAdapter(Context context){
