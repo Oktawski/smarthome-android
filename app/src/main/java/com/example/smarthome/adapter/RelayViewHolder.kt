@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.View.OnCreateContextMenuListener
 import android.widget.RelativeLayout
@@ -23,7 +22,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 
 class RelayViewHolder(private val context: Context,
                       itemView: View,
-                      viewModel: RelayViewModel)
+                      private val viewModel: RelayViewModel)
     : RecyclerView.ViewHolder(itemView), OnCreateContextMenuListener {
 
     private var isExpanded = false
@@ -36,7 +35,6 @@ class RelayViewHolder(private val context: Context,
     private val expandArrow: AppCompatImageButton = itemView.findViewById(R.id.expand_arrow)
 
     private var relay: Relay? = null
-    private val viewModel: RelayViewModel = viewModel
 
     init {
         itemView.setOnCreateContextMenuListener(this)
@@ -52,15 +50,15 @@ class RelayViewHolder(private val context: Context,
         setOnClickListeners()
     }
 
-    override fun onCreateContextMenu(menu: ContextMenu, view: View, menuInfo: ContextMenuInfo) {
-        menu.setHeaderTitle(relay!!.name + " Relay")
-        val edit = menu.add(Menu.FIRST, 0, Menu.NONE, "Edit")
-        val delete = menu.add(Menu.FIRST, 1, Menu.NONE, "Delete")
-        edit.setOnMenuItemClickListener { v: MenuItem? ->
+    override fun onCreateContextMenu(menu: ContextMenu?, view: View?, menuInfo: ContextMenuInfo?) {
+        menu?.setHeaderTitle(relay!!.name + " Relay")
+        val edit = menu?.add(Menu.FIRST, 0, Menu.NONE, "Edit")
+        val delete = menu?.add(Menu.FIRST, 1, Menu.NONE, "Delete")
+        edit?.setOnMenuItemClickListener {
             edit()
             true
         }
-        delete.setOnMenuItemClickListener {
+        delete?.setOnMenuItemClickListener {
             showDeleteDialog()
             true
         }
@@ -87,8 +85,8 @@ class RelayViewHolder(private val context: Context,
 
     private fun edit() {
         val bundle = Bundle()
-        bundle.putString("id", relay!!.id.toString())
-        bundle.putString("on", relay!!.on.toString())
+        bundle.putString("id", relay?.id.toString())
+        bundle.putString("on", relay?.on.toString())
         bundle.putString("name", tvName.text.toString())
         bundle.putString("ip", ipDescription.text.toString())
         val intent = Intent(context, DetailsRelayActivity::class.java)
@@ -98,12 +96,10 @@ class RelayViewHolder(private val context: Context,
 
     private fun showDeleteDialog() {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Delete relay " + relay!!.name)
-        builder.setPositiveButton("Confirm") { dialog: DialogInterface?, which: Int -> viewModel.delete(relay!!.id) }
-        builder.setNegativeButton("Cancel") { dialog: DialogInterface, which: Int -> dialog.dismiss() }
+        builder.setTitle("Delete relay " + relay?.name)
+        builder.setPositiveButton("Confirm") { _: DialogInterface?, _: Int -> viewModel.delete(relay?.id) }
+        builder.setNegativeButton("Cancel") { dialog: DialogInterface?, _: Int -> dialog?.dismiss() }
         builder.create()
         builder.show()
     }
-
-
 }

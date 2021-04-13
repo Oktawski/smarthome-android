@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="username"
-                android:text="ttest"
+                android:text="test"
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="Password"
-                android:text="1234"
+                android:text="test"
 
                 android:layout_marginTop="16dp"
 
