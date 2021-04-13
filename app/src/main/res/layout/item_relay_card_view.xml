@@ -15,7 +15,7 @@
         >
 
         <TextView
-            android:id="@+id/item_relay_card_name"
+            android:id="@+id/name"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
@@ -23,19 +23,19 @@
             android:text="@string/placeholder"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:layout_alignTop="@id/item_relay_card_switch"
+            android:layout_alignTop="@id/switch_button"
             />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/item_relay_card_switch"
+            android:id="@+id/switch_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_toStartOf="@id/item_relay_card_expand_arrow"
+            android:layout_toStartOf="@id/expand_arrow"
             />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/item_relay_card_expand_arrow"
+            android:id="@+id/expand_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_left_24px"
@@ -46,14 +46,14 @@
             />
 
         <RelativeLayout
-            android:id="@+id/item_relay_card_expandable_view"
+            android:id="@+id/expandable_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_relay_card_expand_arrow"
+            android:layout_below="@id/expand_arrow"
             >
 
             <TextView
-                android:id="@+id/item_relay_card_ip_label"
+                android:id="@+id/ip_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ip"
@@ -63,20 +63,20 @@
                 />
 
             <TextView
-                android:id="@+id/item_relay_card_ip_description"
+                android:id="@+id/ip_description"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="123.123.123.123"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/item_relay_card_ip_label"
+                android:layout_toEndOf="@id/ip_label"
                 />
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/item_relay_card_edit_button"
+                android:id="@+id/edit_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_create_24px"
-                android:layout_toStartOf="@id/item_relay_card_delete_button"
+                android:layout_toStartOf="@id/delete_button"
                 android:layout_margin="5dp"
 
                 android:backgroundTint="#00000000"
@@ -84,7 +84,7 @@
                 />
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/item_relay_card_delete_button"
+                android:id="@+id/delete_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_delete_24px"

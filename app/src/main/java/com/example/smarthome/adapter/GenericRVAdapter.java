@@ -1,20 +1,11 @@
 package com.example.smarthome.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smarthome.R;
 import com.example.smarthome.WifiDevice;
 import com.example.smarthome.ligths.viewModels.LightViewModel;
-import com.example.smarthome.relays.models.Relay;
-import com.example.smarthome.relays.ui.DetailsRelayActivity;
 import com.example.smarthome.relays.viewModels.RelayViewModel;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.List;
 
@@ -60,7 +48,7 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
 
         switch(viewType){
             case R.layout.item_relay_card_view:
-                return new RelayViewHolder(v, new ViewModelProvider((FragmentActivity)context).get(RelayViewModel.class));
+                return new RelayViewHolder(context, v, new ViewModelProvider((FragmentActivity) context).get(RelayViewModel.class));
             default:
                 return null;
         }
@@ -74,114 +62,6 @@ public abstract class GenericRVAdapter<T extends WifiDevice>
     @Override
     public int getItemCount() {
        return items.size();
-    }
-
-    // Relay View Holder
-    public class RelayViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
-        private boolean isExpanded = false;
-
-        private final TextView tvName, ipDescription;
-        private final SwitchMaterial switchMaterial;
-        private final RelativeLayout expandableLayout;
-        private final AppCompatImageButton deleteIcon, editIcon, expandArrow;
-
-        private Relay relay;
-
-        private final RelayViewModel viewModel;
-
-        public RelayViewHolder(@NonNull View itemView, RelayViewModel viewModel) {
-            super(itemView);
-
-            tvName = itemView.findViewById(R.id.item_relay_card_name);
-            switchMaterial = itemView.findViewById(R.id.item_relay_card_switch);
-            expandableLayout = itemView.findViewById(R.id.item_relay_card_expandable_view);
-            ipDescription = itemView.findViewById(R.id.item_relay_card_ip_description);
-            deleteIcon = itemView.findViewById(R.id.item_relay_card_delete_button);
-            editIcon = itemView.findViewById(R.id.item_relay_card_edit_button);
-            expandArrow = itemView.findViewById(R.id.item_relay_card_expand_arrow);
-
-            this.viewModel = viewModel;
-
-            itemView.setOnCreateContextMenuListener(this);
-        }
-
-        public void setDetails(Relay relay) {
-            tvName.setText(relay.getName());
-            tvName.setWidth(((View)tvName.getParent()).getWidth() / 2);
-            switchMaterial.setChecked(relay.getOn());
-            switchMaterial.setClickable(false);
-            ipDescription.setText(relay.getIp());
-            this.relay = relay;
-
-            setOnClickListeners();
-        }
-
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.setHeaderTitle(relay.getName() + " Relay");
-            MenuItem edit = menu.add(Menu.FIRST, 0, Menu.NONE, "Edit");
-            MenuItem delete = menu.add(Menu.FIRST, 1, Menu.NONE, "Delete");
-
-            edit.setOnMenuItemClickListener(v -> {
-                edit();
-                return true;
-            });
-
-            delete.setOnMenuItemClickListener(v -> {
-                showDeleteDialog();
-                return true;
-            });
-        }
-
-        private void setOnClickListeners(){
-            switchMaterial.setOnClickListener(v -> {
-                viewModel.turn(relay.getId());
-            });
-
-            expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-
-            itemView.setOnClickListener(v -> {
-                isExpanded = !isExpanded;
-                expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-
-            });
-
-            itemView.setOnLongClickListener(v -> {
-                itemView.showContextMenu();
-                return true;
-            });
-
-            expandArrow.setOnClickListener(v -> {
-                isExpanded = !isExpanded;
-                expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-
-            });
-
-            deleteIcon.setOnClickListener(v -> showDeleteDialog());
-            editIcon.setOnClickListener(v -> edit());
-        }
-
-        private void edit(){
-            Bundle bundle = new Bundle();
-            bundle.putString("id", String.valueOf(relay.getId()));
-            bundle.putString("on", String.valueOf(relay.getOn()));
-            bundle.putString("name", tvName.getText().toString());
-            bundle.putString("ip", ipDescription.getText().toString());
-
-            Intent intent = new Intent(context, DetailsRelayActivity.class);
-            intent.putExtras(bundle);
-
-            context.startActivity(intent);
-        }
-
-        private void showDeleteDialog(){
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Delete relay " + relay.getName());
-            builder.setPositiveButton("Confirm", (dialog, which) -> viewModel.delete(relay.getId()));
-            builder.setNegativeButton("Cancel", ((dialog, which) -> dialog.dismiss()));
-            builder.create();
-            builder.show();
-        }
     }
 
     public class LightViewHolder extends RecyclerView.ViewHolder{

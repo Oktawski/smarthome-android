@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smarthome.AddDevicePagerActivity;
 import com.example.smarthome.R;
 import com.example.smarthome.adapter.GenericRVAdapter;
+import com.example.smarthome.adapter.RelayViewHolder;
 import com.example.smarthome.relays.models.Relay;
 import com.example.smarthome.relays.viewModels.RelayViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -91,7 +92,7 @@ public class RelaysFragment extends Fragment {
             @SuppressWarnings("unchecked")
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-                ((RelayViewHolder)holder).setDetails(relays.get(position));
+                ((RelayViewHolder)holder).bind(relays.get(position));
                 holder.itemView.setTag(position);
             }
         };
