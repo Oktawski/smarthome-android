@@ -91,6 +91,7 @@ public class UserService {
                     isSignedIn.setValue(false);
                     statusLD.setValue(Resource.Companion.error("Error", null));
                 }
+                clearMessage();
             }
 
             @Override
