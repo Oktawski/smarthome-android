@@ -38,23 +38,23 @@ class RelaysFragment: Fragment(R.layout.relays_fragment){
         recyclerViewRelays = view.findViewById(R.id.relays_found_rv)
         fabAdd = view.findViewById(R.id.relays_fragment_add_fab)
 
+        relays = mutableListOf()
 
         initViewModelObservables()
         initOnClickListeners()
         initAdapter(requireActivity())
-
-        relays = mutableListOf()
-    }
-
-    private fun initViewModelObservables(){
-        relayViewModel.relaysLD.observe(viewLifecycleOwner){
-            adapter.update(it)
-        }
     }
 
     private fun initOnClickListeners(){
         fabAdd.setOnClickListener {
             startActivity(Intent(requireActivity(), AddRelayFragment::class.java)) }
+    }
+
+    private fun initViewModelObservables(){
+        relayViewModel.relaysLD.observe(viewLifecycleOwner){
+            relays = it
+            adapter.update(it)
+        }
     }
 
     private fun initAdapter(context: Context){
