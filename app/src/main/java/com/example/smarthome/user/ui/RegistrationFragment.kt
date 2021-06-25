@@ -4,24 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
+import androidx.fragment.app.viewModels
 import com.example.smarthome.R
+import com.example.smarthome.databinding.RegisterFragmentBinding
+import com.example.smarthome.user.UserViewModel
 import com.example.smarthome.user.models.User
-import com.example.smarthome.user.viewModels.UserViewModel
+import com.example.smarthome.utilities.LiveDataObservers
+import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.utilities.Resource
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-class RegistrationFragment: Fragment() {
+class RegistrationFragment:
+    Fragment(R.layout.register_fragment),
+    LiveDataObservers,
+    OnClickListeners{
 
-    private lateinit var viewModel: UserViewModel
-    private lateinit var eFabRegister: ExtendedFloatingActionButton
-    private lateinit var etUsername: EditText
-    private lateinit var etEmail: EditText
-    private lateinit var etPassword: EditText
+    private var _binding: RegisterFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: UserViewModel by viewModels()
 
     companion object{
         @JvmStatic
@@ -35,10 +37,21 @@ class RegistrationFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-
         setToolbarTitle()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = RegisterFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onResume() {
@@ -46,45 +59,39 @@ class RegistrationFragment: Fragment() {
         setToolbarTitle()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.login_registration_fragment, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        etUsername = view.findViewById(R.id.registration_et_username)
-        etEmail = view.findViewById(R.id.registration_et_email)
-        etPassword = view.findViewById(R.id.registration_et_password)
-        eFabRegister = view.findViewById(R.id.registration_fab)
-
-        initViewModelObservables()
+        initLiveDataObservers()
         initOnClickListeners()
     }
 
-    private fun initViewModelObservables(){
-        viewModel.getStatus().observe(viewLifecycleOwner){
+    override fun initLiveDataObservers(){
+        viewModel.status.observe(viewLifecycleOwner){
             when(it.status){
                 Resource.Status.LOADING -> {
-                    eFabRegister.hide()
+                    binding.register.visibility = View.GONE
+                    binding.progressBar.visibility = View.VISIBLE
                 }
                 Resource.Status.SUCCESS -> {
-                    eFabRegister.show()
+                    binding.register.visibility= View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
                     toast(it.message)
                 }
                 Resource.Status.ERROR -> {
-                    eFabRegister.show()
+                    binding.register.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
                     toast(it.message)
                 }
             }
         }
     }
 
-    private fun initOnClickListeners(){
-        eFabRegister.setOnClickListener{
-            val username = etUsername.text.toString()
-            val email = etEmail.text.toString()
-            val password = etPassword.text.toString()
+    override fun initOnClickListeners(){
+        binding.register.setOnClickListener{
+            val username = binding.username.text.toString()
+            val email = binding.email.text.toString()
+            val password = binding.password.text.toString()
 
             val user = User(username, email, password)
 

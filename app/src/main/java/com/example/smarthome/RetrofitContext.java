@@ -1,9 +1,9 @@
 package com.example.smarthome;
 
-import com.example.smarthome.ligths.services.ILightRetrofitService;
-import com.example.smarthome.relays.services.IRelayRetrofitService;
+import com.example.smarthome.ligths.services.LightEndpoints;
+import com.example.smarthome.relays.services.RelayEndpoints;
 import com.example.smarthome.user.models.JwtToken;
-import com.example.smarthome.user.services.IUserRetrofitService;
+import com.example.smarthome.user.UserEndpoints;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,13 +11,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitContext {
     private final static String BASE_URL = "http://192.168.1.105:8015";
-    private static ILightRetrofitService lightService;
-    private static IRelayRetrofitService relayService;
-    private static IUserRetrofitService userService;
+    private static LightEndpoints lightService;
+    private static RelayEndpoints relayService;
+    private static UserEndpoints userService;
 
 
     private static Retrofit getRetrofitContext(){
@@ -41,27 +42,28 @@ public class RetrofitContext {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okhttp.build())
                 .build();
     }
 
-    public static IRelayRetrofitService getRelayService(){
+    public static RelayEndpoints getRelayService(){
         if(relayService == null){
-            relayService = getRetrofitContext().create(IRelayRetrofitService.class);
+            relayService = getRetrofitContext().create(RelayEndpoints.class);
         }
         return relayService;
     }
 
-    public static IUserRetrofitService getUserService(){
+    public static UserEndpoints getUserService(){
         if(userService == null){
-            userService = getRetrofitContext().create(IUserRetrofitService.class);
+            userService = getRetrofitContext().create(UserEndpoints.class);
         }
         return userService;
     }
 
-    public static ILightRetrofitService getLightService(){
+    public static LightEndpoints getLightService(){
         if(lightService == null){
-            lightService = getRetrofitContext().create(ILightRetrofitService.class);
+            lightService = getRetrofitContext().create(LightEndpoints.class);
         }
         return lightService;
     }

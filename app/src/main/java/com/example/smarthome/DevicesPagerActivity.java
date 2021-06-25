@@ -19,7 +19,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.smarthome.ligths.ui.LightsFragment;
 import com.example.smarthome.relays.ui.RelaysFragment;
 import com.example.smarthome.user.ui.UserActivity;
-import com.example.smarthome.user.viewModels.UserViewModel;
+import com.example.smarthome.user.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -127,9 +127,12 @@ public class DevicesPagerActivity extends AppCompatActivity{
     private void initViewModel(){
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-        userViewModel.getIsSignedIn().observe(this, bool -> {
+        userViewModel.isSignedIn().observe(this, bool -> {
             if(!bool) finish();
         });
+        /*User.Companion.isSignedInLD().observe(this, bool -> {
+            if(!bool) finish();
+        });*/
     }
 
     private void initAdapter(){

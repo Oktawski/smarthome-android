@@ -2,7 +2,6 @@ package com.example.smarthome;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.example.smarthome.user.models.User;
 import com.example.smarthome.user.ui.UserActivity;
-import com.example.smarthome.user.viewModels.UserViewModel;
+import com.example.smarthome.user.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        model.getIsSignedIn().observe(this, bool -> {
+        model.isSignedIn().observe(this, bool -> {
             if(!bool){
                 finish();
             }

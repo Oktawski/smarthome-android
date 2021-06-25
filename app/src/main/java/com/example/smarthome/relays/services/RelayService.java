@@ -22,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RelayService {
-    private final static IRelayRetrofitService service = RetrofitContext.getRelayService();
+    private final static RelayEndpoints service = RetrofitContext.getRelayService();
 
     private static RelayService instance;
 

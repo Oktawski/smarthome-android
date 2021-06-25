@@ -5,8 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,22 +14,22 @@ import com.example.smarthome.adapter.GenericRVAdapter
 import com.example.smarthome.adapter.RelayViewHolder
 import com.example.smarthome.relays.models.Relay
 import com.example.smarthome.relays.viewModels.RelayViewModel
+import com.example.smarthome.utilities.LiveDataObservers
+import com.example.smarthome.utilities.OnClickListeners
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class RelaysFragment: Fragment(R.layout.relays_fragment){
+class RelaysFragment:
+    Fragment(R.layout.relays_fragment),
+    OnClickListeners,
+    LiveDataObservers{
 
     private lateinit var relays: List<Relay>
     private lateinit var adapter: GenericRVAdapter<Relay>
     private lateinit var recyclerViewRelays: RecyclerView
     private lateinit var fabAdd: FloatingActionButton
-    private lateinit var relayViewModel: RelayViewModel
 
+    private val relayViewModel: RelayViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        relayViewModel = ViewModelProvider(requireActivity()).get(RelayViewModel::class.java)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,17 +39,17 @@ class RelaysFragment: Fragment(R.layout.relays_fragment){
 
         relays = mutableListOf()
 
-        initViewModelObservables()
+        initLiveDataObservers()
         initOnClickListeners()
         initAdapter(requireActivity())
     }
 
-    private fun initOnClickListeners(){
+    override fun initOnClickListeners(){
         fabAdd.setOnClickListener {
             startActivity(Intent(requireActivity(), AddRelayFragment::class.java)) }
     }
 
-    private fun initViewModelObservables(){
+    override fun initLiveDataObservers() {
         relayViewModel.relaysLD.observe(viewLifecycleOwner){
             relays = it
             adapter.update(it)

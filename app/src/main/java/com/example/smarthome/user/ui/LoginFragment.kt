@@ -6,35 +6,48 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.smarthome.DevicesPagerActivity
 import com.example.smarthome.R
+import com.example.smarthome.databinding.LoginFragmentBinding
+import com.example.smarthome.user.UserViewModel
 import com.example.smarthome.user.models.LoginRequest
-import com.example.smarthome.user.viewModels.UserViewModel
+import com.example.smarthome.utilities.LiveDataObservers
+import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.utilities.Resource
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-class LoginFragment: Fragment() {
+class LoginFragment:
+    Fragment(R.layout.login_fragment),
+    LiveDataObservers,
+    OnClickListeners {
 
-    private lateinit var viewModel: UserViewModel
-    lateinit var etUsername: EditText
-    lateinit var etPassword: EditText
-    lateinit var eFabLogin: ExtendedFloatingActionButton
-    lateinit var eFabRegister: ExtendedFloatingActionButton
-    lateinit var pb: ProgressBar
+    private var _binding: LoginFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    private val userViewModel: UserViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-
         setToolbarTitle()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = LoginFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onResume() {
@@ -42,21 +55,10 @@ class LoginFragment: Fragment() {
         setToolbarTitle()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.login_login_fragment, container, false)
-    }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        etUsername = view.findViewById(R.id.login_et_username)
-        etPassword = view.findViewById(R.id.login_et_password)
-        eFabLogin = view.findViewById(R.id.login_fab_login)
-        eFabRegister = view.findViewById(R.id.login_fab_register)
-        pb = view.findViewById(R.id.login_pb)
-
-        initViewModelObservables()
+        initLiveDataObservers()
         initOnClickListeners()
     }
 
@@ -64,12 +66,12 @@ class LoginFragment: Fragment() {
         (activity as LoginActivity).supportActionBar?.title = "Login"
     }
 
-    private fun initViewModelObservables(){
-        viewModel.getIsSignedIn().observe(viewLifecycleOwner){
+    override fun initLiveDataObservers(){
+        userViewModel.isSignedIn.observe(viewLifecycleOwner){
             startActivity(Intent(requireActivity(), DevicesPagerActivity::class.java))
         }
 
-        viewModel.getStatus().observe(viewLifecycleOwner){
+        userViewModel.status.observe(viewLifecycleOwner){
             when(it.status){
                 Resource.Status.SUCCESS -> {
                     showButtons()
@@ -85,20 +87,22 @@ class LoginFragment: Fragment() {
         }
     }
 
-    private fun initOnClickListeners(){
-        eFabLogin.setOnClickListener{
-            val username = etUsername.text.toString()
-            val password = etPassword.text.toString()
+    override fun initOnClickListeners(){
+        binding.login.setOnClickListener{
+            if(!showErrorIfTextFieldEmpty(binding.username, binding.password)){
+                val username = binding.username.text.toString()
+                val password = binding.password.text.toString()
 
-            val loginBody = LoginRequest(username, password)
+                val loginBody = LoginRequest(username, password)
 
-            viewModel!!.signin(loginBody)
+                userViewModel.signin(loginBody)
+            }
         }
 
-        eFabRegister.setOnClickListener{
+        binding.register.setOnClickListener{
             val bundle = Bundle()
 
-            val username = etUsername.text.toString()
+            val username = binding.username.text.toString()
             if(username.isNotEmpty()){
                 bundle.putString("username", username)
             }
@@ -115,14 +119,25 @@ class LoginFragment: Fragment() {
     }
 
     private fun hideButtons(){
-        eFabLogin.hide()
-        eFabRegister.hide()
-        pb.visibility = View.VISIBLE
+        binding.login.visibility = View.GONE
+        binding.register.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun showButtons(){
-        eFabLogin.show()
-        eFabRegister.show()
-        pb.visibility = View.GONE
+        binding.login.visibility = View.VISIBLE
+        binding.register.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+    }
+
+    private fun showErrorIfTextFieldEmpty(vararg text: EditText): Boolean{
+        var isEmpty = false
+        for(t in text){
+            if(t.text.isNullOrEmpty()){
+                t.error = "Cannot be empty"
+                isEmpty = true
+            }
+        }
+        return isEmpty
     }
 }

@@ -7,7 +7,7 @@ import retrofit2.Call
 import retrofit2.http.*
 
 //TODO update CALL return type
-interface ILightRetrofitService {
+interface LightEndpoints {
 
     @GET("/lights")
     fun getAll(): Call<List<Light>>

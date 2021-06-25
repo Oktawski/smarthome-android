@@ -1,3 +1,4 @@
+/*
 package com.example.smarthome;
 
 
@@ -35,3 +36,4 @@ public class BasicResponse<T extends Object> {
         this.msg = msg;
     }
 }
+*/

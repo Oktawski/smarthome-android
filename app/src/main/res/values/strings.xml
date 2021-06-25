@@ -38,4 +38,6 @@
     <string name="email">Email</string>
     <string name="username">Username</string>
     <string name="register">Register</string>
+    <string name="sign_in">Sign in</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>

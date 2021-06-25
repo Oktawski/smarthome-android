@@ -4,7 +4,7 @@ import com.example.smarthome.RetrofitContext;
 
 public class LightService {
 
-    private final static ILightRetrofitService service = RetrofitContext.getLightService();
+    private final static LightEndpoints service = RetrofitContext.getLightService();
 
     private static LightService instance;
 

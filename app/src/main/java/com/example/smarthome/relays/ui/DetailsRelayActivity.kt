@@ -9,10 +9,15 @@ import androidx.lifecycle.observe
 import com.example.smarthome.R
 import com.example.smarthome.relays.models.Relay
 import com.example.smarthome.relays.viewModels.RelayViewModel
+import com.example.smarthome.utilities.LiveDataObservers
+import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.utilities.Resource
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
-class DetailsRelayActivity : AppCompatActivity() {
+class DetailsRelayActivity:
+    AppCompatActivity(),
+    OnClickListeners,
+    LiveDataObservers{
 
     private var viewModel: RelayViewModel? = null
     private lateinit var fabConfirm: ExtendedFloatingActionButton
@@ -41,11 +46,11 @@ class DetailsRelayActivity : AppCompatActivity() {
         etName.setText(name)
         etIp.setText(ip)
 
-        initViewModelObservables()
+        initLiveDataObservers()
         initOnClickListeners()
     }
 
-    private fun initViewModelObservables(){
+    override fun initLiveDataObservers() {
         viewModel?.status?.observe(this){
             when(it.status){
                 Resource.Status.LOADING -> {
@@ -66,7 +71,7 @@ class DetailsRelayActivity : AppCompatActivity() {
         }
     }
 
-    private fun initOnClickListeners(){
+    override fun initOnClickListeners(){
         fabConfirm.setOnClickListener{
             viewModel?.update(id, Relay(etName.text.toString(), etIp.text.toString(), on))
         }

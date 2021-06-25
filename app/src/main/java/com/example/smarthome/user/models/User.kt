@@ -1,5 +1,6 @@
 package com.example.smarthome.user.models
 
+import androidx.lifecycle.MutableLiveData
 import com.example.smarthome.relays.models.Relay
 
 data class User(
@@ -10,6 +11,7 @@ data class User(
 ){
     companion object{
         var isSignedIn: Boolean = false
+        val isSignedInLD: MutableLiveData<Boolean> = MutableLiveData(false)
     }
 
     constructor(email: String, password: String)

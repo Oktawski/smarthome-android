@@ -1,5 +1,14 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_input_layout_margin">8dp</dimen>
+    <dimen name="margin_xs">4dp</dimen>
+    <dimen name="margin_s">8dp</dimen>
+    <dimen name="margin_m">16dp</dimen>
+    <dimen name="margin_l">32dp</dimen>
+    <dimen name="margin_xl">64dp</dimen>
+    <dimen name="button_m">150dp</dimen>
+    <dimen name="text_input_width_s">145dp</dimen>
+    <dimen name="text_input_width">300dp</dimen>
     <!--
     Because the window insets on round devices are larger than 15dp, this padding only applies
     to square screens.

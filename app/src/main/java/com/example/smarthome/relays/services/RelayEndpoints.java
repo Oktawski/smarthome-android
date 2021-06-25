@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface IRelayRetrofitService {
+public interface RelayEndpoints {
 
     @POST("/relays")
     Call<BasicResponse<Relay>> add(@Body Relay relay);

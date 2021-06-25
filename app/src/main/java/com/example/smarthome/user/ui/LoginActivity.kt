@@ -1,12 +1,12 @@
 package com.example.smarthome.user.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.Navigation
 import com.example.smarthome.R
-import com.example.smarthome.user.viewModels.UserViewModel
+import com.example.smarthome.user.UserViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -14,8 +14,9 @@ import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: UserViewModel
     private var job: Job? = null
+
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,11 +26,10 @@ class LoginActivity : AppCompatActivity() {
 
         setSupportActionBar(findViewById(R.id.login_toolbar))
 
-        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
 
 
-        viewModel.getServerStatusLD().observe(this) { bool -> run {
+        viewModel.serverStatus.observe(this) { bool -> run {
             if (!bool) {
                 viewModel.signOut()
             }
