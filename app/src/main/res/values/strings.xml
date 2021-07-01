@@ -13,7 +13,7 @@
     <string name="lastName">Last name</string>
 
     <!-- Relay -->
-    <string name="ip">Ip:</string>
+    <string name="ip">IP</string>
     <string name="title_activity_details_relay">DetailsRelayActivity</string>
 
 
@@ -40,4 +40,7 @@
     <string name="register">Register</string>
     <string name="sign_in">Sign in</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="on">ON</string>
 </resources>

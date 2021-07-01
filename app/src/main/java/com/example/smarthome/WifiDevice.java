@@ -1,6 +1,6 @@
 package com.example.smarthome;
 
-import com.example.smarthome.adapter.ViewType;
+import com.example.smarthome.utilities.ViewType;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthome.R;
 import com.example.smarthome.WifiDevice;
-import com.example.smarthome.ligths.viewModels.LightViewModel;
-import com.example.smarthome.relays.viewModels.RelayViewModel;
+import com.example.smarthome.viewmodel.LightViewModel;
+import com.example.smarthome.viewmodel.RelayViewModel;
 
 import java.util.List;
 

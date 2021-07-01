@@ -15,14 +15,15 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smarthome.R
-import com.example.smarthome.relays.models.Relay
-import com.example.smarthome.relays.ui.DetailsRelayActivity
-import com.example.smarthome.relays.viewModels.RelayViewModel
+import com.example.smarthome.data.model.Relay
+import com.example.smarthome.ui.relay.DetailsRelayActivity
+import com.example.smarthome.viewmodel.RelayViewModel
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class RelayViewHolder(private val context: Context,
                       itemView: View,
-                      private val viewModel: RelayViewModel)
+                      private val viewModel: RelayViewModel
+)
     : RecyclerView.ViewHolder(itemView), OnCreateContextMenuListener {
 
     private var isExpanded = false

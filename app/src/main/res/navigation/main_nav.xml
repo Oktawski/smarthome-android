@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/MainFragment"
-        android:name="com.example.smarthome.MainFragment"
+        android:name="com.example.smarthome.ui.main.MainFragment"
         android:label="Main Fragment"
         tools:layout="@layout/main_fragment">
 
@@ -26,14 +26,14 @@
 
     <fragment
         android:id="@+id/LightsFragment"
-        android:name="com.example.smarthome.ligths.ui.LightsFragment"
+        android:name="com.example.smarthome.ui.light.LightsFragment"
         android:label="Lights Fragment"
         tools:layout="@layout/lights_fragment">
     </fragment>
 
     <fragment
         android:id="@+id/RelaysFragment"
-        android:name="com.example.smarthome.relays.ui.RelaysFragment"
+        android:name="com.example.smarthome.ui.relay.RelaysFragment"
         android:label="Relays Fragment"
         tools:layout="@layout/relays_fragment">
     </fragment>

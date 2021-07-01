@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/LoginFragment"
-        android:name="com.example.smarthome.user.ui.LoginFragment"
+        android:name="com.example.smarthome.ui.user.LoginFragment"
         android:label="Login Fragment"
         tools:layout="@layout/login_fragment">
 
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/RegistrationFragment"
-        android:name="com.example.smarthome.user.ui.RegistrationFragment"
+        android:name="com.example.smarthome.ui.user.RegistrationFragment"
         android:label="Registration Fragment"
         tools:layout="@layout/register_fragment">
 
