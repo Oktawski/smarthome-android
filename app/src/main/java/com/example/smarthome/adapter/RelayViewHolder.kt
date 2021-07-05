@@ -10,31 +10,19 @@ import android.view.ContextMenu.ContextMenuInfo
 import android.view.Menu
 import android.view.View
 import android.view.View.OnCreateContextMenuListener
-import android.widget.RelativeLayout
-import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
-import com.example.smarthome.R
 import com.example.smarthome.data.model.Relay
+import com.example.smarthome.databinding.ItemRelayBinding
 import com.example.smarthome.ui.relay.DetailsRelayActivity
 import com.example.smarthome.viewmodel.RelayViewModel
-import com.google.android.material.switchmaterial.SwitchMaterial
 
 class RelayViewHolder(private val context: Context,
-                      itemView: View,
-                      private val viewModel: RelayViewModel
-)
-    : RecyclerView.ViewHolder(itemView), OnCreateContextMenuListener {
+                      private val binding: ItemRelayBinding,
+                      private val itemView: View,
+                      var viewModel: RelayViewModel
+) : RecyclerView.ViewHolder(itemView), OnCreateContextMenuListener {
 
     private var isExpanded = false
-    private val tvName: TextView = itemView.findViewById(R.id.name)
-    private val ipDescription: TextView = itemView.findViewById(R.id.ip_description)
-    private val switchMaterial: SwitchMaterial = itemView.findViewById(R.id.switch_button)
-    private val expandableLayout: RelativeLayout = itemView.findViewById(R.id.expandable_view)
-    private val deleteIcon: AppCompatImageButton = itemView.findViewById(R.id.delete_button)
-    private val editIcon: AppCompatImageButton = itemView.findViewById(R.id.edit_button)
-    private val expandArrow: AppCompatImageButton = itemView.findViewById(R.id.expand_arrow)
-
     private var relay: Relay? = null
 
     init {
@@ -42,11 +30,12 @@ class RelayViewHolder(private val context: Context,
     }
 
     fun bind(relay: Relay) {
-        tvName.text = relay.name
-        tvName.width = (tvName.parent as View).width / 2
-        switchMaterial.isChecked = relay.on
-        switchMaterial.isClickable = false
-        ipDescription.text = relay.ip
+
+        binding.name.text = relay.name
+        binding.name.width = (binding.name.parent as View).width / 2
+        binding.switchButton.isChecked = relay.on
+        binding.switchButton.isClickable = false
+        binding.ipDescription.text = relay.ip
         this.relay = relay
         setOnClickListeners()
     }
@@ -66,30 +55,32 @@ class RelayViewHolder(private val context: Context,
     }
 
     private fun setOnClickListeners() {
-        switchMaterial.setOnClickListener { viewModel.turn(relay!!.id) }
-        expandableLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
-        itemView.setOnClickListener {
-            isExpanded = !isExpanded
-            expandableLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
+        with(binding){
+            switchButton.setOnClickListener { viewModel.turn(relay!!.id) }
+            expandableView.visibility = if (isExpanded) View.VISIBLE else View.GONE
+            itemView.setOnClickListener {
+                isExpanded = !isExpanded
+                expandableView.visibility = if (isExpanded) View.VISIBLE else View.GONE
+            }
+            itemView.setOnLongClickListener {
+                itemView.showContextMenu()
+                true
+            }
+            expandArrow.setOnClickListener {
+                isExpanded = !isExpanded
+                expandableView.visibility = if (isExpanded) View.VISIBLE else View.GONE
+            }
+            deleteButton.setOnClickListener { showDeleteDialog() }
+            editButton.setOnClickListener { edit() }
         }
-        itemView.setOnLongClickListener {
-            itemView.showContextMenu()
-            true
-        }
-        expandArrow.setOnClickListener {
-            isExpanded = !isExpanded
-            expandableLayout.visibility = if (isExpanded) View.VISIBLE else View.GONE
-        }
-        deleteIcon.setOnClickListener { showDeleteDialog() }
-        editIcon.setOnClickListener { edit() }
     }
 
     private fun edit() {
         val bundle = Bundle()
         bundle.putString("id", relay?.id.toString())
         bundle.putString("on", relay?.on.toString())
-        bundle.putString("name", tvName.text.toString())
-        bundle.putString("ip", ipDescription.text.toString())
+        bundle.putString("name", binding.name.text.toString())
+        bundle.putString("ip", binding.ipDescription.text.toString())
         val intent = Intent(context, DetailsRelayActivity::class.java)
         intent.putExtras(bundle)
         context.startActivity(intent)

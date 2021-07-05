@@ -22,8 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".ui.main.AddDevicePagerActivity" />
         <activity android:name=".ui.main.DevicesPagerActivity" />
+        <activity android:name=".ui.main.AddDevicePagerActivity" />
         <activity android:name=".ui.user.UserActivity" />
         <activity android:name=".ui.relay.DetailsRelayActivity" />
     </application>

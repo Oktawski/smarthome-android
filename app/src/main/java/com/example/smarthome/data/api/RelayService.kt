@@ -14,12 +14,16 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class RelayService {
-    private val api: RelayEndpoints = RetrofitContext().getInstance(RelayEndpoints::class.java)
-    private val _relays = MutableLiveData<List<Relay>>(emptyList())
-    val relays: LiveData<List<Relay>> get() = _relays
-    private val _status = MutableLiveData<Resource<Relay>>()
-    val status: LiveData<Resource<Relay>> get() = _status
 
+    private val api: RelayEndpoints = RetrofitContext().getInstance(RelayEndpoints::class.java)
+
+    private val _relays = MutableLiveData<List<Relay>>(emptyList())
+            val relays: LiveData<List<Relay>> get() = _relays
+    private val _status = MutableLiveData<Resource<Relay>>()
+            val status: LiveData<Resource<Relay>> get() = _status
+
+    private val disposable = CompositeDisposable()
+    private val errorMessage = "Could not connect to server"
 
     companion object {
         private var instance: RelayService? = null
@@ -32,9 +36,6 @@ class RelayService {
             return instance
         }
     }
-
-    private val disposable = CompositeDisposable()
-    private val errorMessage = "Could not connect to server"
 
     fun add(relay: Relay){
         _status.value = Resource.loading()

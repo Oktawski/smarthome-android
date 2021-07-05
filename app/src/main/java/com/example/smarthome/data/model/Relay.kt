@@ -17,6 +17,6 @@ data class Relay(
     }
 
     override fun getViewType(): Int {
-       return R.layout.item_relay_card_view
+       return R.layout.item_relay
     }
 }
