@@ -15,7 +15,7 @@
        />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/devices_pager_tab_layout"
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabIndicatorColor="@color/colorAccent"
@@ -41,7 +41,7 @@
             />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/devices_pager_fab_add"
+            android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_add_24px"
@@ -60,16 +60,9 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-
       />
-
-
-
 </LinearLayout>

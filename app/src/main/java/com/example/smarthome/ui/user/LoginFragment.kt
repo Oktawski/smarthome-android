@@ -10,11 +10,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
-import com.example.smarthome.ui.main.DevicesPagerActivity
 import com.example.smarthome.R
 import com.example.smarthome.databinding.LoginFragmentBinding
 import com.example.smarthome.viewmodel.UserViewModel
 import com.example.smarthome.data.model.LoginRequest
+import com.example.smarthome.ui.main.DevicesPagerActivity
 import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.utilities.Resource

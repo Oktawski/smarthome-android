@@ -21,7 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.main.DevicesPagerActivity" />
         <activity android:name=".ui.main.AddDevicePagerActivity" />
         <activity android:name=".ui.user.UserActivity" />
