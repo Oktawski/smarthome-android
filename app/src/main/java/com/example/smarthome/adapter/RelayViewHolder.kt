@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Bundle
 import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
 import android.view.Menu
@@ -14,13 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.smarthome.data.model.Relay
 import com.example.smarthome.databinding.ItemRelayBinding
 import com.example.smarthome.ui.relay.DetailsRelayActivity
-import com.example.smarthome.viewmodel.RelayViewModel
+import com.example.smarthome.viewmodel.RelayViewModelK
 
 class RelayViewHolder(private val context: Context,
                       private val binding: ItemRelayBinding,
-                      private val itemView: View,
-                      var viewModel: RelayViewModel
-) : RecyclerView.ViewHolder(itemView), OnCreateContextMenuListener {
+                      var viewModel: RelayViewModelK
+) : RecyclerView.ViewHolder(binding.root), OnCreateContextMenuListener {
 
     private var isExpanded = false
     private var relay: Relay? = null
@@ -76,20 +74,15 @@ class RelayViewHolder(private val context: Context,
     }
 
     private fun edit() {
-        val bundle = Bundle()
-        bundle.putString("id", relay?.id.toString())
-        bundle.putString("on", relay?.on.toString())
-        bundle.putString("name", binding.name.text.toString())
-        bundle.putString("ip", binding.ipDescription.text.toString())
         val intent = Intent(context, DetailsRelayActivity::class.java)
-        intent.putExtras(bundle)
+        intent.putExtra("relayId", relay?.id)
         context.startActivity(intent)
     }
 
     private fun showDeleteDialog() {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Delete relay " + relay?.name)
-        builder.setPositiveButton("Confirm") { _: DialogInterface?, _: Int -> viewModel.delete(relay?.id) }
+        builder.setPositiveButton("Confirm") { _: DialogInterface?, _: Int -> viewModel.delete(relay?.id!!) }
         builder.setNegativeButton("Cancel") { dialog: DialogInterface?, _: Int -> dialog?.dismiss() }
         builder.create()
         builder.show()

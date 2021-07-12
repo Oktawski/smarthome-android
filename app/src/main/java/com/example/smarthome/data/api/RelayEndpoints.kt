@@ -20,7 +20,7 @@ interface RelayEndpoints {
     fun getAll(): Single<Response<List<Relay>>>
 
     @GET("/relays/{id}")
-    fun getById(@Path("id") id: Long): Single<Response<Relay>>
+    fun getById(@Path("id") id: Long): Single<Relay>
 
     @GET("/relays/ip/{ip}")
     fun getByIp(@Path("id") ip: String): Single<BasicResponse<Relay>>

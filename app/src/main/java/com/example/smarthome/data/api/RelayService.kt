@@ -1,6 +1,5 @@
 package com.example.smarthome.data.api
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.smarthome.BasicResponse
@@ -9,6 +8,7 @@ import com.example.smarthome.data.model.Relay
 import com.example.smarthome.utilities.Resource
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -29,11 +29,11 @@ class RelayService {
         private var instance: RelayService? = null
 
         @JvmStatic
-        fun getInstance(): RelayService? {
+        fun getInstance(): RelayService {
             if (instance == null) {
                 instance = RelayService()
             }
-            return instance
+            return instance as RelayService
         }
     }
 
@@ -92,9 +92,8 @@ class RelayService {
             ))
     }
 
-    fun getRelayById(id: Long): LiveData<Relay> {
-        Log.i("TAG", "getRelayById: $id")
-        throw NotImplementedError()
+    fun getRelayById(id: Long): Single<Relay> {
+        return api.getById(id)
     }
 
     fun updateRelay(id: Long, relay: Relay){

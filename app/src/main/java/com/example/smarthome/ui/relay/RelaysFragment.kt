@@ -18,14 +18,14 @@ import com.example.smarthome.databinding.ItemRelayBinding
 import com.example.smarthome.databinding.RelaysFragmentBinding
 import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
-import com.example.smarthome.viewmodel.RelayViewModel
+import com.example.smarthome.viewmodel.RelayViewModelK
 
 class RelaysFragment
     : Fragment(R.layout.relays_fragment),
     OnClickListeners,
     LiveDataObservers
 {
-    private val relayViewModel: RelayViewModel by viewModels()
+    private val relayViewModel: RelayViewModelK by viewModels()
 
     private var _binding: RelaysFragmentBinding? = null
     private val binding get() = _binding!!
@@ -38,6 +38,7 @@ class RelaysFragment
         savedInstanceState: Bundle?
     ): View {
         _binding = RelaysFragmentBinding.inflate(inflater, container, false)
+        relayViewModel.fetch()
         return binding.root
     }
 
@@ -67,7 +68,7 @@ class RelaysFragment
             ): RecyclerView.ViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = ItemRelayBinding.inflate(inflater, parent, false)
-                return RelayViewHolder(context, binding, binding.root, relayViewModel)
+                return RelayViewHolder(context, binding, relayViewModel)
             }
 
             override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

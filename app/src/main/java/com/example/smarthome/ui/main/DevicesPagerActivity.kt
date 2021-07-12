@@ -30,7 +30,6 @@ class DevicesPagerActivity
     private lateinit var binding: ActivityDevicesBinding
 
     private val tabs = arrayOf("Relays", "Lights")
-    //private val addDeviceIntent = Intent(this, AddDevicePagerActivity::class.java)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,14 +47,20 @@ class DevicesPagerActivity
                 tab.text = tabs[position]
             }.attach()
 
-            //addDeviceIntent.putExtra("position", devicesPager.currentItem)
+            val addDeviceIntent = Intent(
+                this@DevicesPagerActivity,
+                AddDevicePagerActivity::class.java)
 
-          /*  devicesPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            addDeviceIntent.putExtra("position", devicesPager.currentItem)
+
+            devicesPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     addDeviceIntent.putExtra("position", devicesPager.currentItem)
                     super.onPageSelected(position)
                 }
-            })*/
+            })
+
+            addButton.setOnClickListener { startActivity(addDeviceIntent) }
         }
     }
 
@@ -84,7 +89,7 @@ class DevicesPagerActivity
     }
 
     override fun initOnClickListeners() {
-        binding.addButton.setOnClickListener { startActivity(Intent(this, AddDevicePagerActivity::class.java)) }
+        //binding.addButton.setOnClickListener { startActivity(addDeviceIntent) }
     }
 
     private fun initToolbar() {

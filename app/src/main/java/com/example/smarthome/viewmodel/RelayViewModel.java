@@ -1,3 +1,4 @@
+/*
 package com.example.smarthome.viewmodel;
 
 import androidx.lifecycle.LiveData;
@@ -7,16 +8,20 @@ import com.example.smarthome.data.model.Relay;
 import com.example.smarthome.data.api.RelayService;
 import com.example.smarthome.utilities.Resource;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
+
+import io.reactivex.Single;
 
 public class RelayViewModel extends ViewModel {
 
+    @NotNull
     private final RelayService repository = RelayService.getInstance();
 
 
 
     public LiveData<List<Relay>> getRelays(){ return repository.fetchRelays(); }
-    //public LiveData<List<Relay>> getRelaysLD(){return repository.getRelays(); }
     public LiveData<Resource<Relay>> getStatus(){return repository.getStatus(); }
 
 
@@ -31,7 +36,7 @@ public class RelayViewModel extends ViewModel {
     public void delete(Long id){
         repository.deleteById(id);}
 
-    public LiveData<Relay> getRelayById(Long id){
+    public Single<Relay> getRelayById(Long id){
         return repository.getRelayById(id);
     }
 
@@ -43,3 +48,4 @@ public class RelayViewModel extends ViewModel {
         repository.updateRelay(id, relay);
     }
 }
+*/
