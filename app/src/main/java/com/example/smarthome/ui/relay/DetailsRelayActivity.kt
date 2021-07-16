@@ -1,10 +1,10 @@
 package com.example.smarthome.ui.relay
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import com.example.smarthome.data.model.Relay
 import com.example.smarthome.databinding.DetailsRelayActivityBinding
 import com.example.smarthome.utilities.LiveDataObservers
@@ -14,23 +14,23 @@ import com.example.smarthome.viewmodel.RelayViewModelK
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
+
 class DetailsRelayActivity:
     AppCompatActivity(),
     OnClickListeners,
-    LiveDataObservers{
-
-    private var viewModel: RelayViewModelK? = null
-    private lateinit var binding: DetailsRelayActivityBinding
+    LiveDataObservers
+{
+    private val viewModel: RelayViewModelK by viewModels()
     private var id: Long? = null
     private lateinit var relay: Relay
-
+    private lateinit var binding: DetailsRelayActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DetailsRelayActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get(RelayViewModelK::class.java)
+        //viewModel = ViewModelProvider(this).get(RelayViewModelK::class.java)
         id = intent.getLongExtra("relayId", -1)
         getRelay()
 
@@ -39,37 +39,42 @@ class DetailsRelayActivity:
     }
 
     override fun initLiveDataObservers() {
-        viewModel?.status?.observe(this){
+        viewModel.status.observe(this){
             when(it.status){
                 Resource.Status.LOADING -> {
-                    binding.detailsRelayFabConfirm.hide()
-                    binding.detailsRelayFabCancel.hide()
+                   /* binding.detailsRelayFabConfirm.hide()
+                    binding.detailsRelayFabCancel.hide()*/
+                    binding.confirmButton.visibility = View.GONE
+                    binding.cancelButton.visibility = View.GONE
                 }
                 Resource.Status.SUCCESS -> {
-                    binding.detailsRelayFabConfirm.show()
-                    binding.detailsRelayFabCancel.show()
+                    /*binding.detailsRelayFabConfirm.show()
+                    binding.detailsRelayFabCancel.show()*/
+                    binding.confirmButton.visibility = View.VISIBLE
+                    binding.cancelButton.visibility = View.VISIBLE
                     toast(it.message)
                     finish()
                 }
                 Resource.Status.ERROR -> {
                     toast(it.message)
                 }
+                else -> toast(it.message)
             }
         }
     }
 
     override fun initOnClickListeners(){
-        binding.detailsRelayFabConfirm.setOnClickListener{
+        binding.confirmButton.setOnClickListener {
             viewModel?.update(id!!,
-                Relay(binding.detailsRelayName.text.toString(),
-                    binding.detailsRelayIp.text.toString(),
+                Relay(binding.name.text.toString(),
+                    binding.ip.text.toString(),
                     relay.on))
         }
-        binding.detailsRelayFabCancel.setOnClickListener{finish()}
+        binding.cancelButton.setOnClickListener { finish() }
     }
 
     private fun getRelay() {
-        viewModel?.getRelayById(id!!)!!
+        viewModel?.getById(id!!)!!
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -82,12 +87,12 @@ class DetailsRelayActivity:
 
     private fun inflateViews(relay: Relay) {
         with (binding) {
-            detailsRelayName.setText(relay.name)
-            detailsRelayIp.setText(relay.ip)
+            name.setText(relay.name)
+            ip.setText(relay.ip)
         }
     }
 
-    private fun toast(message: String?){
+    private fun toast(message: String?) {
         if(message != null && message.isNotEmpty())
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }

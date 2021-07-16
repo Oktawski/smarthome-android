@@ -2,8 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/AppTheme">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -20,7 +19,6 @@
                 android:layout_width="@dimen/text_input_width"
                 android:layout_height="wrap_content"
                 android:hint="@string/username"
-                style="@style/Widget.Design.TextInputLayout"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -38,7 +36,6 @@
                 android:hint="@string/password"
                 app:errorEnabled="true"
                 app:endIconMode="password_toggle"
-                style="@style/Widget.Design.TextInputLayout"
                 android:layout_below="@id/username_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -70,8 +67,8 @@
                     android:layout_width="@dimen/button_m"
                     android:layout_height="wrap_content"
                     android:text="@string/register"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

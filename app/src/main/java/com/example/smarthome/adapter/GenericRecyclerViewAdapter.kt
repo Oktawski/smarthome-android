@@ -6,12 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smarthome.WifiDevice
 
+
 abstract class GenericRecyclerViewAdapter<T: WifiDevice>(
     private val context: Context,
     val items: MutableList<T>,
     private val viewModel: ViewModel
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
-{
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         throw UnsupportedOperationException()
     }

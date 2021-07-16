@@ -20,6 +20,7 @@ import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.viewmodel.RelayViewModelK
 
+
 class RelaysFragment
     : Fragment(R.layout.relays_fragment),
     OnClickListeners,
@@ -55,13 +56,17 @@ class RelaysFragment
     }
 
     override fun initLiveDataObservers() {
-        relayViewModel.relays.observe(viewLifecycleOwner){
+        relayViewModel.relays.observe(viewLifecycleOwner) {
             adapter.update(it)
         }
     }
 
-    private fun initAdapter(context: Context){
-        adapter = object: GenericRecyclerViewAdapter<Relay>(context, mutableListOf(), relayViewModel){
+    private fun initAdapter(context: Context) {
+        adapter = object: GenericRecyclerViewAdapter<Relay>(
+            context,
+            mutableListOf(),
+            relayViewModel
+        ) {
             override fun onCreateViewHolder(
                 parent: ViewGroup,
                 viewType: Int
@@ -76,6 +81,7 @@ class RelaysFragment
                 holder.itemView.tag = position
             }
         }
+
         binding.relaysFoundRv.adapter = adapter
         binding.relaysFoundRv.layoutManager = LinearLayoutManager(context)
     }

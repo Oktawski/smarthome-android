@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:theme="@style/AppTheme"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <LinearLayout
@@ -23,7 +22,6 @@
                     android:layout_width="@dimen/text_input_width"
                     android:layout_height="wrap_content"
                     android:hint="@string/username"
-                    style="@style/Widget.Design.TextInputLayout"
                     app:errorEnabled="true"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -42,7 +40,6 @@
                     android:layout_width="@dimen/text_input_width"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
-                    style="@style/Widget.Design.TextInputLayout"
                     app:errorEnabled="true"
                     app:layout_constraintTop_toBottomOf="@id/username_layout"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -63,7 +60,6 @@
                     android:hint="@string/password"
                     app:errorEnabled="true"
                     app:endIconMode="password_toggle"
-                    style="@style/Widget.Design.TextInputLayout"
                     app:layout_constraintTop_toBottomOf="@id/email_layout"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent">
@@ -82,7 +78,6 @@
                     android:hint="@string/confirm_password"
                     app:errorEnabled="true"
                     app:endIconMode="password_toggle"
-                    style="@style/Widget.Design.TextInputLayout"
                     app:layout_constraintTop_toBottomOf="@id/password_layout"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent">

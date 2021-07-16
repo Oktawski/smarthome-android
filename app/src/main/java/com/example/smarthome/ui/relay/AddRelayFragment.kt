@@ -18,18 +18,17 @@ import com.example.smarthome.viewmodel.RelayViewModelK
 class AddRelayFragment:
     Fragment(R.layout.add_relay_fragment),
     LiveDataObservers,
-    OnClickListeners {
-
+    OnClickListeners
+{
     private var _binding: AddRelayFragmentBinding? = null
     private val binding get() = _binding!!
-
     private val relayViewModel: RelayViewModelK by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = AddRelayFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }

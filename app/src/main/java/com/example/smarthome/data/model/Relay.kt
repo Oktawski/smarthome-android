@@ -7,8 +7,9 @@ import com.example.smarthome.WifiDevice
 
 data class Relay(
         var id: Long?
-) : WifiDevice(), ViewType {
-
+) : WifiDevice(),
+    ViewType
+{
     constructor(name: String, ip: String, on: Boolean)
             : this(null){
         super.setName(if (name != "") name else "No name")

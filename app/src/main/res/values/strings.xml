@@ -43,4 +43,7 @@
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="on">ON</string>
+    <string name="edit_relay">Edit Relay</string>
+    <string name="cancel">CANCEL</string>
+    <string name="confirm">CONFIRM</string>
 </resources>

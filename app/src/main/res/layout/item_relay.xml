@@ -7,52 +7,57 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/darkCardBackground"
-        >
+        android:layout_marginBottom="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            >
+            android:animateLayoutChanges="true" >
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="250dp"
+            <RelativeLayout
+                android:id="@+id/top_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:layout_centerVertical="true"
-                android:text="@string/placeholder"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_alignTop="@id/switch_button"
-                />
+                >
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_toStartOf="@id/expand_arrow"
-                />
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:layout_centerVertical="true"
+                    android:text="@string/placeholder"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_alignTop="@id/switch_button"
+                    />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/expand_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_left_24px"
-                android:backgroundTint="@color/transparent"
-                android:tint="@color/white"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="5dp"
-                />
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switch_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_toStartOf="@id/expand_arrow"
+                    />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/expand_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_left_24px"
+                    android:backgroundTint="@color/transparent"
+                    android:tint="@color/white"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="5dp"
+                    />
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/expandable_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/expand_arrow"
+                android:layout_below="@id/top_view"
                 >
 
                 <TextView
@@ -100,6 +105,7 @@
                     />
 
             </RelativeLayout>
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

@@ -8,10 +8,18 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class RetrofitContext {
-    private val BASE_URL = "http://192.168.1.105:8015"
 
-    fun getRetrofitContext(): Retrofit{
+class RetrofitContext {
+
+    companion object {
+        private const val BASE_URL = "http://192.168.1.111:8015"
+
+        fun <T> getInstance(apiType: Class<T>): T {
+            return RetrofitContext().getRetrofitContext().create(apiType)
+        }
+    }
+
+    private fun getRetrofitContext(): Retrofit{
         val okHttp = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
 
@@ -36,10 +44,5 @@ class RetrofitContext {
             .client(okHttp.build())
             .build()
     }
-
-    fun <T> getInstance(apiType: Class<T>): T {
-        return getRetrofitContext().create(apiType)
-    }
-
 
 }

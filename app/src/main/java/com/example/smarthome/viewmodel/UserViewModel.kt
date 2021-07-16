@@ -14,7 +14,8 @@ import io.reactivex.schedulers.Schedulers
 
 class UserViewModel : ViewModel(){
 
-    private val api: UserEndpoints = RetrofitContext().getInstance(UserEndpoints::class.java)
+    //private val api: UserEndpoints = RetrofitContext().getInstance(UserEndpoints::class.java)
+    private val api: UserEndpoints = RetrofitContext.getInstance(UserEndpoints::class.java)
     val serverStatus: MutableLiveData<Boolean> = MutableLiveData()
     val status: MutableLiveData<Resource<User>> = MutableLiveData()
     val isSignedIn: MutableLiveData<Boolean> = User.isSignedInLD

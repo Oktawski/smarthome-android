@@ -3,74 +3,67 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    style="@style/AppTheme"
-    >
+    android:paddingStart="30dp"
+    android:paddingEnd="30dp">
 
     <Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:title="Relay Edit"
-        />
+        android:title="@string/edit_relay" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="30dp"
-        />
-
-    <EditText
-        android:id="@+id/details_relay_name"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="30dp"
-        android:text="PLACEHOLDER"
-        android:backgroundTint="@color/colorAccent"
-        />
+        android:hint="@string/name"
+        android:layout_marginTop="@dimen/margin_xl"
+        style="@style/Widget.Design.TextInputLayout">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:text="Ip"
-        />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"
+            android:maxLines="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/details_relay_ip"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginBottom="30dp"
-        android:text="PLACEHOLDER"
-        android:backgroundTint="@color/colorAccent"
-        />
+        android:hint="@string/ip"
+        android:layout_marginTop="@dimen/margin_m"
+        style="@style/Widget.Design.TextInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:layout_gravity="center"
         >
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/details_relay_fab_cancel"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="CANCEL"
-            android:backgroundTint="@color/actionDarkBackground"
+            android:text="@string/cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:textColor="@color/deleteColor"
-            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
             />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/details_relay_fab_confirm"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/confirm_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="CONFIRM"
+            android:text="@string/confirm"
             android:backgroundTint="@color/actionDarkBackground"
             android:textColor="@color/colorAccent"
             />

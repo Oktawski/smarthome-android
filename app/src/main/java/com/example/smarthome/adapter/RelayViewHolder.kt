@@ -13,13 +13,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.smarthome.data.model.Relay
 import com.example.smarthome.databinding.ItemRelayBinding
 import com.example.smarthome.ui.relay.DetailsRelayActivity
+import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.viewmodel.RelayViewModelK
+
 
 class RelayViewHolder(private val context: Context,
                       private val binding: ItemRelayBinding,
                       var viewModel: RelayViewModelK
-) : RecyclerView.ViewHolder(binding.root), OnCreateContextMenuListener {
-
+) : RecyclerView.ViewHolder(binding.root),
+    OnCreateContextMenuListener,
+    OnClickListeners
+{
     private var isExpanded = false
     private var relay: Relay? = null
 
@@ -27,23 +31,12 @@ class RelayViewHolder(private val context: Context,
         itemView.setOnCreateContextMenuListener(this)
     }
 
-    fun bind(relay: Relay) {
-
-        binding.name.text = relay.name
-        binding.name.width = (binding.name.parent as View).width / 2
-        binding.switchButton.isChecked = relay.on
-        binding.switchButton.isClickable = false
-        binding.ipDescription.text = relay.ip
-        this.relay = relay
-        setOnClickListeners()
-    }
-
     override fun onCreateContextMenu(menu: ContextMenu?, view: View?, menuInfo: ContextMenuInfo?) {
         menu?.setHeaderTitle(relay!!.name + " Relay")
         val edit = menu?.add(Menu.FIRST, 0, Menu.NONE, "Edit")
         val delete = menu?.add(Menu.FIRST, 1, Menu.NONE, "Delete")
         edit?.setOnMenuItemClickListener {
-            edit()
+            startEdit()
             true
         }
         delete?.setOnMenuItemClickListener {
@@ -52,28 +45,41 @@ class RelayViewHolder(private val context: Context,
         }
     }
 
-    private fun setOnClickListeners() {
-        with(binding){
-            switchButton.setOnClickListener { viewModel.turn(relay!!.id) }
+    override fun initOnClickListeners() {
+        with (binding) {
+            switchButton.setOnClickListener { viewModel.turn(relay!!.id!!) }
             expandableView.visibility = if (isExpanded) View.VISIBLE else View.GONE
-            itemView.setOnClickListener {
-                isExpanded = !isExpanded
-                expandableView.visibility = if (isExpanded) View.VISIBLE else View.GONE
-            }
+
             itemView.setOnLongClickListener {
                 itemView.showContextMenu()
                 true
             }
-            expandArrow.setOnClickListener {
-                isExpanded = !isExpanded
-                expandableView.visibility = if (isExpanded) View.VISIBLE else View.GONE
-            }
+
+            itemView.setOnClickListener(expandListener)
+            expandArrow.setOnClickListener(expandListener)
             deleteButton.setOnClickListener { showDeleteDialog() }
-            editButton.setOnClickListener { edit() }
+            editButton.setOnClickListener { startEdit() }
         }
     }
 
-    private fun edit() {
+    private val expandListener = View.OnClickListener {
+        isExpanded = !isExpanded
+        binding.expandableView.visibility = if (isExpanded) View.VISIBLE else View.GONE
+    }
+
+    fun bind(relay: Relay) {
+        with (binding) {
+            name.text = relay.name
+            name.width = (binding.name.parent as View).width / 2
+            switchButton.isChecked = relay.on
+            switchButton.isClickable = false
+            ipDescription.text = relay.ip
+            this@RelayViewHolder.relay = relay
+            initOnClickListeners()
+        }
+    }
+
+    private fun startEdit() {
         val intent = Intent(context, DetailsRelayActivity::class.java)
         intent.putExtra("relayId", relay?.id)
         context.startActivity(intent)
@@ -82,8 +88,10 @@ class RelayViewHolder(private val context: Context,
     private fun showDeleteDialog() {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Delete relay " + relay?.name)
-        builder.setPositiveButton("Confirm") { _: DialogInterface?, _: Int -> viewModel.delete(relay?.id!!) }
-        builder.setNegativeButton("Cancel") { dialog: DialogInterface?, _: Int -> dialog?.dismiss() }
+        builder.setPositiveButton("Confirm") {
+                _: DialogInterface?, _: Int -> viewModel.deleteById(relay?.id!!) }
+        builder.setNegativeButton("Cancel") {
+                dialog: DialogInterface?, _: Int -> dialog?.dismiss() }
         builder.create()
         builder.show()
     }

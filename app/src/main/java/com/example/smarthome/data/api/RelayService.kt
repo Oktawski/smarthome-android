@@ -15,7 +15,8 @@ import io.reactivex.schedulers.Schedulers
 
 class RelayService {
 
-    private val api: RelayEndpoints = RetrofitContext().getInstance(RelayEndpoints::class.java)
+    //private val api: RelayEndpoints = RetrofitContext().getInstance(RelayEndpoints::class.java)
+    private val api: RelayEndpoints = RetrofitContext.getInstance(RelayEndpoints::class.java)
 
     private val _relays = MutableLiveData<List<Relay>>(emptyList())
             val relays: LiveData<List<Relay>> get() = _relays
@@ -28,7 +29,7 @@ class RelayService {
     companion object {
         private var instance: RelayService? = null
 
-        @JvmStatic
+        //@JvmStatic
         fun getInstance(): RelayService {
             if (instance == null) {
                 instance = RelayService()

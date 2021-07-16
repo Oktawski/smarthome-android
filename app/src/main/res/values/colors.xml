@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#03A9F4</color>
-    <color name="colorPrimaryDark">#2196F3</color>
-    <color name="colorAccent">#639EB5</color>
+    <color name="colorPrimary">#639EB5</color>
+    <color name="colorPrimaryVariant">#456F7F</color>
+    <color name="colorAccent">#53CAA4</color>
+    <color name="colorOnPrimary">#FFF</color>
     <color name="actionDarkBackground">#353535</color>
     <color name="darkCardBackground">#1A1B1C</color>
     <color name="darkTextInputLayoutBackground">#1A1A1A</color>
     <color name="deleteColor">#E91E63</color>
     <color name="transparent">#00000000</color>
     <color name="white">#fff</color>
+    <color name="green">#4C8441</color>
+    <color name="red">#DF1717</color>
 </resources>
