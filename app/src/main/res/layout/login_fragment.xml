@@ -8,10 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        >
-
-
+        android:layout_gravity="center_horizontal" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -96,10 +93,13 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <ProgressBar
+            <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progress_bar"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:showAnimationBehavior="inward"
+                app:indicatorDirectionLinear="leftToRight"
                 android:visibility="gone"
                 app:layout_constraintTop_toTopOf="@id/buttons_container"
                 app:layout_constraintLeft_toLeftOf="@id/buttons_container"
