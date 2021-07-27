@@ -31,7 +31,4 @@ interface RelayEndpoints {
     @POST("/relays/{id}/turn")
     fun turn(@Path("id") id: Long): Single<Response<ResponseBody>>
 
-
-
-
 }

@@ -10,17 +10,18 @@ import com.example.smarthome.databinding.DetailsRelayActivityBinding
 import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.utilities.Resource
-import com.example.smarthome.viewmodel.RelayViewModelK
+import com.example.smarthome.viewmodel.RelayViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-
+@AndroidEntryPoint
 class DetailsRelayActivity:
     AppCompatActivity(),
     OnClickListeners,
     LiveDataObservers
 {
-    private val viewModel: RelayViewModelK by viewModels()
+    private val viewModel: RelayViewModel by viewModels()
     private var id: Long? = null
     private lateinit var relay: Relay
     private lateinit var binding: DetailsRelayActivityBinding
@@ -30,7 +31,6 @@ class DetailsRelayActivity:
         binding = DetailsRelayActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //viewModel = ViewModelProvider(this).get(RelayViewModelK::class.java)
         id = intent.getLongExtra("relayId", -1)
         getRelay()
 

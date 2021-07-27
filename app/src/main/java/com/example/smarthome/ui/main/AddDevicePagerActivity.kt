@@ -11,7 +11,9 @@ import com.example.smarthome.ui.relay.AddRelayFragment
 import com.example.smarthome.ui.relay.RelaysFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddDevicePagerActivity : FragmentActivity() {
 
     private lateinit var viewPager2: ViewPager2

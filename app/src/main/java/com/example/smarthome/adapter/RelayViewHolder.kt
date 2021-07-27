@@ -14,12 +14,14 @@ import com.example.smarthome.data.model.Relay
 import com.example.smarthome.databinding.ItemRelayBinding
 import com.example.smarthome.ui.relay.DetailsRelayActivity
 import com.example.smarthome.utilities.OnClickListeners
-import com.example.smarthome.viewmodel.RelayViewModelK
+import com.example.smarthome.viewmodel.RelayViewModel
+import javax.inject.Inject
 
 
-class RelayViewHolder(private val context: Context,
-                      private val binding: ItemRelayBinding,
-                      var viewModel: RelayViewModelK
+class RelayViewHolder @Inject constructor(
+    private val context: Context,
+    private val binding: ItemRelayBinding,
+    var viewModel: RelayViewModel
 ) : RecyclerView.ViewHolder(binding.root),
     OnCreateContextMenuListener,
     OnClickListeners

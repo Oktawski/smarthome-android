@@ -13,8 +13,10 @@ import com.example.smarthome.databinding.AddRelayFragmentBinding
 import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.utilities.Resource
-import com.example.smarthome.viewmodel.RelayViewModelK
+import com.example.smarthome.viewmodel.RelayViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddRelayFragment:
     Fragment(R.layout.add_relay_fragment),
     LiveDataObservers,
@@ -22,7 +24,7 @@ class AddRelayFragment:
 {
     private var _binding: AddRelayFragmentBinding? = null
     private val binding get() = _binding!!
-    private val relayViewModel: RelayViewModelK by viewModels()
+    private val relayViewModel: RelayViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,4 +74,5 @@ class AddRelayFragment:
             relayViewModel.add(Relay(name, ip, isOn))
         }
     }
+
 }

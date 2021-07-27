@@ -7,11 +7,13 @@ import androidx.lifecycle.observe
 import androidx.navigation.Navigation
 import com.example.smarthome.R
 import com.example.smarthome.viewmodel.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private var job: Job? = null

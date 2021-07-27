@@ -18,5 +18,5 @@ interface UserEndpoints {
     fun signin(@Body loginRequest: LoginRequest): Observable<Response<ResponseBody>>
 
     @GET("/server")
-    fun getStatus(): Call<ResponseBody>
+    fun getServerStatus(): Call<ResponseBody>
 }

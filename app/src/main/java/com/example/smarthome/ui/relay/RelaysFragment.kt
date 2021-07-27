@@ -3,9 +3,11 @@ package com.example.smarthome.ui.relay
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,18 +20,21 @@ import com.example.smarthome.databinding.ItemRelayBinding
 import com.example.smarthome.databinding.RelaysFragmentBinding
 import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
-import com.example.smarthome.viewmodel.RelayViewModelK
+import com.example.smarthome.viewmodel.RelayViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class RelaysFragment
     : Fragment(R.layout.relays_fragment),
     OnClickListeners,
     LiveDataObservers
 {
-    private val relayViewModel: RelayViewModelK by viewModels()
+    private val relayViewModel: RelayViewModel by viewModels()
 
     private var _binding: RelaysFragmentBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var adapter: GenericRecyclerViewAdapter<Relay>
 
 
@@ -50,6 +55,11 @@ class RelaysFragment
         initAdapter(requireActivity())
     }
 
+    override fun onResume() {
+        super.onResume()
+        relayViewModel.fetch()
+    }
+
     override fun initOnClickListeners(){
         binding.addButton.setOnClickListener {
             startActivity(Intent(requireActivity(), AddRelayFragment::class.java)) }
@@ -63,7 +73,6 @@ class RelaysFragment
 
     private fun initAdapter(context: Context) {
         adapter = object: GenericRecyclerViewAdapter<Relay>(
-            context,
             mutableListOf(),
             relayViewModel
         ) {
@@ -85,4 +94,5 @@ class RelaysFragment
         binding.relaysFoundRv.adapter = adapter
         binding.relaysFoundRv.layoutManager = LinearLayoutManager(context)
     }
+
 }

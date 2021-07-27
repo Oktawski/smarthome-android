@@ -21,7 +21,9 @@ import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.viewmodel.UserViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DevicesPagerActivity
     : AppCompatActivity(),
     LiveDataObservers,
@@ -39,14 +41,12 @@ class DevicesPagerActivity
         setContentView(binding.root)
 
         initLiveDataObservers()
-        //initOnClickListeners()
         initAdapter()
         initToolbar()
 
         with (binding) {
             TabLayoutMediator(tabLayout, devicesPager) { tab, position ->
                 tab.text = tabs[position]
-                tab.setIcon(R.drawable.ic_delete_24px)
             }.attach()
 
             val addDeviceIntent = Intent(

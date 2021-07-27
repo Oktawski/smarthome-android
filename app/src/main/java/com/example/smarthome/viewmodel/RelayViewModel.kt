@@ -5,14 +5,15 @@ import androidx.lifecycle.ViewModel
 import com.example.smarthome.data.api.RelayService
 import com.example.smarthome.data.model.Relay
 import com.example.smarthome.utilities.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-
-class RelayViewModelK
-    : ViewModel(),
+@HiltViewModel
+class RelayViewModel @Inject constructor(
+    private val service: RelayService
+) : ViewModel(),
     ServiceCalls<Relay>
 {
-    private val service: RelayService = RelayService.getInstance()
-
     val relays: LiveData<List<Relay>> = service.relays
     val status: LiveData<Resource<Relay>> = service.status
 

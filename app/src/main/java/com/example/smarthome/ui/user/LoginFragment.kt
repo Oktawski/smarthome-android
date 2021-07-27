@@ -18,7 +18,9 @@ import com.example.smarthome.ui.main.DevicesPagerActivity
 import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.utilities.Resource
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment:
     Fragment(R.layout.login_fragment),
     LiveDataObservers,

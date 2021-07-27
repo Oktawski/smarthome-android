@@ -3,7 +3,6 @@ package com.example.smarthome.data.api
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.smarthome.BasicResponse
-import com.example.smarthome.RetrofitContext
 import com.example.smarthome.data.model.Relay
 import com.example.smarthome.utilities.Resource
 import com.google.gson.Gson
@@ -12,11 +11,11 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class RelayService {
-
-    //private val api: RelayEndpoints = RetrofitContext().getInstance(RelayEndpoints::class.java)
-    private val api: RelayEndpoints = RetrofitContext.getInstance(RelayEndpoints::class.java)
+class RelayService @Inject constructor(
+    private val api: RelayEndpoints
+) {
 
     private val _relays = MutableLiveData<List<Relay>>(emptyList())
             val relays: LiveData<List<Relay>> get() = _relays
@@ -25,18 +24,6 @@ class RelayService {
 
     private val disposable = CompositeDisposable()
     private val errorMessage = "Could not connect to server"
-
-    companion object {
-        private var instance: RelayService? = null
-
-        //@JvmStatic
-        fun getInstance(): RelayService {
-            if (instance == null) {
-                instance = RelayService()
-            }
-            return instance as RelayService
-        }
-    }
 
     fun add(relay: Relay){
         _status.value = Resource.loading()
@@ -72,7 +59,7 @@ class RelayService {
             .subscribe(
                 {
                     val relays = it.body()
-                    if(!relays.isNullOrEmpty()) this._relays.value = relays
+                    if(relays != null) this._relays.value = relays
                     _status.value = Resource.success()
                     _status.value = Resource.none()
                 },
