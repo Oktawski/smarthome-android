@@ -47,27 +47,13 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideGsonConverterFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
-    }
-
-    @Singleton
-    @Provides
-    fun provideRxJava2CallAdapterFactory(): RxJava2CallAdapterFactory {
-        return RxJava2CallAdapterFactory.create()
-    }
-
-    @Singleton
-    @Provides
     fun provideRetrofitContext(
-        gsonConverterFactory: GsonConverterFactory,
-        rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
         okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://192.168.1.111:8015")
-            .addConverterFactory(gsonConverterFactory)
-            .addCallAdapterFactory(rxJava2CallAdapterFactory)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(okHttpClient)
             .build()
     }

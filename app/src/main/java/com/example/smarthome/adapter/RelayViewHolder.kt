@@ -21,7 +21,7 @@ import javax.inject.Inject
 class RelayViewHolder @Inject constructor(
     private val context: Context,
     private val binding: ItemRelayBinding,
-    var viewModel: RelayViewModel
+    private val viewModel: RelayViewModel
 ) : RecyclerView.ViewHolder(binding.root),
     OnCreateContextMenuListener,
     OnClickListeners
