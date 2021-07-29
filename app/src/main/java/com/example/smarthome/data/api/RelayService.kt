@@ -2,7 +2,7 @@ package com.example.smarthome.data.api
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.smarthome.BasicResponse
+import com.example.smarthome.data.model.BasicResponse
 import com.example.smarthome.data.model.Relay
 import com.example.smarthome.utilities.Resource
 import com.google.gson.Gson
@@ -12,7 +12,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RelayService @Inject constructor(
     private val api: RelayEndpoints
 ) {

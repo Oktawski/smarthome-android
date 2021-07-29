@@ -2,7 +2,6 @@ package com.example.smarthome.data.model
 
 import com.example.smarthome.R
 import com.example.smarthome.utilities.ViewType
-import com.example.smarthome.WifiDevice
 
 
 data class Relay(

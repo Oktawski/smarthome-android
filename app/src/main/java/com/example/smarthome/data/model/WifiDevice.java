@@ -1,4 +1,4 @@
-package com.example.smarthome;
+package com.example.smarthome.data.model;
 
 import com.example.smarthome.utilities.ViewType;
 import com.google.gson.annotations.Expose;

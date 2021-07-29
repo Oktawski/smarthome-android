@@ -1,6 +1,5 @@
 package com.example.smarthome.data.model
 
-import com.example.smarthome.WifiDevice
 import com.example.smarthome.utilities.ViewType
 
 data class Light(

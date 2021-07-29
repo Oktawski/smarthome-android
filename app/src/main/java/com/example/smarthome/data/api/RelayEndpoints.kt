@@ -1,6 +1,6 @@
 package com.example.smarthome.data.api
 
-import com.example.smarthome.BasicResponse
+import com.example.smarthome.data.model.BasicResponse
 import com.example.smarthome.data.model.Relay
 import io.reactivex.Observable
 import io.reactivex.Single

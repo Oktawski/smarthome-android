@@ -1,7 +1,7 @@
 package com.example.smarthome.viewmodel
 
 import androidx.lifecycle.LiveData
-import com.example.smarthome.WifiDevice
+import com.example.smarthome.data.model.WifiDevice
 import io.reactivex.Single
 
 sealed interface ServiceCalls<T : WifiDevice> {

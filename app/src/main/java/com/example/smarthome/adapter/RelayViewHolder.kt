@@ -10,18 +10,17 @@ import android.view.Menu
 import android.view.View
 import android.view.View.OnCreateContextMenuListener
 import androidx.recyclerview.widget.RecyclerView
+import com.example.smarthome.data.api.RelayService
 import com.example.smarthome.data.model.Relay
 import com.example.smarthome.databinding.ItemRelayBinding
 import com.example.smarthome.ui.relay.DetailsRelayActivity
 import com.example.smarthome.utilities.OnClickListeners
-import com.example.smarthome.viewmodel.RelayViewModel
-import javax.inject.Inject
 
 
-class RelayViewHolder @Inject constructor(
+class RelayViewHolder (
     private val context: Context,
-    private val binding: ItemRelayBinding,
-    private val viewModel: RelayViewModel
+    private val relayService: RelayService,
+    private val binding: ItemRelayBinding
 ) : RecyclerView.ViewHolder(binding.root),
     OnCreateContextMenuListener,
     OnClickListeners
@@ -49,7 +48,7 @@ class RelayViewHolder @Inject constructor(
 
     override fun initOnClickListeners() {
         with (binding) {
-            switchButton.setOnClickListener { viewModel.turn(relay!!.id!!) }
+            switchButton.setOnClickListener { relayService.turn(relay!!.id!!) }
             expandableView.visibility = if (isExpanded) View.VISIBLE else View.GONE
 
             itemView.setOnLongClickListener {
@@ -91,7 +90,7 @@ class RelayViewHolder @Inject constructor(
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Delete relay " + relay?.name)
         builder.setPositiveButton("Confirm") {
-                _: DialogInterface?, _: Int -> viewModel.deleteById(relay?.id!!) }
+                _: DialogInterface?, _: Int -> relayService.deleteById(relay?.id!!) }
         builder.setNegativeButton("Cancel") {
                 dialog: DialogInterface?, _: Int -> dialog?.dismiss() }
         builder.create()
