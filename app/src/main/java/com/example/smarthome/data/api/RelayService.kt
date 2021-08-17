@@ -11,6 +11,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,13 +25,31 @@ class RelayService @Inject constructor(
     private val _status = MutableLiveData<Resource<Relay>>()
             val status: LiveData<Resource<Relay>> get() = _status
 
+    var job: Job? = null
     private val disposable = CompositeDisposable()
     private val errorMessage = "Could not connect to server"
 
     fun add(relay: Relay){
         _status.value = Resource.loading()
 
-        disposable.add(api.add(relay)
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = api.add(relay)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    _status.value = Resource.success(response.body()?.msg)
+                    fetchRelays()
+                }
+                else {
+                    val gson = Gson()
+                    val type = object : TypeToken<BasicResponse<Relay>>() {}.type
+                    val errorResponse: BasicResponse<Relay> =
+                        gson.fromJson(response.errorBody()?.charStream(), type)
+                    _status.value = Resource.error(errorResponse.msg, null)
+                }
+            }
+        }
+
+        /*disposable.add(api.add(relay)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -51,7 +70,7 @@ class RelayService @Inject constructor(
                 {
                     _status.value = Resource.error(errorMessage)
                 }
-            ))
+            ))*/
     }
 
     fun fetchRelays(): LiveData<List<Relay>> {

@@ -9,6 +9,7 @@ import com.example.smarthome.utilities.Resource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class UserService @Inject constructor(
@@ -20,49 +21,41 @@ class UserService @Inject constructor(
     val serverStatus = MutableLiveData(false)
     val isSignedIn = User.isSignedIn
 
-    private val disposable = CompositeDisposable()
+    var job: Job? = null
     private val errorMessage = "Error connecting to server"
 
-    fun signin(loginRequest: LoginRequest){
-        _status.value = Resource.loading()
-
-        disposable.add(api.signin(loginRequest)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    if(it.code() == 200){
-                        JwtToken.jwtToken = it.headers()["Authorization"]!!
-                        isSignedIn.value = true
-                        _status.value = Resource.success("Welcome ${loginRequest.username}")
-                    }else{
-                        signOut()
-                        _status.value = Resource.error("Wrong credentials")
-                    }
-                    clearStatus()
-                },
-                { signOut() }
-            ))
-
+    fun signin(loginRequest: LoginRequest) {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = api.signin(loginRequest)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    JwtToken.jwtToken = response.headers()["Authorization"]!!
+                    isSignedIn.value = true
+                    _status.value = Resource.success("Welcome ${loginRequest.username}")
+                }
+                else {
+                    signOut()
+                    _status.value = Resource.error("Wrong credentials")
+                }
+            }
+        }
     }
 
-    fun signup(user: User){
+    fun signup(user: User) {
         _status.value = Resource.loading()
 
-        disposable.add(api.signup(user)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    if(it.code() == 200){
-                        _status.value = Resource.success(user, "Account created")
-                    }else{
-                        _status.value = Resource.error("Something went wrong")
-                    }
-                    clearStatus()
-                },
-                { _status.value = Resource.error(errorMessage) }
-            ))
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = api.signup(user)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    _status.value = Resource.success(user, "Account created")
+                }
+                else {
+                    _status.value = Resource.error("Something went wrong")
+                }
+                clearStatus()
+            }
+        }
     }
 
     fun signOut(){
@@ -71,7 +64,7 @@ class UserService @Inject constructor(
         clearStatus()
     }
 
-    fun getServerStatus() = api.getServerStatus()
+    suspend fun getServerStatus() = api.getServerStatus()
 
     private fun clearStatus(){
         _status.value = Resource.none()

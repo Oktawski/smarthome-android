@@ -96,6 +96,7 @@ class LoginFragment:
 
                 val loginBody = LoginRequest(username, password)
 
+                //userViewModel.signin(loginBody)
                 userViewModel.signin(loginBody)
             }
         }

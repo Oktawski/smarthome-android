@@ -43,7 +43,6 @@ object AdapterModule {
                 holder.itemView.tag = position
             }
         }
-
     }
 
 }

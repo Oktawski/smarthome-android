@@ -28,9 +28,6 @@ class LoginActivity : AppCompatActivity() {
 
         setSupportActionBar(findViewById(R.id.login_toolbar))
 
-
-
-
         viewModel.serverStatus.observe(this) { bool -> run {
             if (!bool) {
                 viewModel.signOut()

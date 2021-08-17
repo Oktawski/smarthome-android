@@ -11,7 +11,7 @@ import retrofit2.http.*
 interface RelayEndpoints {
 
     @POST("/relays")
-    fun add(@Body relay: Relay): Observable<Response<BasicResponse<Relay>>>
+    suspend fun add(@Body relay: Relay): Response<BasicResponse<Relay>>
 
     @DELETE("/relays/{id}")
     fun deleteById(@Path("id") id: Long): Observable<Response<ResponseBody>>

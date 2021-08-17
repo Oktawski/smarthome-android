@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.smarthome.R
 import com.example.smarthome.databinding.RegisterFragmentBinding
 import com.example.smarthome.viewmodel.UserViewModel
@@ -18,12 +19,12 @@ import com.example.smarthome.utilities.Resource
 class RegistrationFragment:
     Fragment(R.layout.register_fragment),
     LiveDataObservers,
-    OnClickListeners{
+    OnClickListeners {
 
     private var _binding: RegisterFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: UserViewModel by viewModels()
+    private lateinit var viewModel: UserViewModel
 
     companion object{
         @JvmStatic
@@ -38,6 +39,7 @@ class RegistrationFragment:
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setToolbarTitle()
+        viewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -46,6 +48,7 @@ class RegistrationFragment:
         savedInstanceState: Bundle?
     ): View? {
         _binding = RegisterFragmentBinding.inflate(inflater, container, false)
+        binding.username.setText((requireArguments()["username"] ?: "").toString())
         return binding.root
     }
 

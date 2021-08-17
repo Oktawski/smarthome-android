@@ -15,14 +15,18 @@ class UserViewModel @Inject constructor(
     private val service: UserService
 ) : ViewModel() {
 
-    // TODO check if LiveData can be used here instead of MutableLiveData
     val status: LiveData<Resource<User>> = service.status
     val serverStatus: MutableLiveData<Boolean> = service.serverStatus
     val isSignedIn: MutableLiveData<Boolean> = service.isSignedIn
 
+    override fun onCleared() {
+        super.onCleared()
+        service.job?.cancel()
+    }
+
     fun signin(loginRequest: LoginRequest) = service.signin(loginRequest)
     fun signup(user: User) = service.signup(user)
     fun signOut() = service.signOut()
-    fun getServerStatus() = service.getServerStatus()
+    suspend fun getServerStatus() = service.getServerStatus()
 
 }
