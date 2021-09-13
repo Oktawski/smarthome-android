@@ -2,6 +2,7 @@ package com.example.smarthome.ui.relay
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,7 +45,6 @@ class RelaysFragment
         savedInstanceState: Bundle?
     ): View {
         _binding = RelaysFragmentBinding.inflate(inflater, container, false)
-        relayViewModel.fetch()
         return binding.root
     }
 

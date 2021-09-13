@@ -1,5 +1,6 @@
 package com.example.smarthome.data.api
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.smarthome.data.model.BasicResponse
@@ -19,6 +20,8 @@ import javax.inject.Singleton
 class RelayService @Inject constructor(
     private val api: RelayEndpoints
 ) {
+    
+    private val TAG = "RelayService"
 
     private val _relays = MutableLiveData<List<Relay>>(emptyList())
             val relays: LiveData<List<Relay>> get() = _relays
@@ -37,6 +40,7 @@ class RelayService @Inject constructor(
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     _status.value = Resource.success(response.body()?.msg)
+                    Log.i(TAG, "add: success")
                     fetchRelays()
                 }
                 else {
@@ -48,29 +52,6 @@ class RelayService @Inject constructor(
                 }
             }
         }
-
-        /*disposable.add(api.add(relay)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    if(it.isSuccessful){
-                        _status.value = Resource.success(it.body()?.msg)
-                        fetchRelays()
-                    }else {
-                        val gson = Gson()
-                        val type = object: TypeToken<BasicResponse<Relay>>() {}.type
-                        val errorResponse: BasicResponse<Relay> =
-                            gson.fromJson(it.errorBody()?.charStream(), type)
-
-                        _status.value = Resource.error(errorResponse.msg, null)
-                    }
-                    _status.value = Resource.none()
-                },
-                {
-                    _status.value = Resource.error(errorMessage)
-                }
-            ))*/
     }
 
     fun fetchRelays(): LiveData<List<Relay>> {
@@ -80,9 +61,11 @@ class RelayService @Inject constructor(
             .subscribe(
                 {
                     val relays = it.body()
-                    if(relays != null) this._relays.value = relays
+                    //if(relays != null) _relays.value = relays
+                    _relays.value = relays
                     _status.value = Resource.success()
                     _status.value = Resource.none()
+                    Log.i(TAG, "fetchRelays: success")
                 },
                 { _status.value = Resource.error(errorMessage) }
             ))

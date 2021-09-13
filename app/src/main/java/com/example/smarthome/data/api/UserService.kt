@@ -6,9 +6,6 @@ import com.example.smarthome.data.model.JwtToken
 import com.example.smarthome.data.model.LoginRequest
 import com.example.smarthome.data.model.User
 import com.example.smarthome.utilities.Resource
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
 import javax.inject.Inject
 

@@ -65,7 +65,7 @@ class DetailsRelayActivity:
 
     override fun initOnClickListeners(){
         binding.confirmButton.setOnClickListener {
-            viewModel?.update(id!!,
+            viewModel.update(id!!,
                 Relay(binding.name.text.toString(),
                     binding.ip.text.toString(),
                     relay.on))
@@ -74,7 +74,7 @@ class DetailsRelayActivity:
     }
 
     private fun getRelay() {
-        viewModel?.getById(id!!)!!
+        viewModel.getById(id!!)!!
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
