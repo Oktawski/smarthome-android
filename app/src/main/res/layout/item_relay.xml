@@ -61,22 +61,22 @@
                 >
 
                 <TextView
-                    android:id="@+id/ip_label"
+                    android:id="@+id/mac_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ip"
+                    android:text="@string/mac"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     />
 
                 <TextView
-                    android:id="@+id/ip_description"
+                    android:id="@+id/mac_description"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="123.123.123.123"
+                    android:text="ma:ca:dr:es:ss"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/ip_label"
+                    android:layout_toEndOf="@id/mac_label"
                     />
 
                 <androidx.appcompat.widget.AppCompatImageButton

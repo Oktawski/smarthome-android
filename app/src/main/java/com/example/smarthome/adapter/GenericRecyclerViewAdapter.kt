@@ -1,6 +1,5 @@
 package com.example.smarthome.adapter
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -19,7 +18,7 @@ abstract class GenericRecyclerViewAdapter<T: WifiDevice>(
 
         override fun areContentsTheSame(oldItem: T, newItem: T): Boolean {
             return oldItem.name == newItem.name &&
-                    oldItem.ip == newItem.ip
+                    oldItem.mac == newItem.mac
         }
     }
 

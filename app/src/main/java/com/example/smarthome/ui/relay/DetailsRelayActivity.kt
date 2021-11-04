@@ -67,7 +67,7 @@ class DetailsRelayActivity:
         binding.confirmButton.setOnClickListener {
             viewModel.update(id!!,
                 Relay(binding.name.text.toString(),
-                    binding.ip.text.toString(),
+                    binding.mac.text.toString(),
                     relay.on))
         }
         binding.cancelButton.setOnClickListener { finish() }
@@ -88,7 +88,7 @@ class DetailsRelayActivity:
     private fun inflateViews(relay: Relay) {
         with (binding) {
             name.setText(relay.name)
-            ip.setText(relay.ip)
+            mac.setText(relay.mac)
         }
     }
 

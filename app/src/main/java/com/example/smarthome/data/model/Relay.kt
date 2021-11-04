@@ -9,10 +9,10 @@ data class Relay(
 ) : WifiDevice(),
     ViewType
 {
-    constructor(name: String, ip: String, on: Boolean)
+    constructor(name: String, mac: String, on: Boolean)
             : this(null){
         super.setName(if (name != "") name else "No name")
-        super.setIp(ip)
+        super.setMac(mac)
         super.setOn(on)
     }
 

@@ -74,7 +74,7 @@ class RelayViewHolder (
             name.width = (binding.name.parent as View).width / 2
             switchButton.isChecked = relay.on
             switchButton.isClickable = false
-            ipDescription.text = relay.ip
+            macDescription.text = relay.mac
             this@RelayViewHolder.relay = relay
             initOnClickListeners()
         }

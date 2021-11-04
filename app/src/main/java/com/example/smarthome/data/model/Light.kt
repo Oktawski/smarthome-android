@@ -9,11 +9,11 @@ data class Light(
         val blue: Short,
         val intensity: Short
 ) : WifiDevice(), ViewType {
-    constructor(name: String, ip: String, on: Boolean,
+    constructor(name: String, mac: String, on: Boolean,
                 red: Short, green: Short, blue: Short, intensity: Short)
         :this(null, red, green, blue, intensity){
         super.setName(if (name != "") name else "No name")
-        super.setIp(ip)
+        super.setMac(mac)
         super.setOn(on)
     }
 

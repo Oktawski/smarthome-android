@@ -38,10 +38,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ip_layout"
+                android:id="@+id/mac_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/ip"
+                android:hint="@string/mac"
                 android:layout_marginTop="@dimen/margin_m"
                 style="@style/Widget.Design.TextInputLayout"
                 app:layout_constraintTop_toBottomOf="@id/name_layout"
@@ -49,7 +49,7 @@
                 app:layout_constraintRight_toRightOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ip"
+                    android:id="@+id/mac"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textAutoComplete"/>
@@ -62,7 +62,7 @@
                 android:textSize="24sp"
                 android:text="@string/on"
                 android:layout_marginTop="@dimen/margin_m"
-                app:layout_constraintTop_toBottomOf="@id/ip_layout"
+                app:layout_constraintTop_toBottomOf="@id/mac_layout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintHorizontal_bias="0.0" />
@@ -75,7 +75,7 @@
                 android:layout_marginTop="16dp"
 
                 app:layout_constraintHorizontal_bias="0.351"
-                app:layout_constraintTop_toBottomOf="@id/ip_layout"
+                app:layout_constraintTop_toBottomOf="@id/mac_layout"
                 app:layout_constraintLeft_toRightOf="@id/switch_label"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -88,6 +88,7 @@
         android:layout_height="wrap_content"
         app:fabSize="normal"
         app:srcCompat="@drawable/add_circle"
+        android:contentDescription="@string/add_description"
         app:maxImageSize="64dp"
 
         android:backgroundTint="#ffffff"

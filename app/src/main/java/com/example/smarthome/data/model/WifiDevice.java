@@ -10,9 +10,9 @@ public class WifiDevice implements ViewType {
     @Expose
     String name = "No name";
 
-    @SerializedName("ip")
+    @SerializedName("mac")
     @Expose
-    String ip;
+    String mac;
 
     @SerializedName("on")
     @Expose
@@ -20,9 +20,9 @@ public class WifiDevice implements ViewType {
 
     public WifiDevice(){}
 
-    public WifiDevice(String name, String ip, Boolean on){
+    public WifiDevice(String name, String mac, Boolean on){
         this.name = !name.equals("") ? name : "NoName";
-        this.ip = !ip.equals("") ? ip : "No ip";
+        this.mac = !mac.equals("") ? mac : "No MAC";
         this.on = on;
     }
 
@@ -39,12 +39,12 @@ public class WifiDevice implements ViewType {
         this.name = name;
     }
 
-    public String getIp() {
-        return ip;
+    public String getMac() {
+        return mac;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setMac(String mac) {
+        this.mac = mac;
     }
 
     public boolean getOn() {

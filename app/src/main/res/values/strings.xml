@@ -46,4 +46,6 @@
     <string name="edit_relay">Edit Relay</string>
     <string name="cancel">CANCEL</string>
     <string name="confirm">CONFIRM</string>
+    <string name="mac">MAC Address</string>
+    <string name="add_description">Button used for adding new stuff</string>
 </resources>

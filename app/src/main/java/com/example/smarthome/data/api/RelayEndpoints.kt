@@ -22,9 +22,6 @@ interface RelayEndpoints {
     @GET("/relays/{id}")
     fun getById(@Path("id") id: Long): Single<Relay>
 
-    @GET("/relays/ip/{ip}")
-    fun getByIp(@Path("id") ip: String): Single<BasicResponse<Relay>>
-
     @PUT("/relays/{id}")
     fun updateById(@Path("id") id: Long, @Body relay: Relay): Observable<Response<Relay>>
 

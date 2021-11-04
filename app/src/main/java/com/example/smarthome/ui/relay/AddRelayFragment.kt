@@ -68,10 +68,10 @@ class AddRelayFragment:
     override fun initOnClickListeners() {
         binding.addButton.setOnClickListener {
             val name: String = binding.name.text.toString()
-            val ip: String = binding.ip.text.toString()
+            val mac: String = binding.mac.text.toString()
             val isOn: Boolean = binding.switchButton.isChecked
 
-            relayViewModel.add(Relay(name, ip, isOn))
+            relayViewModel.add(Relay(name, mac, isOn))
         }
     }
 
