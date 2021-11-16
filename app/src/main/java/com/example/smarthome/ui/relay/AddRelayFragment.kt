@@ -53,7 +53,7 @@ class AddRelayFragment:
                     binding.progressBar.visibility = View.VISIBLE
                     binding.addButton.visibility = View.GONE
                 }
-                Resource.Status.SUCCESS -> requireActivity().finish()
+                Resource.Status.ADDED -> requireActivity().finish()
                 else -> {
                     binding.progressBar.visibility = View.GONE
                     binding.addButton.visibility = View.VISIBLE
@@ -74,5 +74,4 @@ class AddRelayFragment:
             relayViewModel.add(Relay(name, mac, isOn))
         }
     }
-
 }

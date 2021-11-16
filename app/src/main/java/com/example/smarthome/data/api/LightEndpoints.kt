@@ -1,33 +1,35 @@
 package com.example.smarthome.data.api
 
+import com.example.smarthome.data.model.BasicResponse
 import com.example.smarthome.data.model.Light
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 //TODO update CALL return type
 interface LightEndpoints {
 
     @GET("/lights")
-    fun getAll(): Call<List<Light>>
+    suspend fun getAll(): List<Light>
 
     @GET("/lights/{id}")
-    fun getById(@Path("id") id: Long) : Call<Light>
+    suspend fun getById(@Path("id") id: Long) : Light
 
     @GET("/lights/ip/{ip}")
-    fun getByIp(@Path("ip") ip: String) : Call<Light>
+    suspend fun getByIp(@Path("ip") ip: String) : Light
 
     @POST("/lights")
-    fun add(@Body light: Light) : Call<JsonObject>
+    suspend fun add(@Body light: Light) : Response<BasicResponse<Light>>
 
     @POST("/lights/{id}/turn")
-    fun turn(@Path("id") id: Long) : Call<ResponseBody>
+    suspend fun turn(@Path("id") id: Long)
 
     @PUT("/lights/{id}")
-    fun updateById(@Path("id") id: Long, @Body light: Light) : Call<ResponseBody>
+    suspend fun updateById(@Path("id") id: Long, @Body light: Light) : ResponseBody
 
     @DELETE("/lights/{id}")
-    fun deleteById(@Path("id") id: Long) : Call<ResponseBody>
+    suspend fun deleteById(@Path("id") id: Long) : ResponseBody
 
 }

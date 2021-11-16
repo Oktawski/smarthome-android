@@ -4,26 +4,25 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.example.smarthome.data.model.Relay
+import com.example.smarthome.data.model.WifiDevice
 import com.example.smarthome.databinding.DetailsRelayActivityBinding
-import com.example.smarthome.utilities.LiveDataObservers
-import com.example.smarthome.utilities.OnClickListeners
+import com.example.smarthome.ui.DeviceDetailsActivity
 import com.example.smarthome.utilities.Resource
 import com.example.smarthome.viewmodel.RelayViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailsRelayActivity:
-    AppCompatActivity(),
-    OnClickListeners,
-    LiveDataObservers
+    DeviceDetailsActivity()
 {
-    private val viewModel: RelayViewModel by viewModels()
-    private var id: Long? = null
-    private lateinit var relay: Relay
+    override val viewModel: RelayViewModel by viewModels()
+    private lateinit var device: Relay
     private lateinit var binding: DetailsRelayActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +30,8 @@ class DetailsRelayActivity:
         binding = DetailsRelayActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        id = intent.getLongExtra("relayId", -1)
-        getRelay()
+        deviceId = intent.getLongExtra("relayId", -1)
+        getDevice()
 
         initLiveDataObservers()
         initOnClickListeners()
@@ -47,7 +46,7 @@ class DetailsRelayActivity:
                     binding.confirmButton.visibility = View.GONE
                     binding.cancelButton.visibility = View.GONE
                 }
-                Resource.Status.SUCCESS -> {
+                Resource.Status.ADDED -> {
                     /*binding.detailsRelayFabConfirm.show()
                     binding.detailsRelayFabCancel.show()*/
                     binding.confirmButton.visibility = View.VISIBLE
@@ -65,30 +64,24 @@ class DetailsRelayActivity:
 
     override fun initOnClickListeners(){
         binding.confirmButton.setOnClickListener {
-            viewModel.update(id!!,
+            viewModel.updateDevice(deviceId!!,
                 Relay(binding.name.text.toString(),
                     binding.mac.text.toString(),
-                    relay.on))
+                    device.on))
         }
         binding.cancelButton.setOnClickListener { finish() }
     }
 
-    private fun getRelay() {
-        viewModel.getById(id!!)!!
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { inflateViews(it)
-                    this.relay = it
-                },
-                { Toast.makeText(this, "Relay not found", Toast.LENGTH_SHORT).show() }
-            )
+    override fun getDevice() {
+        CoroutineScope(Dispatchers.Main).launch {
+            inflateViews(viewModel.getById(deviceId!!))
+        }
     }
 
-    private fun inflateViews(relay: Relay) {
+    override fun inflateViews(device: WifiDevice) {
         with (binding) {
-            name.setText(relay.name)
-            mac.setText(relay.mac)
+            name.setText(device.name)
+            mac.setText(device.mac)
         }
     }
 

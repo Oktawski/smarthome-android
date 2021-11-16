@@ -1,23 +1,22 @@
 package com.example.smarthome.data.model
 
-import com.example.smarthome.utilities.ViewType
+import com.example.smarthome.R
 
 data class Light(
         val id: Long?,
-        val red: Short,
-        val green: Short,
-        val blue: Short,
-        val intensity: Short
-) : WifiDevice(), ViewType {
+        val red: Int,
+        val green: Int,
+        val blue: Int,
+        val intensity: Int
+) : WifiDevice()
+{
     constructor(name: String, mac: String, on: Boolean,
-                red: Short, green: Short, blue: Short, intensity: Short)
+                red: Int, green: Int, blue: Int, intensity: Int)
         :this(null, red, green, blue, intensity){
         super.setName(if (name != "") name else "No name")
         super.setMac(mac)
         super.setOn(on)
     }
 
-    override fun getViewType(): Int {
-        return 0 //TODO R.layout.item_light
-    }
+    override fun getViewType(): Int = R.layout.item_light
 }

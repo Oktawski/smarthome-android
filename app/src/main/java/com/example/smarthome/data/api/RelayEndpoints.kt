@@ -14,13 +14,14 @@ interface RelayEndpoints {
     suspend fun add(@Body relay: Relay): Response<BasicResponse<Relay>>
 
     @DELETE("/relays/{id}")
-    fun deleteById(@Path("id") id: Long): Observable<Response<ResponseBody>>
+    suspend fun deleteById(@Path("id") id: Long): Response<ResponseBody>
 
     @GET("/relays")
-    fun getAll(): Single<Response<List<Relay>>>
+    suspend fun getAll(): Response<List<Relay>>
 
     @GET("/relays/{id}")
-    fun getById(@Path("id") id: Long): Single<Relay>
+    suspend fun getById(@Path("id") id: Long): Relay
+    //fun getById(@Path("id") id: Long): Single<Relay>
 
     @PUT("/relays/{id}")
     fun updateById(@Path("id") id: Long, @Body relay: Relay): Observable<Response<Relay>>

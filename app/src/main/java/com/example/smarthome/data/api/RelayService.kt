@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.smarthome.data.model.BasicResponse
 import com.example.smarthome.data.model.Relay
 import com.example.smarthome.utilities.Resource
+import com.example.smarthome.data.api.DeviceService
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
@@ -19,8 +20,8 @@ import javax.inject.Singleton
 @Singleton
 class RelayService @Inject constructor(
     private val api: RelayEndpoints
-) {
-    
+) : DeviceService<Relay>
+{
     private val TAG = "RelayService"
 
     private val _relays = MutableLiveData<List<Relay>>(emptyList())
@@ -32,16 +33,16 @@ class RelayService @Inject constructor(
     private val disposable = CompositeDisposable()
     private val errorMessage = "Could not connect to server"
 
-    fun add(relay: Relay){
+    override suspend fun add(device: Relay) {
         _status.value = Resource.loading()
 
         job = CoroutineScope(Dispatchers.IO).launch {
-            val response = api.add(relay)
+            val response = api.add(device)
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
-                    _status.value = Resource.success(response.body()?.msg)
+                    _status.value = Resource.added(response.body()?.t, response.body()?.msg)
                     Log.i(TAG, "add: success")
-                    fetchRelays()
+                    fetchDevices()
                 }
                 else {
                     val gson = Gson()
@@ -54,63 +55,65 @@ class RelayService @Inject constructor(
         }
     }
 
-    fun fetchRelays(): LiveData<List<Relay>> {
-        disposable.add(api.getAll()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    val relays = it.body()
-                    //if(relays != null) _relays.value = relays
-                    _relays.value = relays
+    override fun fetchDevices(): LiveData<List<Relay>> {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = api.getAll()
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    val mRelays = response.body()
+                    _relays.value = mRelays
                     _status.value = Resource.success()
                     _status.value = Resource.none()
-                    Log.i(TAG, "fetchRelays: success")
-                },
-                { _status.value = Resource.error(errorMessage) }
-            ))
-        return this.relays
+                } else {
+                    _status.value = Resource.error(errorMessage)
+                }
+            }
+        }
+        return relays
     }
 
-    fun deleteById(id: Long) {
-        disposable.add(api.deleteById(id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    if(it.isSuccessful) fetchRelays()
-                },
-                { _status.value = Resource.error(errorMessage) }
-            ))
+    override fun deleteById(id: Long) {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = api.deleteById(id)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    fetchDevices()
+                } else {
+                    _status.value = Resource.error(errorMessage)
+                }
+            }
+        }
     }
 
-    fun getRelayById(id: Long): Single<Relay> {
+    override suspend fun getDeviceById(id: Long): Relay {
         return api.getById(id)
     }
+    /*override fun getDeviceById(id: Long): Single<Relay> {
+        return api.getById(id)
+    }*/
 
-    fun updateRelay(id: Long, relay: Relay){
+    override fun updateDevice(id: Long, device: Relay) {
         _status.value = Resource.loading()
 
-        disposable.add(api.updateById(id, relay)
+        disposable.add(api.updateById(id, device)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
                     if(it.isSuccessful) _status.value = Resource.success("Updated")
-                    fetchRelays()
+                    fetchDevices()
                     _status.value = Resource.none()
                 },
                 { _status.value = Resource.error(errorMessage) }
             ))
     }
 
-    fun turn(id: Long){
+    override fun turn(id: Long) {
         disposable.add(api.turn(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { if(it.isSuccessful) fetchRelays() },
+                { if(it.isSuccessful) fetchDevices() },
                 { _status.value = Resource.error(errorMessage) }))
     }
-
 }

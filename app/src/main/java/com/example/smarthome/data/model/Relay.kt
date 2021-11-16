@@ -2,12 +2,12 @@ package com.example.smarthome.data.model
 
 import com.example.smarthome.R
 import com.example.smarthome.utilities.ViewType
+import com.google.gson.annotations.SerializedName
 
 
 data class Relay(
         var id: Long?
-) : WifiDevice(),
-    ViewType
+) : WifiDevice()
 {
     constructor(name: String, mac: String, on: Boolean)
             : this(null){
@@ -16,7 +16,5 @@ data class Relay(
         super.setOn(on)
     }
 
-    override fun getViewType(): Int {
-       return R.layout.item_relay
-    }
+    override fun getViewType(): Int = R.layout.item_relay
 }
