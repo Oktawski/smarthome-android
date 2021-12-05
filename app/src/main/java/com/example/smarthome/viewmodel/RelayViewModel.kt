@@ -30,7 +30,9 @@ class RelayViewModel @Inject constructor(
         }
     }
 
-    suspend fun getById(id: Long) = service.getDeviceById(id)
+    suspend fun getById(id: Long): Relay {
+        return service.getDeviceById(id)
+    }
     fun turn(id: Long) = service.turn(id)
     fun updateDevice(id: Long, t: Relay) = service.updateDevice(id, t)
 

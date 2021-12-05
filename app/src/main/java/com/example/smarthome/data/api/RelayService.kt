@@ -88,14 +88,26 @@ class RelayService @Inject constructor(
     override suspend fun getDeviceById(id: Long): Relay {
         return api.getById(id)
     }
-    /*override fun getDeviceById(id: Long): Single<Relay> {
-        return api.getById(id)
-    }*/
 
     override fun updateDevice(id: Long, device: Relay) {
         _status.value = Resource.loading()
 
-        disposable.add(api.updateById(id, device)
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = api.updateById(id, device)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    _status.value = Resource.added(response.body())
+                    fetchDevices()
+                    _status.value = Resource.none()
+                } else {
+                    _status.value = Resource.error(errorMessage)
+                }
+
+
+            }
+        }
+
+/*        disposable.add(api.updateById(id, device)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -105,15 +117,19 @@ class RelayService @Inject constructor(
                     _status.value = Resource.none()
                 },
                 { _status.value = Resource.error(errorMessage) }
-            ))
+            ))*/
     }
 
     override fun turn(id: Long) {
-        disposable.add(api.turn(id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { if(it.isSuccessful) fetchDevices() },
-                { _status.value = Resource.error(errorMessage) }))
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = api.turn(id)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    fetchDevices()
+                } else {
+                    _status.value = Resource.error(errorMessage)
+                }
+            }
+        }
     }
 }

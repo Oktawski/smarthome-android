@@ -21,12 +21,12 @@ interface RelayEndpoints {
 
     @GET("/relays/{id}")
     suspend fun getById(@Path("id") id: Long): Relay
-    //fun getById(@Path("id") id: Long): Single<Relay>
 
     @PUT("/relays/{id}")
-    fun updateById(@Path("id") id: Long, @Body relay: Relay): Observable<Response<Relay>>
+    suspend fun updateById(@Path("id") id: Long, @Body relay: Relay): Response<Relay>
+    //fun updateById(@Path("id") id: Long, @Body relay: Relay): Observable<Response<Relay>>
 
     @POST("/relays/{id}/turn")
-    fun turn(@Path("id") id: Long): Single<Response<ResponseBody>>
+    suspend fun turn(@Path("id") id: Long): Response<ResponseBody>
 
 }

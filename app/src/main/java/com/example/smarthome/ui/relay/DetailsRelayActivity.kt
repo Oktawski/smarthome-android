@@ -16,6 +16,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class DetailsRelayActivity:
@@ -74,7 +75,8 @@ class DetailsRelayActivity:
 
     override fun getDevice() {
         CoroutineScope(Dispatchers.Main).launch {
-            inflateViews(viewModel.getById(deviceId!!))
+            device = viewModel.getById(deviceId!!)
+            inflateViews(device)
         }
     }
 
