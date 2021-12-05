@@ -7,5 +7,3 @@ Android application to communicate with Spring IoT server.
 The application has MVVM architecture, it uses Coroutines and Retrofit2. Users can signup or signin and then add devices that are connected to their local WiFi
 
 This application communicates with my Spring IoT server (https://github.com/Oktawski/iot-server)
-
-User signing in, signing up, adding new devices (Relays, Lights) is implemented.
