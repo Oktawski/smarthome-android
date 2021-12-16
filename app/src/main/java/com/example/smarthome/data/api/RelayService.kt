@@ -106,18 +106,6 @@ class RelayService @Inject constructor(
 
             }
         }
-
-/*        disposable.add(api.updateById(id, device)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    if(it.isSuccessful) _status.value = Resource.success("Updated")
-                    fetchDevices()
-                    _status.value = Resource.none()
-                },
-                { _status.value = Resource.error(errorMessage) }
-            ))*/
     }
 
     override fun turn(id: Long) {
