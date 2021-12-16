@@ -48,6 +48,11 @@ class LightsFragment
         initAdapter()
     }
 
+    override fun onResume() {
+        super.onResume()
+        lightViewModel.fetch()
+    }
+
     override fun initOnClickListeners() {
         binding.addButton.setOnClickListener {
             startActivity(Intent(requireActivity(), AddLightFragment::class.java))

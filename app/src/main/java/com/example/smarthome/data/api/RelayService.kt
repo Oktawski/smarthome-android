@@ -102,8 +102,6 @@ class RelayService @Inject constructor(
                 } else {
                     _status.value = Resource.error(errorMessage)
                 }
-
-
             }
         }
     }

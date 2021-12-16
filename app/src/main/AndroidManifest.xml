@@ -29,6 +29,8 @@
         <activity android:name=".ui.user.UserActivity" />
         <activity android:name=".ui.relay.DetailsRelayActivity"
             android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.light.DetailsLightActivity"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

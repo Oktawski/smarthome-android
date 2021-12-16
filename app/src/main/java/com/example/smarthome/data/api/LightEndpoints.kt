@@ -8,14 +8,13 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
-//TODO update CALL return type
 interface LightEndpoints {
 
     @POST("/lights")
-    suspend fun add(@Body light: Light) : Response<BasicResponse<Light>>
+    suspend fun add(@Body light: Light): Response<BasicResponse<Light>>
 
     @DELETE("/lights/{id}")
-    suspend fun deleteById(@Path("id") id: Long) : Response<ResponseBody>
+    suspend fun deleteById(@Path("id") id: Long): Response<ResponseBody>
 
     @GET("/lights")
     suspend fun getAll(): Response<List<Light>>
@@ -23,11 +22,10 @@ interface LightEndpoints {
     @GET("/lights/{id}")
     suspend fun getById(@Path("id") id: Long) : Light
 
-    @POST("/lights/{id}/turn")
-    suspend fun turn(@Path("id") id: Long)
-
     @PUT("/lights/{id}")
-    suspend fun updateById(@Path("id") id: Long, @Body light: Light) : ResponseBody
+    suspend fun updateById(@Path("id") id: Long, @Body light: Light): Response<Light>
 
+    @POST("/lights/{id}/turn")
+    suspend fun turn(@Path("id") id: Long): Response<ResponseBody>
 
 }

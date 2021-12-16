@@ -1,4 +1,4 @@
-package com.example.smarthome.ui.relay
+package com.example.smarthome.ui.light
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,30 +8,30 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.smarthome.R
-import com.example.smarthome.data.model.Relay
-import com.example.smarthome.databinding.AddRelayFragmentBinding
+import com.example.smarthome.data.model.Light
+import com.example.smarthome.databinding.AddLightFragmentBinding
 import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.utilities.Resource
-import com.example.smarthome.viewmodel.RelayViewModel
+import com.example.smarthome.viewmodel.LightViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddRelayFragment:
-    Fragment(R.layout.add_relay_fragment),
+class AddLightFragment :
+    Fragment(R.layout.add_light_fragment),
     LiveDataObservers,
     OnClickListeners
 {
-    private var _binding: AddRelayFragmentBinding? = null
+    private var _binding: AddLightFragmentBinding? = null
     private val binding get() = _binding!!
-    private val relayViewModel: RelayViewModel by viewModels()
+    private val lightViewModel: LightViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = AddRelayFragmentBinding.inflate(inflater, container, false)
+        _binding = AddLightFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -47,8 +47,8 @@ class AddRelayFragment:
     }
 
     override fun initLiveDataObservers() {
-        relayViewModel.status.observe(viewLifecycleOwner) {
-            when (it.status){
+        lightViewModel.status.observe(viewLifecycleOwner) {
+            when (it.status) {
                 Resource.Status.LOADING -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.addButton.visibility = View.GONE
@@ -71,7 +71,8 @@ class AddRelayFragment:
             val mac: String = binding.mac.text.toString()
             val isOn: Boolean = binding.switchButton.isChecked
 
-            relayViewModel.add(Relay(name, mac, isOn))
+            lightViewModel.add(Light(name, mac, isOn))
         }
     }
+
 }

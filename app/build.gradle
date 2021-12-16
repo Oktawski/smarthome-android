@@ -90,4 +90,8 @@ dependencies {
     annotationProcessor 'com.google.dagger:hilt-compiler:2.38'
     kapt 'com.google.dagger:hilt-compiler:2.38'
 
+    // Color picker
+    implementation 'com.github.antonpopoff:colorwheel:1.1.13'
+
+
 }

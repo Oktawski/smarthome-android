@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.view.ContextMenu
+import android.view.Menu
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smarthome.data.api.LightService
@@ -33,7 +34,17 @@ class LightViewHolder(
         view: View?,
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
-        TODO("Not yet implemented")
+        menu?.setHeaderTitle(light!!.name)
+        val edit = menu?.add(Menu.FIRST, 0, Menu.NONE, "Edit")
+        val delete = menu?.add(Menu.FIRST, 1, Menu.NONE, "Delete")
+        edit?.setOnMenuItemClickListener {
+            startEdit()
+            true
+        }
+        delete?.setOnMenuItemClickListener {
+            showDeleteDialog()
+            true
+        }
     }
 
     override fun initOnClickListeners() {
@@ -47,6 +58,9 @@ class LightViewHolder(
             }
 
             itemView.setOnClickListener(expandListener)
+            expandArrow.setOnClickListener(expandListener)
+            deleteButton.setOnClickListener { showDeleteDialog() }
+            editButton.setOnClickListener { startEdit() }
         }
     }
 

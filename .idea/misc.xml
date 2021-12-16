@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/oktaw/Documents/Projects/Android/smarthome-android/app/src/main/res/layout/activity_devices.xml" value="0.2388888888888889" />
+        <entry key="..\:/Users/oktaw/Documents/Projects/Android/smarthome-android/app/src/main/res/layout/add_light_fragment.xml" value="0.2484375" />
         <entry key="..\:/Users/oktaw/Documents/Projects/Android/smarthome-android/app/src/main/res/layout/add_relay_fragment.xml" value="0.23425925925925925" />
         <entry key="..\:/Users/oktaw/Documents/Projects/Android/smarthome-android/app/src/main/res/layout/details_light_activity.xml" value="0.2484375" />
         <entry key="..\:/Users/oktaw/Documents/Projects/Android/smarthome-android/app/src/main/res/layout/details_relay_activity.xml" value="0.24461538461538462" />

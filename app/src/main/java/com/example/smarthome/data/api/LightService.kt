@@ -15,8 +15,8 @@ import javax.inject.Singleton
 @Singleton
 class LightService @Inject constructor(
     private val api: LightEndpoints
-) {
-
+) : DeviceService<Light>
+{
     private val _lights = MutableLiveData<List<Light>>(emptyList())
             val lights: LiveData<List<Light>> get() = _lights
     private val _status = MutableLiveData<Resource<Light>>()
@@ -24,14 +24,14 @@ class LightService @Inject constructor(
 
     var job: Job? = null
 
-    fun add(light: Light) {
+    override suspend fun add(light: Light) {
         _status.value = Resource.loading()
 
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = api.add(light)
             withContext(Dispatchers.Main) {
-                if ( response.isSuccessful) {
-                    _status.value = Resource.success(response.body()?.msg)
+                if (response.isSuccessful) {
+                    _status.value = Resource.added(response.body()?.t, response.body()?.msg)
                     fetchDevices()
                 } else {
                     val gson = Gson()
@@ -44,13 +44,72 @@ class LightService @Inject constructor(
         }
     }
 
-    fun deleteById(id: Long) {}
-
-    fun turn(id: Long) {}
-
-    fun fetchDevices() {
-
+    override fun fetchDevices(): LiveData<List<Light>> {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = api.getAll()
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    val mLights = response.body()
+                    _lights.value = mLights
+                    _status.value = Resource.success()
+                    _status.value = Resource.none()
+                } else {
+                    _status.value = Resource.error("Error")
+                }
+            }
+        }
+        return lights
     }
+
+    override fun deleteById(id: Long) {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = api.deleteById(id)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    fetchDevices()
+                } else {
+                    _status.value = Resource.error("error")
+                }
+                fetchDevices()
+            }
+        }
+    }
+
+    override suspend fun getDeviceById(id: Long): Light {
+        return api.getById(id)
+    }
+
+    override fun updateDevice(id: Long, device: Light) {
+        _status.value = Resource.loading()
+
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = api.updateById(id, device)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    _status.value = Resource.added(response.body())
+                    fetchDevices()
+                    _status.value = Resource.none()
+                } else {
+                    _status.value = Resource.error("Error")
+                }
+            }
+        }
+    }
+
+    override fun turn(id: Long) {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = api.turn(id)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    fetchDevices()
+                } else {
+                    _status.value = Resource.error("Error")
+                }
+            }
+        }
+    }
+
+
 
 
 
