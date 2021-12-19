@@ -40,7 +40,7 @@ class DetailsRelayActivity:
 
     override fun initLiveDataObservers() {
         viewModel.status.observe(this){
-            when(it.status){
+            when (it.status) {
                 Resource.Status.LOADING -> {
                    /* binding.detailsRelayFabConfirm.hide()
                     binding.detailsRelayFabCancel.hide()*/

@@ -26,6 +26,9 @@ interface LightEndpoints {
     suspend fun updateById(@Path("id") id: Long, @Body light: Light): Response<Light>
 
     @POST("/lights/{id}/turn")
-    suspend fun turn(@Path("id") id: Long): Response<ResponseBody>
+    suspend fun turn(@Path("id") id: Long): Response<Light>
+
+    @POST("/lights/{id}/color")
+    suspend fun setColor(@Path("id") id: Long, @Body light: Light)
 
 }

@@ -109,6 +109,12 @@ class LightService @Inject constructor(
         }
     }
 
+    fun setColor(id: Long, light: Light) {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            api.setColor(id, light)
+        }
+    }
+
 
 
 

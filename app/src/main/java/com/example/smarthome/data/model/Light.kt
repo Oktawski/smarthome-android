@@ -3,11 +3,11 @@ package com.example.smarthome.data.model
 import com.example.smarthome.R
 
 data class Light(
-        val id: Long?,
-        val red: Int,
-        val green: Int,
-        val blue: Int,
-        val intensity: Int
+    val id: Long?,
+    val red: Int,
+    val green: Int,
+    val blue: Int,
+    var intensity: Int
 ) : WifiDevice()
 {
     constructor(name: String, mac: String, on: Boolean)

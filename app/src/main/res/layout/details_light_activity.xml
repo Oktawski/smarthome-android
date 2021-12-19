@@ -18,7 +18,7 @@
         android:id="@+id/details_light_topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:title="@string/edit_relay" />
+        android:title="@string/edit_light" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_layout"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/name"
         android:layout_below="@id/details_light_topBar"
-        android:layout_marginTop="@dimen/margin_xl"
+        android:layout_marginTop="@dimen/margin_s"
         style="@style/Widget.Design.TextInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -61,10 +61,15 @@
         android:layout_marginTop="@dimen/margin_m" />
 
     <com.github.antonpopoff.colorwheel.gradientseekbar.GradientSeekBar
+        android:id="@+id/gradient_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:gsb_orientation="horizontal"
-        android:layout_below="@id/color_wheel"/>
+        android:layout_below="@id/color_wheel"
+        app:gsb_endColor="@color/white"
+        app:gsb_offset="1"
+        app:gsb_orientation="horizontal" />
+
+
 
 </RelativeLayout>
 
@@ -89,6 +94,7 @@
             android:text="@string/cancel"
             android:insetTop="0dp"
             android:insetBottom="0dp"
+            android:layout_marginEnd="@dimen/margin_s"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             />
 
@@ -100,6 +106,7 @@
             android:text="@string/confirm"
             android:insetTop="0dp"
             android:insetBottom="0dp"
+            android:layout_marginStart="@dimen/margin_s"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             />
 

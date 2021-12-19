@@ -93,5 +93,4 @@ dependencies {
     // Color picker
     implementation 'com.github.antonpopoff:colorwheel:1.1.13'
 
-
 }
