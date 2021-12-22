@@ -40,7 +40,7 @@ class LightViewModel @Inject constructor(
     }
 
     fun turn(id: Long) = service.turn(id)
-    fun setColor(id: Long, light: Light) = service.setColor(id, light)
+    //fun setColor(id: Long, light: Light) = service.setColor(id, light)
+    fun setColor(id: Long) = service.setColor(id, light.value!!)
     fun updateDevice(id: Long, device: Light) = service.updateDevice(id, device)
-
 }

@@ -110,8 +110,14 @@ class LightService @Inject constructor(
     }
 
     fun setColor(id: Long, light: Light) {
+        _status.value = Resource.loading()
         job = CoroutineScope(Dispatchers.IO).launch {
-            api.setColor(id, light)
+            val response = api.setColor(id, light)
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    _status.value = Resource.success()
+                }
+            }
         }
     }
 

@@ -6,6 +6,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
 import com.example.smarthome.data.model.Light
 import com.example.smarthome.data.model.WifiDevice
 import com.example.smarthome.databinding.DetailsLightActivityBinding
@@ -48,6 +51,28 @@ class DetailsLightActivity
                     Resource.Status.LOADING -> {
                         confirmButton.visibility = View.GONE
                         cancelButton.visibility = View.GONE
+
+                        colorWheel.apply {
+                            isEnabled = false
+                            isFocusable = false
+                        }
+
+                        gradientBar.apply {
+                            isEnabled = false
+                            isFocusable = false
+                        }
+                    }
+                    Resource.Status.SUCCESS -> {
+                        confirmButton.visibility = View.VISIBLE
+                        cancelButton.visibility = View.VISIBLE
+                        colorWheel.apply {
+                            isEnabled = true
+                            isFocusable = true
+                        }
+                        gradientBar.apply {
+                            isEnabled = true
+                            isFocusable = true
+                        }
                     }
                     Resource.Status.ADDED -> {
                         Toast.makeText(
@@ -79,23 +104,18 @@ class DetailsLightActivity
 
             cancelButton.setOnClickListener { finish() }
 
-            // TODO implement that in onTouchListener
-            colorWheel.colorChangeListener = { rgb: Int ->
-                gradientBar.setBlackToColor(rgb)
-                gradientBar.endColor = rgb
-                val red = Color.red(rgb)
-                val green = Color.green(rgb)
-                val blue = Color.blue(rgb)
-
-                viewModel.light.value =
-                    Light(null, red, green, blue, viewModel.light.value?.intensity!!)
-            }
-
             colorWheel.setOnTouchListener(object : View.OnTouchListener {
                 override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
                     when (motionEvent?.action) {
                         MotionEvent.ACTION_UP -> {
-                            viewModel.setColor(deviceId!!, viewModel.light.value!!)
+                            viewModel.light.value =
+                                Light(null,
+                                    colorWheel.rgb.red,
+                                    colorWheel.rgb.green,
+                                    colorWheel.rgb.blue,
+                                    viewModel.light.value?.intensity!!
+                                )
+                            viewModel.setColor(deviceId!!)
                         }
                     }
                     return false
@@ -106,7 +126,7 @@ class DetailsLightActivity
                 override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
                     if (motionEvent?.action == MotionEvent.ACTION_UP) {
                         viewModel.light.value?.intensity = (gradientBar.offset * 255).toInt()
-                        viewModel.setColor(deviceId!!, viewModel.light.value!!)
+                        viewModel.setColor(deviceId!!)
                     }
                     return false
                 }
