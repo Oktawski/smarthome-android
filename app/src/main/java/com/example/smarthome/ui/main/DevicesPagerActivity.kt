@@ -31,7 +31,7 @@ class DevicesPagerActivity
     private val userViewModel: UserViewModel by viewModels()
     private lateinit var binding: ActivityDevicesBinding
 
-    private val tabs = arrayOf("Relays", "Lights")
+    private val tabs = arrayOf("Lights", "Relays")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,8 +115,7 @@ class DevicesPagerActivity
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> RelaysFragment()
-                1 -> LightsFragment()
+                0 -> LightsFragment()
                 else -> RelaysFragment()
             }
         }

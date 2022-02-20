@@ -1,15 +1,17 @@
 package com.example.smarthome.data.api
 
 import androidx.lifecycle.LiveData
+import com.example.smarthome.data.model.BasicResponse
 import com.example.smarthome.data.model.WifiDevice
+import okhttp3.ResponseBody
+import retrofit2.Response
 
 interface DeviceService<T : WifiDevice> {
 
-    suspend fun add(device: T)
-    fun fetchDevices(): LiveData<List<T>>
-    fun deleteById(id: Long)
-    //fun getDeviceById(id: Long): Single<T>
+    suspend fun add(device: T): Response<BasicResponse<T>>
+    suspend fun fetchDevices(): LiveData<List<T>>
+    suspend fun deleteById(id: Long): Response<ResponseBody>
     suspend fun getDeviceById(id: Long): T
-    fun updateDevice(id: Long, t: T)
-    fun turn(id: Long)
+    suspend fun updateDevice(id: Long, device: T): Response<T>
+    suspend fun turn(id: Long): Response<T>
 }

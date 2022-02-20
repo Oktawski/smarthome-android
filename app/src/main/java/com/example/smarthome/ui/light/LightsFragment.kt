@@ -50,7 +50,7 @@ class LightsFragment
 
     override fun onResume() {
         super.onResume()
-        lightViewModel.fetch()
+        lightViewModel.fetchDevices()
     }
 
     override fun initOnClickListeners() {

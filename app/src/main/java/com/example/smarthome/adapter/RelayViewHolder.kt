@@ -15,6 +15,9 @@ import com.example.smarthome.data.model.Relay
 import com.example.smarthome.databinding.ItemRelayBinding
 import com.example.smarthome.ui.relay.DetailsRelayActivity
 import com.example.smarthome.utilities.OnClickListeners
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class RelayViewHolder (
@@ -48,7 +51,10 @@ class RelayViewHolder (
 
     override fun initOnClickListeners() {
         with (binding) {
-            switchButton.setOnClickListener { relayService.turn(relay!!.id!!) }
+            switchButton.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    relayService.turn(relay!!.id!!) }
+                }
             expandableView.visibility = if (isExpanded) View.VISIBLE else View.GONE
 
             itemView.setOnLongClickListener {
@@ -90,7 +96,10 @@ class RelayViewHolder (
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Delete relay " + relay?.name)
         builder.setPositiveButton("Confirm") {
-                _: DialogInterface?, _: Int -> relayService.deleteById(relay?.id!!) }
+                _: DialogInterface?, _: Int ->
+                    CoroutineScope(Dispatchers.Main).launch {
+                        relayService.deleteById(relay?.id!!) }
+                    }
         builder.setNegativeButton("Cancel") {
                 dialog: DialogInterface?, _: Int -> dialog?.dismiss() }
         builder.create()

@@ -1,6 +1,5 @@
 package com.example.smarthome.ui.light
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -17,7 +16,6 @@ import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.utilities.Resource
 import com.example.smarthome.viewmodel.LightViewModel
-import com.github.antonpopoff.colorwheel.gradientseekbar.setBlackToColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

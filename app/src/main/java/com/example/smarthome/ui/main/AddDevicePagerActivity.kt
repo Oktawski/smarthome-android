@@ -19,7 +19,7 @@ class AddDevicePagerActivity : FragmentActivity() {
     private lateinit var viewPager2: ViewPager2
     private lateinit var adapter: FragmentStateAdapter
 
-    private val tabs = arrayOf("Relay", "Light")
+    private val tabs = arrayOf("Light", "Relay")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +46,8 @@ class AddDevicePagerActivity : FragmentActivity() {
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                0 -> AddRelayFragment()
-                1 -> AddLightFragment()
-                else -> RelaysFragment()
+                0 -> AddLightFragment()
+                else -> AddRelayFragment()
             }
         }
     }

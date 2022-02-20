@@ -13,6 +13,10 @@ import com.example.smarthome.data.model.Light
 import com.example.smarthome.databinding.ItemLightBinding
 import com.example.smarthome.ui.light.DetailsLightActivity
 import com.example.smarthome.utilities.OnClickListeners
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 
 class LightViewHolder(
     private val context: Context,
@@ -49,7 +53,11 @@ class LightViewHolder(
 
     override fun initOnClickListeners() {
         with (binding) {
-            switchButton.setOnClickListener { service.turn(light!!.id!!) }
+            switchButton.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    service.turn(light!!.id!!)
+                }
+            }
             expandableView.visibility = if (isExpanded) View.VISIBLE else View.GONE
 
             itemView.setOnLongClickListener {
@@ -57,7 +65,7 @@ class LightViewHolder(
                 true
             }
 
-            itemView.setOnClickListener(expandListener)
+            itemView.setOnClickListener { startEdit() }
             expandArrow.setOnClickListener(expandListener)
             deleteButton.setOnClickListener { showDeleteDialog() }
             editButton.setOnClickListener { startEdit() }
@@ -91,7 +99,11 @@ class LightViewHolder(
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Delete light " + light?.name)
         builder.setPositiveButton("Confirm") {
-            _: DialogInterface?, _: Int -> service.deleteById(light?.id!!)
+            _: DialogInterface?, _: Int ->
+                CoroutineScope(Dispatchers.Main).launch {
+                    service.deleteById(light?.id!!)
+                    service.fetchDevices()
+                }
         }
         builder.setNegativeButton("Cancel") {
             dialog: DialogInterface?, _: Int -> dialog?.dismiss()

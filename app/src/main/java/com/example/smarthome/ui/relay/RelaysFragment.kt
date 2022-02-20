@@ -52,7 +52,7 @@ class RelaysFragment
 
     override fun onResume() {
         super.onResume()
-        relayViewModel.fetch()
+        //relayViewModel.fetch()
     }
 
     override fun initOnClickListeners(){

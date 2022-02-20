@@ -14,6 +14,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
+import okhttp3.ResponseBody
+import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,7 +35,7 @@ class RelayService @Inject constructor(
     private val disposable = CompositeDisposable()
     private val errorMessage = "Could not connect to server"
 
-    override suspend fun add(device: Relay) {
+    override suspend fun add(device: Relay): Response<BasicResponse<Relay>> {
         _status.value = Resource.loading()
 
         job = CoroutineScope(Dispatchers.IO).launch {
@@ -53,9 +55,10 @@ class RelayService @Inject constructor(
                 }
             }
         }
+        TODO("Not returning")
     }
 
-    override fun fetchDevices(): LiveData<List<Relay>> {
+    override suspend fun fetchDevices(): LiveData<List<Relay>> {
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = api.getAll()
             withContext(Dispatchers.Main) {
@@ -72,7 +75,7 @@ class RelayService @Inject constructor(
         return relays
     }
 
-    override fun deleteById(id: Long) {
+    override suspend fun deleteById(id: Long): Response<ResponseBody> {
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = api.deleteById(id)
             withContext(Dispatchers.Main) {
@@ -83,13 +86,15 @@ class RelayService @Inject constructor(
                 }
             }
         }
+
+        TODO("Not returning")
     }
 
     override suspend fun getDeviceById(id: Long): Relay {
         return api.getById(id)
     }
 
-    override fun updateDevice(id: Long, device: Relay) {
+    override suspend fun updateDevice(id: Long, device: Relay): Response<Relay> {
         _status.value = Resource.loading()
 
         job = CoroutineScope(Dispatchers.IO).launch {
@@ -104,9 +109,11 @@ class RelayService @Inject constructor(
                 }
             }
         }
+
+        TODO("Not implemented")
     }
 
-    override fun turn(id: Long) {
+    override suspend fun turn(id: Long): Response<Relay> {
         job = CoroutineScope(Dispatchers.IO).launch {
             val response = api.turn(id)
             withContext(Dispatchers.Main) {
@@ -117,5 +124,6 @@ class RelayService @Inject constructor(
                 }
             }
         }
+        TODO("Not implemented")
     }
 }

@@ -22,7 +22,12 @@ class RelayViewModel @Inject constructor(
         viewModelScope.launch { service.add(t) }
     }
 
-    fun fetch(): LiveData<List<Relay>> = service.fetchDevices()
+    fun fetch(): LiveData<List<Relay>> {
+        viewModelScope.launch {
+            service.fetchDevices()
+        }
+        TODO("Not implemented")
+    }
 
     fun deleteById(id: Long) {
         viewModelScope.launch {
@@ -33,7 +38,16 @@ class RelayViewModel @Inject constructor(
     suspend fun getById(id: Long): Relay {
         return service.getDeviceById(id)
     }
-    fun turn(id: Long) = service.turn(id)
-    fun updateDevice(id: Long, t: Relay) = service.updateDevice(id, t)
+    fun turn(id: Long) {
+        viewModelScope.launch {
+            service.turn(id)
+        }
+        TODO("Not implemented")
+    }
+    fun updateDevice(id: Long, t: Relay) {
+        viewModelScope.launch {
+            service.updateDevice(id, t)
+        }
+    }
 
 }
