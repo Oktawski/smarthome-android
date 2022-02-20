@@ -16,18 +16,16 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
-    private var job: Job? = null
+    //private var job: Job? = null
 
-    private val viewModel: UserViewModel by viewModels()
+    //private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
 
-        val navController = Navigation.findNavController(this, R.id.nav_host_fragment_login)
-
         setSupportActionBar(findViewById(R.id.login_toolbar))
-
+/*
         viewModel.serverStatus.observe(this) { bool -> run {
             if (!bool) {
                 viewModel.signOut()
@@ -44,6 +42,6 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.getServerStatus()
                 delay(1000)
             }
-        }
+        }*/
     }
 }
