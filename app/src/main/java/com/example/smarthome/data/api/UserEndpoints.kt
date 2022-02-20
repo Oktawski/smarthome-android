@@ -3,7 +3,6 @@ package com.example.smarthome.data.api
 import com.example.smarthome.data.model.LoginRequest
 import com.example.smarthome.data.model.User
 import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

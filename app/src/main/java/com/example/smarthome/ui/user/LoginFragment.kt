@@ -24,8 +24,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginFragment:
     Fragment(R.layout.login_fragment),
     LiveDataObservers,
-    OnClickListeners {
-
+    OnClickListeners
+{
     private var _binding: LoginFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -37,7 +37,7 @@ class LoginFragment:
         setToolbarTitle()
     }
 
-    override fun onCreateView(
+    override fun onCreateView (
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,24 +63,19 @@ class LoginFragment:
         initOnClickListeners()
     }
 
-    private fun setToolbarTitle(){
+    private fun setToolbarTitle() {
         (activity as LoginActivity).supportActionBar?.title = "Login"
     }
 
-    override fun initLiveDataObservers(){
-        userViewModel.isSignedIn.observe(viewLifecycleOwner){
+    override fun initLiveDataObservers() {
+        userViewModel.isSignedIn.observe(viewLifecycleOwner) {
             startActivity(Intent(requireActivity(), DevicesPagerActivity::class.java))
         }
 
-        userViewModel.status.observe(viewLifecycleOwner){
-            when(it.status){
-                Resource.Status.SUCCESS -> {
-                    showButtons()
-                    toast(it.message)
-                }
+        userViewModel.status.observe(viewLifecycleOwner) {
+            when (it.status) {
                 Resource.Status.LOADING -> hideButtons()
-
-                Resource.Status.ERROR -> {
+                else -> {
                     showButtons()
                     toast(it.message)
                 }
@@ -88,53 +83,49 @@ class LoginFragment:
         }
     }
 
-    override fun initOnClickListeners(){
-        binding.login.setOnClickListener{
-            if(!showErrorIfTextFieldEmpty(binding.username, binding.password)){
+    override fun initOnClickListeners() {
+        binding.login.setOnClickListener {
+            if (!showErrorIfTextFieldEmpty(binding.username, binding.password)) {
                 val username = binding.username.text.toString()
                 val password = binding.password.text.toString()
 
                 val loginBody = LoginRequest(username, password)
 
-                //userViewModel.signin(loginBody)
                 userViewModel.signin(loginBody)
             }
         }
 
-        binding.register.setOnClickListener{
+        binding.register.setOnClickListener {
             val bundle = Bundle()
 
             val username = binding.username.text.toString()
-            if(username.isNotEmpty()){
-                bundle.putString("username", username)
-            }
+            if(username.isNotEmpty()) bundle.putString("username", username)
 
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_viewRegistrationFragment, bundle)
         }
     }
 
-    private fun toast(str: String?){
-        if(str != null && str.isNotEmpty()){
+    private fun toast(str: String?) {
+        if(str != null && str.isNotEmpty())
             Toast.makeText(requireActivity(), str, Toast.LENGTH_SHORT).show()
-        }
     }
 
-    private fun hideButtons(){
+    private fun hideButtons() {
         binding.login.visibility = View.GONE
         binding.register.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
     }
 
-    private fun showButtons(){
+    private fun showButtons() {
         binding.login.visibility = View.VISIBLE
         binding.register.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
     }
 
-    private fun showErrorIfTextFieldEmpty(vararg text: EditText): Boolean{
+    private fun showErrorIfTextFieldEmpty(vararg text: EditText): Boolean {
         var isEmpty = false
-        for(t in text){
+        for (t in text) {
             if(t.text.isNullOrEmpty()){
                 t.error = "Cannot be empty"
                 isEmpty = true
