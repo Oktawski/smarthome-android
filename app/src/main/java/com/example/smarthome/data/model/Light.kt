@@ -4,9 +4,9 @@ import com.example.smarthome.R
 
 data class Light(
     val id: Long?,
-    val red: Int,
-    val green: Int,
-    val blue: Int,
+    var red: Int,
+    var green: Int,
+    var blue: Int,
     var intensity: Int
 ) : WifiDevice()
 {

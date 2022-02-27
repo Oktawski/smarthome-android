@@ -25,8 +25,6 @@ class LightViewModel @Inject constructor(
     private val _lights = service.lights
             val lights: LiveData<List<Light>> get() = _lights
 
-    val light: MutableLiveData<Light> = MutableLiveData()
-
     fun add(t: Light) {
         viewModelScope.launch {
             val response = service.add(t)
@@ -63,35 +61,4 @@ class LightViewModel @Inject constructor(
             fetchDevices()
         }
     }
-
-    suspend fun getById(id: Long): Light {
-        light.value = service.getDeviceById(id)
-        return light.value!!
-    }
-
-    fun updateDevice(id: Long, device: Light) {
-        _status.value = Resource.loading()
-        viewModelScope.launch {
-            val response = service.updateDevice(id, device)
-            _status.value = if (response.isSuccessful)
-                                Resource.added(device, "Light updated")
-                            else
-                                Resource.error("Something went wrong")
-
-        }
-    }
-
-    fun turn(id: Long) {
-        viewModelScope.launch {
-            service.turn(id)
-        }
-    }
-
-    fun setColor(id: Long) {
-        viewModelScope.launch {
-            service.setColor(id, light.value!!)
-        }
-    }
-
-
 }

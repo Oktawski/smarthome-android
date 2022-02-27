@@ -12,7 +12,7 @@ abstract class DeviceDetailsActivity
     LiveDataObservers
 {
     abstract val viewModel: ViewModel
-    var deviceId: Long? = null
+    //var deviceId: Long? = null
 
     abstract fun getDevice()
     abstract fun inflateViews(device: WifiDevice)

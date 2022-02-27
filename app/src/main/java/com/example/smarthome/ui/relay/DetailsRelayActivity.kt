@@ -26,6 +26,8 @@ class DetailsRelayActivity:
     private lateinit var device: Relay
     private lateinit var binding: DetailsRelayActivityBinding
 
+    private var deviceId = -1L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DetailsRelayActivityBinding.inflate(layoutInflater)

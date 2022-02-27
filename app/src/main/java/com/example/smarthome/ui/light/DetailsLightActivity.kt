@@ -1,13 +1,11 @@
 package com.example.smarthome.ui.light
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.graphics.blue
-import androidx.core.graphics.green
-import androidx.core.graphics.red
 import com.example.smarthome.data.model.Light
 import com.example.smarthome.data.model.WifiDevice
 import com.example.smarthome.databinding.DetailsLightActivityBinding
@@ -15,11 +13,9 @@ import com.example.smarthome.ui.DeviceDetailsActivity
 import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.utilities.Resource
-import com.example.smarthome.viewmodel.LightViewModel
+import com.example.smarthome.utilities.ViewHelper
+import com.example.smarthome.viewmodel.LightDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailsLightActivity
@@ -27,7 +23,7 @@ class DetailsLightActivity
     OnClickListeners,
     LiveDataObservers
 {
-    override val viewModel: LightViewModel by viewModels()
+    override val viewModel: LightDetailsViewModel by viewModels()
     private lateinit var binding: DetailsLightActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +31,6 @@ class DetailsLightActivity
         binding = DetailsLightActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        deviceId = intent.getLongExtra("lightId", -1)
         getDevice()
 
         initLiveDataObservers()
@@ -43,99 +38,45 @@ class DetailsLightActivity
     }
 
     override fun initLiveDataObservers() {
+        viewModel.light.observe(this) {
+            inflateViews(it)
+        }
+
         viewModel.status.observe(this) {
-            with (binding) {
-                when (it.status) {
-                    Resource.Status.LOADING -> {
-                        confirmButton.visibility = View.GONE
-                        cancelButton.visibility = View.GONE
-
-                        colorWheel.apply {
-                            isEnabled = false
-                            isFocusable = false
-                        }
-
-                        gradientBar.apply {
-                            isEnabled = false
-                            isFocusable = false
-                        }
-                    }
-                    Resource.Status.SUCCESS -> {
-                        confirmButton.visibility = View.VISIBLE
-                        cancelButton.visibility = View.VISIBLE
-                        colorWheel.apply {
-                            isEnabled = true
-                            isFocusable = true
-                        }
-                        gradientBar.apply {
-                            isEnabled = true
-                            isFocusable = true
-                        }
-                    }
-                    Resource.Status.ADDED -> {
-                        Toast.makeText(
-                            this@DetailsLightActivity,
-                            it.message.orEmpty(),
-                            Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
-                    else -> Toast.makeText(
+            when (it.status) {
+                Resource.Status.LOADING -> setLoadingLayout()
+                Resource.Status.SUCCESS -> setNormalLayout()
+                else -> {
+                    Toast.makeText(
                         this@DetailsLightActivity,
                         it.message.orEmpty(),
                         Toast.LENGTH_SHORT).show()
-
+                    finish()
                 }
             }
         }
     }
 
+
+
     override fun initOnClickListeners() {
         with (binding) {
+
             confirmButton.setOnClickListener {
-                viewModel.updateDevice(deviceId!!,
-                    Light(name.text.toString(),
-                        mac.text.toString(),
-                        viewModel.light.value?.on!!
-                    )
-                )
+                viewModel.setName(name.text.toString())
+                viewModel.updateDevice()
             }
 
             cancelButton.setOnClickListener { finish() }
 
-            colorWheel.setOnTouchListener(object : View.OnTouchListener {
-                override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
-                    when (motionEvent?.action) {
-                        MotionEvent.ACTION_UP -> {
-                            viewModel.light.value =
-                                Light(null,
-                                    colorWheel.rgb.red,
-                                    colorWheel.rgb.green,
-                                    colorWheel.rgb.blue,
-                                    viewModel.light.value?.intensity!!
-                                )
-                            viewModel.setColor(deviceId!!)
-                        }
-                    }
-                    return false
-                }
-            })
+            colorWheel.setOnTouchListener(colorWheelOnTouchListener)
 
-            gradientBar.setOnTouchListener(object : View.OnTouchListener {
-                override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
-                    if (motionEvent?.action == MotionEvent.ACTION_UP) {
-                        viewModel.light.value?.intensity = (gradientBar.offset * 255).toInt()
-                        viewModel.setColor(deviceId!!)
-                    }
-                    return false
-                }
-            })
+            gradientBar.setOnTouchListener(gradientBarOnTouchListener)
         }
     }
 
     override fun getDevice() {
-        CoroutineScope(Dispatchers.Main).launch {
-            inflateViews(viewModel.getById(deviceId!!))
-        }
+        viewModel.getById(intent.getLongExtra("lightId", -1))
     }
 
     override fun inflateViews(device: WifiDevice) {
@@ -145,6 +86,39 @@ class DetailsLightActivity
             mac.setText(device.mac)
             colorWheel.setRgb(device.red, device.green, device.blue)
             gradientBar.offset = (viewModel.light.value?.intensity!!).toFloat() / 255.0f
+            gradientBar.endColor = colorWheel.rgb
         }
     }
+
+    private fun setLoadingLayout() {
+        with (binding) {
+            ViewHelper.hideViews(confirmButton, cancelButton)
+            ViewHelper.disableViews(colorWheel, gradientBar)
+        }
+    }
+
+    private fun setNormalLayout() {
+        with (binding) {
+            ViewHelper.showViews(confirmButton, cancelButton)
+            ViewHelper.enableViews(colorWheel, gradientBar)
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private val colorWheelOnTouchListener = View.OnTouchListener { _, motionEvent ->
+        if (motionEvent?.action == MotionEvent.ACTION_UP) {
+            viewModel.setColor(binding.colorWheel.rgb)
+            binding.gradientBar.endColor = binding.colorWheel.rgb
+        }
+        false
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private val gradientBarOnTouchListener = View.OnTouchListener { view, motionEvent ->
+        if (motionEvent?.action == MotionEvent.ACTION_UP) {
+            viewModel.setIntensity((binding.gradientBar.offset * 255).toInt())
+        }
+        false
+    }
+
 }
