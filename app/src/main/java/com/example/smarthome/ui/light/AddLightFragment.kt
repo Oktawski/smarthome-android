@@ -13,6 +13,7 @@ import com.example.smarthome.databinding.AddLightFragmentBinding
 import com.example.smarthome.utilities.LiveDataObservers
 import com.example.smarthome.utilities.OnClickListeners
 import com.example.smarthome.utilities.Resource
+import com.example.smarthome.utilities.ViewHelper
 import com.example.smarthome.viewmodel.LightViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddLightFragment :
     Fragment(R.layout.add_light_fragment),
     LiveDataObservers,
-    OnClickListeners
+    OnClickListeners,
+    ViewHelper
 {
     private var _binding: AddLightFragmentBinding? = null
     private val binding get() = _binding!!
@@ -49,19 +51,12 @@ class AddLightFragment :
     override fun initLiveDataObservers() {
         lightViewModel.status.observe(viewLifecycleOwner) {
             when (it.status) {
-                Resource.Status.LOADING -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.addButton.visibility = View.GONE
-                }
+                Resource.Status.LOADING -> setLoadingLayout()
                 Resource.Status.ADDED -> requireActivity().finish()
-                else -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.addButton.visibility = View.VISIBLE
-                }
+                else -> setNormalLayout()
             }
-            if (!it.message.isNullOrEmpty()) {
-                Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
-            }
+
+            toast(requireActivity(), it.message)
         }
     }
 
@@ -75,4 +70,17 @@ class AddLightFragment :
         }
     }
 
+    private fun setLoadingLayout() {
+        with (binding) {
+            showViews(progressBar)
+            hideViews(addButton)
+        }
+    }
+
+    private fun setNormalLayout() {
+        with (binding) {
+            hideViews(progressBar)
+            showViews(addButton)
+        }
+    }
 }
