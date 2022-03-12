@@ -26,8 +26,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class DevicesPagerActivity
     : AppCompatActivity(),
     LiveDataObservers,
-    OnClickListeners {
-
+    OnClickListeners
+{
     private val userViewModel: UserViewModel by viewModels()
     private lateinit var binding: ActivityDevicesBinding
 

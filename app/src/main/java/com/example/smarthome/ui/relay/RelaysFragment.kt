@@ -52,7 +52,7 @@ class RelaysFragment
 
     override fun onResume() {
         super.onResume()
-        //relayViewModel.fetch()
+        relayViewModel.fetchDevices()
     }
 
     override fun initOnClickListeners(){
@@ -70,5 +70,4 @@ class RelaysFragment
         binding.relaysFoundRv.adapter = adapter
         binding.relaysFoundRv.layoutManager = LinearLayoutManager(context)
     }
-
 }

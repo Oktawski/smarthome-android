@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.example.smarthome.data.model.Light
 import com.example.smarthome.data.model.WifiDevice
 import com.example.smarthome.databinding.DetailsLightActivityBinding
@@ -18,18 +19,21 @@ import com.example.smarthome.viewmodel.LightDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailsLightActivity
-    : DeviceDetailsActivity(),
+class DetailsLightActivity :
+    DeviceDetailsActivity(),
     OnClickListeners,
-    LiveDataObservers
+    LiveDataObservers,
+    ViewHelper
 {
-    override val viewModel: LightDetailsViewModel by viewModels()
+    override lateinit var viewModel: LightDetailsViewModel
     private lateinit var binding: DetailsLightActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DetailsLightActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this).get(LightDetailsViewModel::class.java)
 
         getDevice()
 
@@ -47,10 +51,7 @@ class DetailsLightActivity
                 Resource.Status.LOADING -> setLoadingLayout()
                 Resource.Status.SUCCESS -> setNormalLayout()
                 else -> {
-                    Toast.makeText(
-                        this@DetailsLightActivity,
-                        it.message.orEmpty(),
-                        Toast.LENGTH_SHORT).show()
+                    toast(this@DetailsLightActivity, it.message)
                     finish()
                 }
             }
@@ -85,15 +86,15 @@ class DetailsLightActivity
 
     private fun setLoadingLayout() {
         with (binding) {
-            ViewHelper.hideViews(confirmButton, cancelButton)
-            ViewHelper.disableViews(colorWheel, gradientBar)
+            hideViews(confirmButton, cancelButton)
+            disableViews(colorWheel, gradientBar)
         }
     }
 
     private fun setNormalLayout() {
         with (binding) {
-            ViewHelper.showViews(confirmButton, cancelButton)
-            ViewHelper.enableViews(colorWheel, gradientBar)
+            showViews(confirmButton, cancelButton)
+            enableViews(colorWheel, gradientBar)
         }
     }
 

@@ -19,11 +19,10 @@ class LightViewModel @Inject constructor(
     private val service: LightService
 ) : ViewModel()
 {
+    val lights = service.lights
+
     private val _status = MutableLiveData<Resource<Light>>()
             val status: LiveData<Resource<Light>> get() = _status
-
-    private val _lights = service.lights
-            val lights: LiveData<List<Light>> get() = _lights
 
     fun add(t: Light) {
         viewModelScope.launch {
