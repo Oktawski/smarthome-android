@@ -9,10 +9,10 @@ import com.example.smarthome.data.model.LoginRequest
 import com.example.smarthome.data.model.User
 import com.example.smarthome.utilities.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import okhttp3.ResponseBody
 import retrofit2.Response
+import java.net.ConnectException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,15 +35,25 @@ class UserViewModel @Inject constructor(
         status.value = Resource.loading()
 
         job = Job(viewModelScope.launch {
-            val response = service.signin(loginRequest)
-            handleLoginResponse(loginRequest.username, response)
+            try  {
+                val response = service.signin(loginRequest)
+                handleLoginResponse(loginRequest.username, response)
+            } catch (exception: ConnectException) {
+                this.cancel()
+                handleConnectionError(exception)
+            }
         })
     }
 
     fun signup(user: User) {
         job = Job(viewModelScope.launch {
-            val response = service.signup(user)
-            handleRegisterResponse(response)
+            try {
+                val response = service.signup(user)
+                handleRegisterResponse(response)
+            } catch (exception: ConnectException) {
+                this.cancel()
+                handleConnectionError(exception)
+            }
         })
     }
 
@@ -71,6 +81,11 @@ class UserViewModel @Inject constructor(
         } else {
             status.value = Resource.error("Something went wrong. Try again later")
         }
+    }
+
+    private fun handleConnectionError(exception: ConnectException) {
+        exception.printStackTrace()
+        status.value = Resource.error("Could not connect to server")
     }
 
 }

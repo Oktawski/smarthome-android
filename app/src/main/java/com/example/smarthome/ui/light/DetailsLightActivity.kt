@@ -57,27 +57,20 @@ class DetailsLightActivity
         }
     }
 
-
-
     override fun initOnClickListeners() {
         with (binding) {
-
             confirmButton.setOnClickListener {
                 viewModel.setName(name.text.toString())
                 viewModel.updateDevice()
             }
-
             cancelButton.setOnClickListener { finish() }
-
             colorWheel.setOnTouchListener(colorWheelOnTouchListener)
-
             gradientBar.setOnTouchListener(gradientBarOnTouchListener)
         }
     }
 
-    override fun getDevice() {
+    override fun getDevice() =
         viewModel.getById(intent.getLongExtra("lightId", -1))
-    }
 
     override fun inflateViews(device: WifiDevice) {
         with (binding) {
@@ -120,5 +113,4 @@ class DetailsLightActivity
         }
         false
     }
-
 }
