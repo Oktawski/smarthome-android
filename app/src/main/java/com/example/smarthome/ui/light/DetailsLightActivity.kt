@@ -77,7 +77,7 @@ class DetailsLightActivity :
         with (binding) {
             device as Light
             name.setText(device.name)
-            mac.setText(device.mac)
+            //mac.setText(device.mac)
             colorWheel.setRgb(device.red, device.green, device.blue)
             gradientBar.offset = (viewModel.light.value?.intensity!!).toFloat() / 255.0f
             gradientBar.endColor = colorWheel.rgb

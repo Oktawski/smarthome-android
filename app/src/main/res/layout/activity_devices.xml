@@ -41,18 +41,19 @@
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_add_24px"
+            app:srcCompat="@drawable/add_circle"
             app:fabSize="normal"
-            app:maxImageSize="48dp"
+            app:maxImageSize="62dp"
+            android:backgroundTint="@color/white"
 
-            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintVertical_bias="1"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/margin_m"
             app:layout_constraintTop_toTopOf="@id/devices_pager"
             app:layout_constraintBottom_toBottomOf="@id/devices_pager"
             app:layout_constraintLeft_toLeftOf="@id/devices_pager"
             app:layout_constraintRight_toRightOf="@id/devices_pager"
-            />
+            android:contentDescription="@string/add_device_fab_content_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

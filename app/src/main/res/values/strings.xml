@@ -49,4 +49,5 @@
     <string name="mac">MAC Address</string>
     <string name="add_description">Button used for adding new stuff</string>
     <string name="edit_light">Edit Light</string>
+    <string name="add_device_fab_content_description">Fab to start Activity for adding new device</string>
 </resources>

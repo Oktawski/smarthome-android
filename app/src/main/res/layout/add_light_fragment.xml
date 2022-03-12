@@ -91,10 +91,10 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
     android:contentDescription="@string/add_description"
     app:maxImageSize="64dp"
 
-    android:backgroundTint="#ffffff"
+    android:backgroundTint="@color/white"
 
     app:layout_constraintHorizontal_bias="1.0"
-    android:layout_margin="32dp"
+    android:layout_margin="@dimen/margin_m"
 
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
