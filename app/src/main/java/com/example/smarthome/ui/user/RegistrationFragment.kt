@@ -19,7 +19,8 @@ import com.example.smarthome.viewmodel.UserViewModel
 class RegistrationFragment:
     Fragment(R.layout.register_fragment),
     LiveDataObservers,
-    OnClickListeners
+    OnClickListeners,
+    BlankFieldsChecker
 {
     private var _binding: RegisterFragmentBinding? = null
     private val binding get() = _binding!!
@@ -46,20 +47,21 @@ class RegistrationFragment:
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = RegisterFragmentBinding.inflate(inflater, container, false)
-        binding.username.setText((requireArguments()["username"] ?: "").toString())
+        val username = (requireArguments()["username"] ?: "").toString()
+        binding.username.setText(username)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onResume() {
         super.onResume()
         setToolbarTitle()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,14 +82,18 @@ class RegistrationFragment:
     }
 
     override fun initOnClickListeners() {
-        binding.register.setOnClickListener {
-            val username = binding.username.text.toString()
-            val email = binding.email.text.toString()
-            val password = binding.password.text.toString()
+        with (binding) {
+            register.setOnClickListener {
+                if (!showErrorIfTextFieldEmpty(username, email, password, confirmPassword)) {
+                    val username = binding.username.text.toString()
+                    val email = binding.email.text.toString()
+                    val password = binding.password.text.toString()
 
-            val user = User(username, email, password)
+                    val user = User(username, email, password)
 
-            viewModel.signup(user)
+                    viewModel.signup(user)
+                }
+            }
         }
     }
 
@@ -108,8 +114,7 @@ class RegistrationFragment:
     private fun handleSuccessStatus(message: String?) {
         binding.register.visibility= View.VISIBLE
         binding.progressBar.visibility = View.GONE
-        NavHostFragment.findNavController(this)
-            .navigate(R.id.action_viewLoginFragment)
+        navigateToLogin()
         toast(message)
     }
 
@@ -117,5 +122,10 @@ class RegistrationFragment:
         binding.register.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
         toast(message)
+    }
+
+    private fun navigateToLogin() {
+        NavHostFragment.findNavController(this)
+            .navigate(R.id.action_viewLoginFragment)
     }
 }

@@ -16,32 +16,10 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
-    //private var job: Job? = null
-
-    //private val viewModel: UserViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
 
         setSupportActionBar(findViewById(R.id.login_toolbar))
-/*
-        viewModel.serverStatus.observe(this) { bool -> run {
-            if (!bool) {
-                viewModel.signOut()
-            }
-        }}
-
-        //startAskingForServerStatus()
-        //job?.start()
-    }
-
-    private fun startAskingForServerStatus(){
-        job = MainScope().launch {
-            while(true){
-                viewModel.getServerStatus()
-                delay(1000)
-            }
-        }*/
     }
 }

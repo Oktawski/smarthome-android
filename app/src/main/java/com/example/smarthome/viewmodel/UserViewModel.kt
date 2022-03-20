@@ -71,6 +71,7 @@ class UserViewModel @Inject constructor(
             JwtToken.jwtToken = response.headers()["Authorization"]!!
             status.value = Resource.success("Welcome $username :)")
         } else {
+            status.value = Resource.error("Wrong credentials mate")
             signOut()
         }
     }

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.smarthome.R
 import com.example.smarthome.databinding.LoginFragmentBinding
 import com.example.smarthome.viewmodel.UserViewModel
@@ -24,7 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginFragment:
     Fragment(R.layout.login_fragment),
     LiveDataObservers,
-    OnClickListeners
+    OnClickListeners,
+    BlankFieldsChecker
 {
     private var _binding: LoginFragmentBinding? = null
     private val binding get() = _binding!!
@@ -64,12 +66,13 @@ class LoginFragment:
     }
 
     private fun setToolbarTitle() {
-        (activity as LoginActivity).supportActionBar?.title = "Login"
+        (activity as LoginActivity).supportActionBar?.title = "SmartHome"
     }
 
     override fun initLiveDataObservers() {
         userViewModel.isSignedIn.observe(viewLifecycleOwner) {
-            startActivity(Intent(requireActivity(), DevicesPagerActivity::class.java))
+            if(it) startActivity(Intent(requireActivity(), DevicesPagerActivity::class.java))
+
         }
 
         userViewModel.status.observe(viewLifecycleOwner) {
@@ -101,8 +104,7 @@ class LoginFragment:
             val username = binding.username.text.toString()
             if(username.isNotEmpty()) bundle.putString("username", username)
 
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_viewRegistrationFragment, bundle)
+            findNavController().navigate(R.id.action_viewRegistrationFragment, bundle)
         }
     }
 
@@ -121,16 +123,5 @@ class LoginFragment:
         binding.login.visibility = View.VISIBLE
         binding.register.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
-    }
-
-    private fun showErrorIfTextFieldEmpty(vararg text: EditText): Boolean {
-        var isEmpty = false
-        for (t in text) {
-            if(t.text.isNullOrEmpty()){
-                t.error = "Cannot be empty"
-                isEmpty = true
-            }
-        }
-        return isEmpty
     }
 }
